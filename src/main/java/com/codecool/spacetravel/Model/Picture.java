@@ -13,7 +13,7 @@ public class Picture {
     @OneToOne(mappedBy = "picture")
     private Planet planet;
     @OneToOne(mappedBy = "picture")
-    private Accomodation  accomodation;
+    private Accomodation accomodation;
 
     public Picture() {
     }
