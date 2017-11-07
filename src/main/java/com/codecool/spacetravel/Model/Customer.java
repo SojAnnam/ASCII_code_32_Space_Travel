@@ -6,24 +6,29 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 @Entity
-public class User {
+public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
     private String address, email, password;
-    @OneToMany(mappedBy = "user")
+
+    @OneToMany(mappedBy = "customer")
     private List<RoomReservation> roomReservation;
 
-    public User(String name, String address, String email, String password) {
+    public Customer() {
+    }
+
+    public Customer(String name, String address, String email, String password) {
         this.name = name;
         this.address = address;
         this.email = email;
         this.password = password;
     }
 
-    public User() {
-    }
 
     public long getId() {
         return id;
