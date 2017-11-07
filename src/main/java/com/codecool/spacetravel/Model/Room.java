@@ -14,7 +14,6 @@ public class Room {
    @ManyToOne
     private RoomType roomType;
 
-
     public Room() {
     }
 

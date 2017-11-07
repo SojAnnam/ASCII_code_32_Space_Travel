@@ -19,6 +19,17 @@ public class Accomodation {
     @OneToOne
     private Picture picture;
 
+    public Accomodation(String name, Planet planet, String description, Picture picture) {
+        this.name = name;
+        this.planet = planet;
+        this.description = description;
+        this.picture = picture;
+    }
+
+    public Accomodation() {
+    }
+
+
     public long getId() {
         return id;
     }
