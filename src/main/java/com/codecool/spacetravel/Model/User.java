@@ -15,7 +15,7 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<RoomReservation> roomReservation;
 
-    public User(String name, String address, String email, String password, RoomReservation roomReservation) {
+    public User(String name, String address, String email, String password) {
         this.name = name;
         this.address = address;
         this.email = email;
@@ -65,5 +65,12 @@ public class User {
         this.password = password;
     }
 
+    public List<RoomReservation> getRoomReservation() {
+        return roomReservation;
+    }
+
+    public void setRoomReservation(List<RoomReservation> roomReservation) {
+        this.roomReservation = roomReservation;
+    }
 }
 
