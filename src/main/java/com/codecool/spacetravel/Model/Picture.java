@@ -8,7 +8,49 @@ import javax.persistence.Id;
 public class Picture {
     @Id @GeneratedValue
     private long id;
-    private String path;
-    private String discription;
+    private String fileName;
+    private String description;
     private String title;
+
+    public Picture() {
+    }
+
+    public Picture(String fileName, String description, String title) {
+
+        this.fileName = fileName;
+        this.description = description;
+        this.title = title;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }
