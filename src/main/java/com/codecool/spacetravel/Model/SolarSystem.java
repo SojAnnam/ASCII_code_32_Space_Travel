@@ -1,15 +1,17 @@
 package com.codecool.spacetravel.Model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "SolarSystem")
 public class SolarSystem {
-   @Id @GeneratedValue(strategy = GenerationType.AUTO)
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     @OneToMany(mappedBy = "solarsystem")
-    private Planet planet;
+    private List<Planet> planets;
 
     public SolarSystem() {
     }
@@ -33,11 +35,11 @@ public class SolarSystem {
         this.name = name;
     }
 
-    public Planet getPlanet() {
-        return planet;
+    public List<Planet> getPlanets() {
+        return planets;
     }
 
-    public void setPlanet(Planet planet) {
-        this.planet = planet;
+    public void setPlanets(List<Planet> planets) {
+        this.planets = planets;
     }
 }
