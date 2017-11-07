@@ -1,9 +1,6 @@
 package com.codecool.spacetravel.Model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Picture {
@@ -13,6 +10,10 @@ public class Picture {
     private String fileName;
     private String description;
     private String title;
+    @OneToOne(mappedBy = "picture")
+    private Planet planet;
+    @OneToOne(mappedBy = "picture")
+    private Accomodation  accomodation;
 
     public Picture() {
     }

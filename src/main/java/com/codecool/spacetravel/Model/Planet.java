@@ -2,6 +2,7 @@ package com.codecool.spacetravel.Model;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 
 
 @Entity
@@ -18,17 +19,16 @@ public class Planet {
     private Picture picture;
 
     @OneToMany(mappedBy = "planet")
-    private Collection<Accomodation> accomodation;
+    private List<Accomodation> accomodation;
 
 
 
 
-    public Planet(String name, String description, String weather, SolarSystem solarSystem, Picture picture) {
+    public Planet(String name, String description, String weather, SolarSystem solarSystem) {
         this.name = name;
         this.description = description;
         this.weather = weather;
-        this.solarSystem = solarSystem;
-        this.picture = picture;
+        this.solarsystem = solarSystem;
     }
 
     public Planet() {
@@ -67,11 +67,11 @@ public class Planet {
     }
 
     public SolarSystem getSolarSystem() {
-        return solarSystem;
+        return solarsystem;
     }
 
     public void setSolarSystem(SolarSystem solarSystem) {
-        this.solarSystem = solarSystem;
+        this.solarsystem = solarSystem;
     }
 
     public Picture getPicture() {
@@ -82,11 +82,11 @@ public class Planet {
         this.picture = picture;
     }
 
-    public Accomodation getAccomodation() {
+    public Collection<Accomodation> getAccomodation() {
         return accomodation;
     }
 
-    public void setAccomodation(Accomodation accomodation) {
+    public void setAccomodation(List<Accomodation> accomodation) {
         this.accomodation = accomodation;
     }
 }
