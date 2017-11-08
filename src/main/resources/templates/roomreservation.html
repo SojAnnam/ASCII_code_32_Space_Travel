@@ -56,21 +56,27 @@
 
         <div class="well well-sm text-center">
 
+            <div id="error-messages" class="alert alert-danger" th:if="${#lists.size(errors)>0}">
+                <ul th:each="error : ${errors}">
+                    <li th:text="${error}"></li>
+                </ul>
+            </div>
+
             <form id="date-filters" action="/reservation" method="post" class="inline-form" th:style="${#lists.size(roomlist) != 0} ? 'visibility: visible' : 'visibility: hidden'">
 
                 <label for="start-date-selection">Start date (yyyy/mm/dd):</label>
-                <input id="start-date-selection" type="text" name="start-date-year" class="four-num" maxlength="4" minlength="4" ></input>
+                <input id="start-date-selection" type="text" name="start-date-year" th:value="${dateelements[0]}" class="four-num" maxlength="4" minlength="4" ></input>
                 <span>/</span>
-                <input type="text" name="start-date-month" class="two-num" maxlength="2" minlength="2" ></input>
+                <input type="text" name="start-date-month" th:value="${dateelements[1]}" class="two-num" maxlength="2" minlength="2" ></input>
                 <span>/</span>
-                <input type="text" name="start-date-day" class="two-num" maxlength="2" minlength="2" ></input>
+                <input type="text" name="start-date-day" th:value="${dateelements[2]}" class="two-num" maxlength="2" minlength="2" ></input>
 
                 <label for="end-date-selection">End date (yyyy/mm/dd):</label>
-                <input id="end-date-selection" type="text" name="end-date-year" class="four-num" maxlength="4" minlength="4"></input>
+                <input id="end-date-selection" type="text" name="end-date-year" th:value="${dateelements[3]}" class="four-num" maxlength="4" minlength="4"></input>
                 <span>/</span>
-                <input type="text" name="end-date-month" class="two-num" maxlength="2" minlength="2" ></input>
+                <input type="text" name="end-date-month" th:value="${dateelements[4]}" class="two-num" maxlength="2" minlength="2" ></input>
                 <span>/</span>
-                <input type="text" name="end-date-day" class="two-num" maxlength="2" minlength="2" ></input>
+                <input type="text" name="end-date-day" th:value="${dateelements[5]}" class="two-num" maxlength="2" minlength="2" ></input>
 
                 <input type="text" name="selected-accomodation-id" th:value="${accomodation.getId()}" th:style="${'visibility: hidden'}"></input>
 

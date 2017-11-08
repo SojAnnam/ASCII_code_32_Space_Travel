@@ -134,21 +134,11 @@ public class Main {
 
         Customer testPerson = new Customer("Farkas Bertalan", "Hungary, Budapest, Hősök tere 1.", "berci@freemail.hu", "abcd1234");
 
-        //SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
-        String startDateString = "2017/10/10";
-        String endDateString = "2017/11/20";
-        Date startDate = null;
-        Date endDate = null;
-        try {
-            startDate = dateformat.parse(startDateString);
-            endDate = dateformat.parse(endDateString);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        String startDateString = "2017/12/10";
+        String endDateString = "2017/12/20";
 
-        RoomReservation firstReservation = new RoomReservation(testPerson, startDate, endDate, marsBase2Room1);
-        RoomReservation secondReservation = new RoomReservation(testPerson, startDate, endDate, marsBase2Room4);
+        RoomReservation firstReservation = new RoomReservation(testPerson, startDateString, endDateString, marsBase2Room1);
+        RoomReservation secondReservation = new RoomReservation(testPerson, startDateString, endDateString, marsBase2Room4);
         List<RoomReservation> reservationsOfTestPerson = new ArrayList<>();
         reservationsOfTestPerson.add(firstReservation);
         reservationsOfTestPerson.add(secondReservation);
@@ -300,7 +290,7 @@ public class Main {
             for (int i=0; i < req.queryParams().size(); i++){
                 System.out.println(req.queryParams().toArray()[i] + ": " + req.queryParams(req.queryParams().toArray()[i].toString()));
             }
-            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, em));
+            return new ThymeleafTemplateEngine().render(RoomController.renderRoomsWithDateCheck(req, res, em));
         });
 
         /*em.close();
