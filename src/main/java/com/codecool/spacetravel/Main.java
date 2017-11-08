@@ -2,11 +2,15 @@ package com.codecool.spacetravel;
 
 import com.codecool.spacetravel.Model.*;
 import com.codecool.spacetravel.controller.PlanetController;
+import com.codecool.spacetravel.controller.RoomController;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -72,7 +76,7 @@ public class Main {
 
         Accomodation accommodation1 = new Accomodation("Mars base 1", planet1,"Hotel with green plants",pictureMarsbase1);
         Accomodation accommodation2 = new Accomodation("Welcome Hotel", planet1,"ESA Hotel for backpackers", pictureMarsbase2);
-        Accomodation accommodation3 = new Accomodation("Come and Maybe go Apartman", planet1,"Very special place in he bizarre Venusville", pictureVenusville);
+        Accomodation accommodation3 = new Accomodation("Come and Maybe Go Apartman", planet1,"A very special place in the bizarre Venusville", pictureVenusville);
         Accomodation accommodation4 = new Accomodation("Jabba's palace", planet4, "Iron walls, deep jail cells", pictureJabbaPalace);
         Accomodation accommodation5 = new Accomodation("Mos Esley Cantina", planet4, "Nice music and a lot of guests from all part of the Universe", pictureMosEsley);
 
@@ -130,8 +134,21 @@ public class Main {
 
         Customer testPerson = new Customer("Farkas Bertalan", "Hungary, Budapest, Hősök tere 1.", "berci@freemail.hu", "abcd1234");
 
-        RoomReservation firstReservation = new RoomReservation(testPerson, new Date(), marsBase2Room1);
-        RoomReservation secondReservation = new RoomReservation(testPerson, new Date(), marsBase2Room4);
+        //SimpleDateFormat dateformat = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
+        String startDateString = "2017/10/10";
+        String endDateString = "2017/11/20";
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = dateformat.parse(startDateString);
+            endDate = dateformat.parse(endDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        RoomReservation firstReservation = new RoomReservation(testPerson, startDate, endDate, marsBase2Room1);
+        RoomReservation secondReservation = new RoomReservation(testPerson, startDate, endDate, marsBase2Room4);
         List<RoomReservation> reservationsOfTestPerson = new ArrayList<>();
         reservationsOfTestPerson.add(firstReservation);
         reservationsOfTestPerson.add(secondReservation);
@@ -234,7 +251,7 @@ public class Main {
         }
 
         List result2 = em.createQuery(
-                "SELECT c.name, acc.name, ro.id, ro.price, p.name " +
+                "SELECT c.name, acc.name, re.startDate, re.endDate, ro.id, ro.price, p.name " +
                         "FROM Customer c " +
                         "INNER JOIN c.roomReservation re " +
                         "INNER JOIN re.room ro " +
@@ -244,7 +261,7 @@ public class Main {
         System.out.println("\nQuery with JOIN:");
         for (Iterator i = result2.iterator(); i.hasNext(); ) {
             Object[] values = (Object[]) i.next();
-            System.out.println(values[0] + ", " + values[1] + ", " + values[2] + ", " + values[3] + ", " + values[4]);
+            System.out.println(values[0] + ", " + values[1] + ", " + values[2] + ", " + values[3] + ", " + values[4] + ", " + values[5] + ", " + values[6]);
         }
 
     }
@@ -265,13 +282,26 @@ public class Main {
 
         populateDb(em);
 
+        get("/", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+        });
 
-
-        //get("/", PlanetController::renderPlanets, new ThymeleafTemplateEngine());
         get("/index", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
         });
 
+        get("/reservation/:id", (Request req, Response res) -> {
+            /*int id = Integer.parseInt(req.params(":id"));
+            System.out.println("ID: " + id);*/
+            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, em));
+        });
+
+        post("/reservation", (Request req, Response res) ->{
+            for (int i=0; i < req.queryParams().size(); i++){
+                System.out.println(req.queryParams().toArray()[i] + ": " + req.queryParams(req.queryParams().toArray()[i].toString()));
+            }
+            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, em));
+        });
 
         /*em.close();
         emf.close();*/
