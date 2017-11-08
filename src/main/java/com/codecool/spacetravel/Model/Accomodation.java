@@ -83,4 +83,16 @@ public class Accomodation {
     public void setPicture(Picture picture) {
         this.picture = picture;
     }
+
+    @Override
+    public String toString() {
+        return "Accomodation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", planet=" + planet.getName() +
+                ", rooms=" + rooms +
+                ", description='" + description + '\'' +
+                ", picture=" + picture.getFileName() +
+                '}';
+    }
 }
