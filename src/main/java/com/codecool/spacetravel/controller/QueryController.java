@@ -1,6 +1,8 @@
 package com.codecool.spacetravel.controller;
 
+import com.codecool.spacetravel.Model.Accomodation;
 import com.codecool.spacetravel.Model.Planet;
+import com.codecool.spacetravel.Model.Room;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,6 +22,18 @@ public class QueryController {
         /*em.close();
         emf.close();*/
 
+        return results;
+    }
+
+    public static List<Room> getRoomsByAcommodationId(long acommodationId, EntityManager em) {
+        List<Room> results = em.createNamedQuery("Room.getRoomsByAcommodationId", Room.class)
+                .setParameter("acommodationId", acommodationId).getResultList();
+        return results;
+    }
+
+    public static List<Accomodation> getAccomodationById(long acommodationId, EntityManager em) {
+        List<Accomodation> results = em.createNamedQuery("Accomodation.getAccomodationById", Accomodation.class)
+                .setParameter("accomodationId", acommodationId).getResultList();
         return results;
     }
 }

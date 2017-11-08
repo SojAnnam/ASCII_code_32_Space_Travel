@@ -5,6 +5,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Accomodation.getAccomodationById",
+                query = "SELECT a FROM Accomodation a WHERE a.id = :accomodationId"
+        )
+})
 @Entity
 public class Accomodation {
 

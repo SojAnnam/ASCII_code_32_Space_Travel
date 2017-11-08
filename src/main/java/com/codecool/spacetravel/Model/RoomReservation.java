@@ -14,16 +14,19 @@ public class RoomReservation {
     @ManyToOne
     private Customer customer;
 
-    private Date date;
+    private Date startDate;
+
+    private Date endDate;
 
     @ManyToOne
     private Room room;
 
     public RoomReservation(){}
 
-    public RoomReservation(Customer customer, Date date, Room room) {
+    public RoomReservation(Customer customer, Date startDate, Date endDate, Room room) {
         this.customer = customer;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.room = room;
     }
 
@@ -43,12 +46,20 @@ public class RoomReservation {
         this.customer = customer;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Room getRoom() {
