@@ -22,6 +22,8 @@ public class PlanetController {
         List<Planet> planetList = QueryController.getPlanetsBySolarSystemId(1);
         //System.out.println("getPlanetsBySolarSystemId - controller");
 
+        System.out.println("SIZE OF LIST: " + planetList.size());
+
 
         Map params = new HashMap<>();
         params.put("planets", planetList);

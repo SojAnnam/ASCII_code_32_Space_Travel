@@ -34,6 +34,7 @@
 </div>
 
 <div id="planets">
+    <p>VALAMI</p>
     <div th:each="planet,iterStat : ${planets}">
         <h1 th:text="${planet.name}">planetname</h1>
         <!--<img th:attr="src='/img_collection/' + ${planet.getPicture().fileName}" />-->
@@ -60,7 +61,7 @@
         <!--</div>-->
     <!--</div>-->
 
-</div>
+
 
 <!--<div th:replace="footer :: copy"></div>-->
 

@@ -7,7 +7,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "Planet.getPlanetsBySolarSystemId",
-                query = "SELECT p from Planet p where p.solarsystem = :solarSystemId"
+                query = "SELECT p from Planet p where p.solarsystem.id = :solarSystemId"
         )
 })
 @Entity

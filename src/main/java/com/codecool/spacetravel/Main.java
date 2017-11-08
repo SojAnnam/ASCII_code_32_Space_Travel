@@ -255,6 +255,8 @@ public class Main {
         staticFileLocation("/public");
         port(8888);
 
+        // Add this line to your project to enable the debug screen
+        enableDebugScreen();
 
         System.out.println("Starting...");
 
@@ -267,13 +269,11 @@ public class Main {
         emf.close();
 
 
-
+        //get("/", PlanetController::renderPlanets, new ThymeleafTemplateEngine());
         get("/index", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render( PlanetController.renderPlanets(req, res));
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res));
         });
 
-        // Add this line to your project to enable the debug screen
-        enableDebugScreen();
 
 
     }
