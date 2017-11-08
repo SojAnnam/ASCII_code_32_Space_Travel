@@ -265,16 +265,16 @@ public class Main {
 
         populateDb(em);
 
-        em.close();
-        emf.close();
 
 
         //get("/", PlanetController::renderPlanets, new ThymeleafTemplateEngine());
         get("/index", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res));
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
         });
 
 
+        /*em.close();
+        emf.close();*/
 
     }
 }

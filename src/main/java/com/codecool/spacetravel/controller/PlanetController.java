@@ -5,24 +5,23 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
+import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PlanetController {
 
-    public static ModelAndView renderPlanets(Request req, Response res) {
+    public static ModelAndView renderPlanets(Request req, Response res, EntityManager em) {
 
-        System.out.println("ddddd");
+
 //
 //        ProductDao productDataStore = ProductDaoJdbc.getInstance();
 //        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
 //        SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
 
-        List<Planet> planetList = QueryController.getPlanetsBySolarSystemId(1);
+        List<Planet> planetList = QueryController.getPlanetsBySolarSystemId(1, em);
         //System.out.println("getPlanetsBySolarSystemId - controller");
-
-        System.out.println("SIZE OF LIST: " + planetList.size());
 
 
         Map params = new HashMap<>();
