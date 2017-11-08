@@ -1,0 +1,20 @@
+#accom-image-in-reservation{
+    width: 200px;
+    height: 125px;
+}
+
+
+.four-num {
+    width: 50px;
+    text-align: center;
+    padding: 5px;
+
+}
+
+.two-num {
+    width: 50px;
+    text-align: center;
+    padding: 5px 0;
+    margin: 5px;
+
+}
