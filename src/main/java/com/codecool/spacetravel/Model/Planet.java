@@ -7,14 +7,20 @@ import java.util.List;
 
 @Entity
 public class Planet {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
     private String description;
+
     private String weather;
+
     @ManyToOne
     private SolarSystem solarsystem;
+
     @OneToOne
     private Picture picture;
 

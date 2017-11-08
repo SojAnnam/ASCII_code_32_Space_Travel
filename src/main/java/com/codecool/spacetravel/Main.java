@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Main {
@@ -91,6 +92,7 @@ public class Main {
         accommodation1.setRooms(rooms);
 
         RoomType roomType2 = new RoomType("Family Room", 4);
+
         Room marsBase2Room1 = new Room(accommodation2, 200, roomType);
         Room marsBase2Room2 = new Room(accommodation2, 200, roomType);
         Room marsBase2Room3 = new Room(accommodation2, 200, roomType);
@@ -120,6 +122,23 @@ public class Main {
         roomsToRoomType2.add(marsBase2Room5);
         roomsToRoomType2.add(marsBase2Room6);
         roomType2.setRooms(roomsToRoomType2);
+
+        Customer testPerson = new Customer("Farkas Bertalan", "Hungary, Budapest, Hősök tere 1.", "berci@freemail.hu", "abcd1234");
+
+        RoomReservation firstReservation = new RoomReservation(testPerson, new Date(), marsBase2Room1);
+        RoomReservation secondReservation = new RoomReservation(testPerson, new Date(), marsBase2Room4);
+        List<RoomReservation> reservationsOfTestPerson = new ArrayList<>();
+        reservationsOfTestPerson.add(firstReservation);
+        reservationsOfTestPerson.add(secondReservation);
+        testPerson.setRoomReservation(reservationsOfTestPerson);
+
+        List<RoomReservation> reservationsInmarsBase2Room1 = new ArrayList<>();
+        reservationsInmarsBase2Room1.add(firstReservation);
+        marsBase2Room1.setRoomReservations(reservationsInmarsBase2Room1);
+
+        List<RoomReservation> reservationsInmarsBase2Room4 = new ArrayList<>();
+        reservationsInmarsBase2Room4.add(secondReservation);
+        marsBase2Room4.setRoomReservations(reservationsInmarsBase2Room4);
 
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
@@ -155,20 +174,16 @@ public class Main {
         em.persist(marsBase2Room4);
         em.persist(marsBase2Room5);
         em.persist(marsBase2Room6);
+        em.persist(testPerson);
+        em.persist(firstReservation);
+        em.persist(secondReservation);
         transaction.commit();
-        System.out.println("Galaxies, planets, accommodations, rooms saved.");
-
-
-
-
-
-
-
+        System.out.println("Galaxies, planets, accommodations, rooms, test user, reservations saved.");
 
     }
     public static void main(String[] args) {
 
-        System.out.println("HI");
+        System.out.println("Starting...");
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
         EntityManager em = emf.createEntityManager();

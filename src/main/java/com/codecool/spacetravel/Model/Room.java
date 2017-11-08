@@ -2,17 +2,26 @@ package com.codecool.spacetravel.Model;
 
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Room {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @ManyToOne
     private Accomodation accomodation;
+
     private double price;
-   @ManyToOne
+
+    @ManyToOne
     private RoomType roomType;
+
+    @OneToMany(mappedBy = "room")
+    List<RoomReservation> roomReservations = new ArrayList<>();
 
     public Room() {
     }
@@ -53,5 +62,13 @@ public class Room {
 
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
+    }
+
+    public List<RoomReservation> getRoomReservations() {
+        return roomReservations;
+    }
+
+    public void setRoomReservations(List<RoomReservation> roomReservations) {
+        this.roomReservations = roomReservations;
     }
 }

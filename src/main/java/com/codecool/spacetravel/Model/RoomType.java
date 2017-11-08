@@ -7,11 +7,15 @@ import java.util.List;
 
 @Entity
 public class RoomType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
     private int bednumber;
+
     @OneToMany(mappedBy = "roomType")
     private List<Room> rooms =new ArrayList<>();
 

@@ -4,14 +4,20 @@ import javax.persistence.*;
 
 @Entity
 public class Picture {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String fileName;
+
     private String description;
+
     private String title;
+
     @OneToOne(mappedBy = "picture")
     private Planet planet;
+
     @OneToOne(mappedBy = "picture")
     private Accomodation accomodation;
 

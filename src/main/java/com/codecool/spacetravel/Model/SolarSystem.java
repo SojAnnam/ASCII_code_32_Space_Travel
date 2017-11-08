@@ -6,15 +6,19 @@ import java.util.List;
 @Entity
 @Table(name = "SolarSystem")
 public class SolarSystem {
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     private String name;
+
     @OneToMany(mappedBy = "solarsystem")
     private List<Planet> planets;
 
     public SolarSystem() {
     }
+
     public SolarSystem(String name) {
         this.name = name;
     }
