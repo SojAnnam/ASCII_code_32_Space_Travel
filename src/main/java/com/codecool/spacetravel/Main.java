@@ -267,14 +267,16 @@ public class Main {
 
 
 
-        //get("/", PlanetController::renderPlanets, new ThymeleafTemplateEngine());
-        get("/index", (Request req, Response res) -> {
+
+        get("/planet", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
         });
-
-
-        /*em.close();
-        emf.close();*/
+        get("/planet/:solarSystemId", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+        });
+        get("/accomodation/:planetId", (Request req, Response res)-> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+        });
 
     }
 }
