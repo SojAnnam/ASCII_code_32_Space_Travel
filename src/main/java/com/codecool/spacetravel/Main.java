@@ -1,12 +1,19 @@
 package com.codecool.spacetravel;
 
 import com.codecool.spacetravel.Model.*;
+import com.codecool.spacetravel.controller.PlanetController;
+import spark.Request;
+import spark.Response;
+import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import static spark.Spark.*;
+import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class Main {
 
@@ -243,6 +250,12 @@ public class Main {
     }
     public static void main(String[] args) {
 
+        // default server settings
+        exception(Exception.class, (e, req, res) -> e.printStackTrace());
+        staticFileLocation("/public");
+        port(8888);
+
+
         System.out.println("Starting...");
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
@@ -252,5 +265,16 @@ public class Main {
 
         em.close();
         emf.close();
+
+
+
+        get("/index", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render( PlanetController.renderPlanets(req, res));
+        });
+
+        // Add this line to your project to enable the debug screen
+        enableDebugScreen();
+
+
     }
 }

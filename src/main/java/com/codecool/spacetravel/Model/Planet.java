@@ -4,13 +4,18 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 
-
+@NamedQueries({
+        @NamedQuery(
+                name = "Planet.getPlanetsBySolarSystemId",
+                query = "SELECT p from Planet p where p.solarsystem = :solarSystemId"
+        )
+})
 @Entity
 public class Planet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private int id;
 
     private String name;
 
@@ -27,9 +32,6 @@ public class Planet {
     @OneToMany(mappedBy = "planet")
     private List<Accomodation> accomodation;
 
-
-
-
     public Planet(String name, String description, String weather, SolarSystem solarSystem) {
         this.name = name;
         this.description = description;
@@ -44,7 +46,7 @@ public class Planet {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
