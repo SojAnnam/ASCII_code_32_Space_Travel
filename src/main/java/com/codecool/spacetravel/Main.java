@@ -1,6 +1,7 @@
 package com.codecool.spacetravel;
 
 import com.codecool.spacetravel.Model.*;
+import com.codecool.spacetravel.controller.AccController;
 import com.codecool.spacetravel.controller.PlanetController;
 import spark.Request;
 import spark.Response;
@@ -270,6 +271,12 @@ public class Main {
         //get("/", PlanetController::renderPlanets, new ThymeleafTemplateEngine());
         get("/index", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+        });
+
+        get("/:id/accomodation", (Request req, Response res) -> {
+            int planetId = Integer.parseInt(req.params(":id"));
+
+            return new ThymeleafTemplateEngine().render(AccController.renderAcc(req, res,planetId, em));
         });
 
 
