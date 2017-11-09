@@ -11,6 +11,9 @@ import java.util.List;
         ),
         @NamedQuery(
                 name = "Planet.getAllPlanet",
+        @NamedQuery(name= "getPlanet",
+                    query = "SELECT p from Planet p where p.id = :planetId")
+
                 query = "SELECT p from Planet p"
         )
 })

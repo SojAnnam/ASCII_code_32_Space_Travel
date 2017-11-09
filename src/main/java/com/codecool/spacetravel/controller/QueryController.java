@@ -1,12 +1,10 @@
 package com.codecool.spacetravel.controller;
 
+import com.codecool.spacetravel.Model.Accomodation;
 import com.codecool.spacetravel.Model.Planet;
 import com.codecool.spacetravel.Model.SolarSystem;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
+import javax.persistence.*;
 import java.util.*;
 
 public class QueryController {
@@ -24,6 +22,13 @@ public class QueryController {
 
         return listOfSolarSystem;
 
+    public static List getAccByPlanetId(int id, EntityManager em){
+
+        List<Accomodation> results = em.createNamedQuery("getAccByPlanetId", Accomodation.class)
+                .setParameter("planetId", id).getResultList();
+        System.out.println("SIZE IN QueryController: " + results.size());
+
+        return results;
     }
 
     public static List<Planet> getAllPlanet(EntityManager em){
@@ -33,5 +38,13 @@ public class QueryController {
 
         return listOfAllPlanets;
 
+    }
+
+    public static Planet getPlanet(int planetId, EntityManager em){
+
+        Planet planet = em.createNamedQuery("getPlanet", Planet.class)
+                .setParameter("planetId", planetId).getSingleResult();
+
+        return planet;
     }
 }
