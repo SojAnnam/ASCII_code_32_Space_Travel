@@ -5,7 +5,6 @@ import com.codecool.spacetravel.Model.Planet;
 import com.codecool.spacetravel.Model.SolarSystem;
 import com.codecool.spacetravel.Model.Customer;
 import com.codecool.spacetravel.Model.Room;
-
 import javax.persistence.*;
 import java.util.*;
 
@@ -72,6 +71,11 @@ public class QueryController {
     public static List<Room> getRoomById(long roomId, EntityManager em) {
         List<Room> results = em.createNamedQuery("Room.getRoomById", Room.class)
                 .setParameter("roomId", roomId).getResultList();
+        return results;
+    }
+
+    public static List getAllSolarSystem(EntityManager em) {
+        List<SolarSystem> results =  em.createNamedQuery("SolarSystem.getAllSolarSystem", SolarSystem.class).getResultList();
         return results;
     }
 }

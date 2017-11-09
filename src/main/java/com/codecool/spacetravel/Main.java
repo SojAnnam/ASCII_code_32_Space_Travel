@@ -3,6 +3,7 @@ package com.codecool.spacetravel;
 import com.codecool.spacetravel.Model.*;
 import com.codecool.spacetravel.controller.AccController;
 import com.codecool.spacetravel.controller.PlanetController;
+import com.codecool.spacetravel.controller.RegistrationController;
 import com.codecool.spacetravel.controller.RoomController;
 import spark.Request;
 import spark.Response;
@@ -214,6 +215,14 @@ public class Main {
         get("/", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
         });
+      
+
+        get("/registration-planet", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, em));
+        });
+        post("/registration-planet", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, em));
+        });
 
 
         get("/planet", (Request req, Response res) -> {
@@ -243,8 +252,6 @@ public class Main {
             return new ThymeleafTemplateEngine().render(RoomController.renderSaving(req, res, em));
         });
 
-        /*em.close();
-        emf.close();*/
 
     }
 }
