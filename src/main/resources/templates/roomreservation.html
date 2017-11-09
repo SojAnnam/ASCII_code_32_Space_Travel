@@ -5,7 +5,7 @@
     <meta name="author" content="Codecool" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Codecool Shop</title>
+    <title>Room Reservation | Space Travel</title>
 
     <!-- Latest compiled and minified Jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -39,7 +39,7 @@
     <div class="container">
 
         <div class="well well-sm text-center">
-            <h3 th:text="${accomodation.getName()}">Acc Name</h3>
+            <h2 th:text="${accomodation.getName()}">Acc Name</h2>
             <div class="row">
                 <div class="col-sm-4">
 
@@ -47,11 +47,11 @@
 
                 </div>
                 <div class="col-sm-4">
-                    <p>Description:</p>
+                    <p><h3><i class="fa fa-info-circle" aria-hidden="true"></i> Information:</h3></p>
                     <p th:text="${accomodation.getDescription()}">Acc Desc</p>
                 </div>
                 <div class="col-sm-4">
-                    <p>Planet:</p>
+                    <p><h3><i class="fa fa-globe" aria-hidden="true"></i> Planet:</h3></p>
                     <p th:text="${accomodation.getPlanet().getName()}">Acc Planet</p>
                 </div>
             </div>
@@ -68,20 +68,20 @@
             <form id="date-filters" action="/reservation" method="post" class="inline-form date-selection" th:style="${#lists.size(roomlist) != 0} ? 'visibility: visible' : 'visibility: hidden'">
                 <div class="form-group">
                     <div class="col-md-5">
-                        <label for="start-date-selection">Start date (yyyy/mm/dd):</label>
-                        <input id="start-date-selection" type="text" name="start-date-year" th:value="${dateelements[0]}" class="four-num" maxlength="4" minlength="4" ></input>
+                        <label for="start-date-selection">Start date:</label>
+                        <input id="start-date-selection" type="text" name="start-date-year" th:value="${dateelements[0]}" class="four-num" maxlength="4" minlength="4" placeholder="yyyy"></input>
                         <span>/</span>
-                        <input type="text" name="start-date-month" th:value="${dateelements[1]}" class="two-num" maxlength="2" minlength="2" ></input>
+                        <input type="text" name="start-date-month" th:value="${dateelements[1]}" class="two-num" maxlength="2" minlength="2" placeholder="mm"></input>
                         <span>/</span>
-                        <input type="text" name="start-date-day" th:value="${dateelements[2]}" class="two-num" maxlength="2" minlength="2" ></input>
+                        <input type="text" name="start-date-day" th:value="${dateelements[2]}" class="two-num" maxlength="2" minlength="2" placeholder="dd"></input>
                     </div>
                     <div class="col-md-5">
-                        <label for="end-date-selection">End date (yyyy/mm/dd):</label>
-                        <input id="end-date-selection" type="text" name="end-date-year" th:value="${dateelements[3]}" class="four-num" maxlength="4" minlength="4"></input>
+                        <label for="end-date-selection">End date:</label>
+                        <input id="end-date-selection" type="text" name="end-date-year" th:value="${dateelements[3]}" class="four-num" maxlength="4" minlength="4" placeholder="yyyy"></input>
                         <span>/</span>
-                        <input type="text" name="end-date-month" th:value="${dateelements[4]}" class="two-num" maxlength="2" minlength="2" ></input>
+                        <input type="text" name="end-date-month" th:value="${dateelements[4]}" class="two-num" maxlength="2" minlength="2" placeholder="mm"></input>
                         <span>/</span>
-                        <input type="text" name="end-date-day" th:value="${dateelements[5]}" class="two-num" maxlength="2" minlength="2" ></input>
+                        <input type="text" name="end-date-day" th:value="${dateelements[5]}" class="two-num" maxlength="2" minlength="2" placeholder="dd"></input>
 
                         <input type="text" name="selected-accomodation-id" th:value="${accomodation.getId()}" th:style="${'visibility: hidden'}"></input>
                     </div>
@@ -104,7 +104,7 @@
                             <th class="center">Id</th>
                             <th class="center">Type</th>
                             <th class="center">Beds</th>
-                            <th class="center">Cost per day</th>
+                            <th class="center">Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</th>
                             <th class="center" th:if="${reservable}">Reservation</th>
                         </tr>
                         </thead>
@@ -135,7 +135,7 @@
         </div>
 
         <div>
-            <button onclick="window.history.back();" role="button" class="btn btn-primary">Back to accommodations</button>
+            <button onclick="window.history.back();" role="button" class="btn btn-primary">Back to Accommodations</button>
         </div>
     </div>
 </body>

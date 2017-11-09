@@ -37,8 +37,11 @@
 <div class="container accommodation-page">
     <div class="row">
         <div class="col-md-4">
-            <h1 th:text="${planet.name}">na?</h1>
-            <h3 th:text="${planet.description}">na?</h3>
+            <h1 th:text="${planet.name}">Planet name</h1>
+            <h2><i class="fa fa-info-circle" aria-hidden="true"></i> Information</h2>
+            <h3 th:text="${planet.description}">Description</h3>
+            <h2><i class="fa fa-sun-o" aria-hidden="true"></i> Weather</h2>
+            <h3 th:text="${planet.weather}">Weather</h3>
         </div>
         <div class="col-md-8">
             <h3 class="text-center" th:text="${'No accommodation.'}" th:style="${#lists.size(accomodations) == 0} ? 'visibility: visible' : 'visibility: hidden'"></h3>
@@ -50,6 +53,9 @@
                 </a>
             </div>
         </div>
+    </div>
+    <div>
+        <button onclick="window.history.back();" role="button" class="btn btn-primary">Back to Home</button>
     </div>
 </div>
 </body>
