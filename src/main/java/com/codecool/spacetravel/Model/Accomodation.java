@@ -9,7 +9,10 @@ import java.util.List;
 @NamedQueries(
         {@NamedQuery(name = "getAccByPlanetId",
                 query = "SELECT a from Accomodation a where a.planet.id = :planetId"
-        ),
+        ),@NamedQuery(
+                name = "Accomodation.getAccomodationById",
+                query = "SELECT a FROM Accomodation a WHERE a.id = :accomodationId"
+        )
         })
 @Entity
 public class Accomodation {

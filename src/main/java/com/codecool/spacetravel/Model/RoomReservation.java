@@ -2,7 +2,6 @@ package com.codecool.spacetravel.Model;
 
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 public class RoomReservation {
@@ -14,16 +13,19 @@ public class RoomReservation {
     @ManyToOne
     private Customer customer;
 
-    private Date date;
+    private String startDate;
+
+    private String endDate;
 
     @ManyToOne
     private Room room;
 
     public RoomReservation(){}
 
-    public RoomReservation(Customer customer, Date date, Room room) {
+    public RoomReservation(Customer customer, String startDate, String endDate, Room room) {
         this.customer = customer;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.room = room;
     }
 
@@ -43,13 +45,6 @@ public class RoomReservation {
         this.customer = customer;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 
     public Room getRoom() {
         return room;
@@ -57,5 +52,21 @@ public class RoomReservation {
 
     public void setRoom(Room room) {
         this.room = room;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDateInStringFormat) {
+        this.startDate = startDateInStringFormat;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDateInStringFormat) {
+        this.endDate = endDateInStringFormat;
     }
 }

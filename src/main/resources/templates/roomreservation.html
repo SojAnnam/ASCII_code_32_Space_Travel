@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Codecool Shop</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+</head>
+
+<body>
+
+    <div class="jumbotron text-center">
+        <h1>Space Travel</h1>
+    </div>
+
+    <div class="container">
+
+        <div class="well well-sm text-center">
+            <h3 th:text="${accomodation.getName()}">Acc Name</h3>
+            <div class="row">
+                <div class="col-sm-4">
+
+                        <img id="accom-image-in-reservation" th:attr="src='/img_collection/' + ${accomodation.getPicture().fileName}" alt="IMG"/>
+
+                </div>
+                <div class="col-sm-4">
+                    <p>Description:</p>
+                    <p th:text="${accomodation.getDescription()}">Acc Desc</p>
+                </div>
+                <div class="col-sm-4">
+                    <p>Planet:</p>
+                    <p th:text="${accomodation.getPlanet().getName()}">Acc Planet</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="well well-sm text-center">
+
+            <div id="error-messages" class="alert alert-danger" th:if="${#lists.size(errors)>0}">
+                <ul th:each="error : ${errors}">
+                    <li th:text="${error}"></li>
+                </ul>
+            </div>
+
+            <form id="date-filters" action="/reservation" method="post" class="inline-form" th:style="${#lists.size(roomlist) != 0} ? 'visibility: visible' : 'visibility: hidden'">
+
+                <label for="start-date-selection">Start date (yyyy/mm/dd):</label>
+                <input id="start-date-selection" type="text" name="start-date-year" th:value="${dateelements[0]}" class="four-num" maxlength="4" minlength="4" ></input>
+                <span>/</span>
+                <input type="text" name="start-date-month" th:value="${dateelements[1]}" class="two-num" maxlength="2" minlength="2" ></input>
+                <span>/</span>
+                <input type="text" name="start-date-day" th:value="${dateelements[2]}" class="two-num" maxlength="2" minlength="2" ></input>
+
+                <label for="end-date-selection">End date (yyyy/mm/dd):</label>
+                <input id="end-date-selection" type="text" name="end-date-year" th:value="${dateelements[3]}" class="four-num" maxlength="4" minlength="4"></input>
+                <span>/</span>
+                <input type="text" name="end-date-month" th:value="${dateelements[4]}" class="two-num" maxlength="2" minlength="2" ></input>
+                <span>/</span>
+                <input type="text" name="end-date-day" th:value="${dateelements[5]}" class="two-num" maxlength="2" minlength="2" ></input>
+
+                <input type="text" name="selected-accomodation-id" th:value="${accomodation.getId()}" th:style="${'visibility: hidden'}"></input>
+
+                <input type="submit" value="Select" class="select-cat-sup" />
+            </form>
+
+            <div class="text-center" th:text="${'No rooms.'}" th:style="${#lists.size(roomlist) == 0} ? 'visibility: visible' : 'visibility: hidden'"></div>
+
+        </div>
+
+        <div class="well well-sm">
+            <div id="inner-box">
+                <strong>Available Rooms</strong>
+                <div th:if="${#lists.size(roomlist) > 0}">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th class="center">Id</th>
+                            <th class="center">Type</th>
+                            <th class="center">Beds</th>
+                            <th class="center">Cost per day</th>
+                            <th class="center" th:if="${reservable}">Reservation</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="room : ${roomlist}">
+                            <td th:text="${room.getId()}">0</td>
+                            <td th:text="${room.getRoomType().getName()}">xx</td>
+                            <td th:text="${room.getRoomType().getBednumber()}">0</td>
+                            <td th:text="${room.getPrice()}">0</td>
+                            <td th:if="${reservable}">
+                                <form action="/save" method="post">
+                                    <input type="text" class="minimal" name="selected-room-id" th:value="${room.getId()}" th:style="${'visibility: hidden'}"></input>
+                                    <input type="text" class="minimal" name="start-date-year" th:value="${dateelements[0]}" th:style="${'visibility: hidden'}"></input>
+                                    <input type="text" class="minimal" name="start-date-month" th:value="${dateelements[1]}" th:style="${'visibility: hidden'}"></input>
+                                    <input type="text" class="minimal" name="start-date-day" th:value="${dateelements[2]}" th:style="${'visibility: hidden'}"></input>
+                                    <input type="text" class="minimal" name="end-date-year" th:value="${dateelements[3]}" th:style="${'visibility: hidden'}"></input>
+                                    <input type="text" class="minimal" name="end-date-month" th:value="${dateelements[4]}" th:style="${'visibility: hidden'}"></input>
+                                    <input type="text" class="minimal" name="end-date-day" th:value="${dateelements[5]}" th:style="${'visibility: hidden'}"></input>
+                                    <button type="submit" class="btn btn-success push-right">I book</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <a href="/" role="button" class="btn btn-default">Back to Main Page</a>
+            <!--<a href="/checkout" role="button" class="btn btn-success push-right" th:if="${#lists.size(items) > 0}">Proceed to Checkout</a>-->
+        </div>
+    </div>
+</body>
+</html>
