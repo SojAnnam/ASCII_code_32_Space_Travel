@@ -5,7 +5,7 @@
     <meta name="author" content="Codecool" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Space Travel</title>
+    <title>Accommodation | Space Travel</title>
 
     <!-- Latest compiled and minified Jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -23,29 +23,34 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-
+    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/custom.css" />
 </head>
 
 <body>
 
 <div class="jumbotron text-center">
-    <h1>Space Travel</h1>
+    <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
+    <h3>Accommodations</h3>
 </div>
-
-<div id="accomodations">
-    <p>Kiralysag</p>
-    <h1 th:text="${planet.name}">na?</h1>
-    <h1 th:text="${planet.description}">na?</h1>
-
-    <div th:each="acc,iterStat : ${accomodations}">
-        <h1 th:text="${acc.name}">accname</h1>
-        <a th:id="${acc.id}"
-           th:href="@{'~/reservation/' + ${acc.id}}">
-            <img th:attr="src='/img_collection/' + ${acc.getPicture().fileName}" />
-        </a>
+<div class="container accommodation-page">
+    <div class="row">
+        <div class="col-md-4">
+            <h1 th:text="${planet.name}">na?</h1>
+            <h3 th:text="${planet.description}">na?</h3>
+        </div>
+        <div class="col-md-8">
+            <h3 class="text-center" th:text="${'No accommodation.'}" th:style="${#lists.size(accomodations) == 0} ? 'visibility: visible' : 'visibility: hidden'"></h3>
+            <div class="col-md-6" th:each="acc,iterStat : ${accomodations}">
+                <h2 th:text="${acc.name}">accname</h2>
+                <a class="accommodations" th:id="${acc.id}"
+                   th:href="@{'~/reservation/' + ${acc.id}}">
+                    <img th:attr="src='/img_collection/' + ${acc.getPicture().fileName}" />
+                </a>
+            </div>
+        </div>
     </div>
 </div>
-
 </body>
 </html>
