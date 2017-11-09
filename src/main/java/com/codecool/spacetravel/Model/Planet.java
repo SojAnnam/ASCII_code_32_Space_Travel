@@ -11,11 +11,12 @@ import java.util.List;
         ),
         @NamedQuery(
                 name = "Planet.getAllPlanet",
+                query = "SELECT p from Planet p"
+        ),
         @NamedQuery(name= "getPlanet",
                     query = "SELECT p from Planet p where p.id = :planetId")
 
-                query = "SELECT p from Planet p"
-        )
+
 })
 @Entity
 public class Planet {

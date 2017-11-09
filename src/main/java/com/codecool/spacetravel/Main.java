@@ -275,12 +275,9 @@ public class Main {
         get("/planet/:solarSystemId", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
         });
-        get("/accomodation/:planetId", (Request req, Response res)-> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
-        });
 
-        get("/:id/accomodation", (Request req, Response res) -> {
-            int planetId = Integer.parseInt(req.params(":id"));
+        get("/:planetId/accomodation", (Request req, Response res) -> {
+            int planetId = Integer.parseInt(req.params(":planetId"));
 
             return new ThymeleafTemplateEngine().render(AccController.renderAcc(req, res,planetId, em));
         });

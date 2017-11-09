@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class AccController {
-    public static ModelAndView renderAcc(Request req, Response res, int planetId, EntityManager em) {
+    public static ModelAndView renderAcc(Request req, Response res, long planetId, EntityManager em) {
 
         Planet planet = QueryController.getPlanet(planetId,em);
 

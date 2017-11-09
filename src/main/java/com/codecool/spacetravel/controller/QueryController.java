@@ -15,14 +15,15 @@ public class QueryController {
 
         return listOfPlanetsBySolarSystem;
     }
-    public static List getSolarSystem(EntityManager em){
+    public static List getSolarSystem(EntityManager em) {
 
         List<SolarSystem> listOfSolarSystem = em.createNamedQuery("SolarSystem.getSolarSystem", SolarSystem.class)
                 .getResultList();
 
         return listOfSolarSystem;
+    }
 
-    public static List getAccByPlanetId(int id, EntityManager em){
+    public static List getAccByPlanetId(long id, EntityManager em){
 
         List<Accomodation> results = em.createNamedQuery("getAccByPlanetId", Accomodation.class)
                 .setParameter("planetId", id).getResultList();
@@ -40,7 +41,7 @@ public class QueryController {
 
     }
 
-    public static Planet getPlanet(int planetId, EntityManager em){
+    public static Planet getPlanet(long planetId, EntityManager em){
 
         Planet planet = em.createNamedQuery("getPlanet", Planet.class)
                 .setParameter("planetId", planetId).getSingleResult();
