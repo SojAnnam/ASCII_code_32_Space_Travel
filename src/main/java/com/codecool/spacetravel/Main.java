@@ -40,22 +40,22 @@ public class Main {
         SolarSystem solarSystem1 = new SolarSystem("Milky Way");
         SolarSystem solarSystem2 = new SolarSystem("Star Wars");
 
-        String description1 = "The place where we live";
-        String weather1 = "The winter is coming";
+        String description1 = "The place where we live. Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System after Mercury. Mars's average distance from the Sun is roughly 230 million kilometres. Orbital period is 687 (Earth) days.";
+        String weather1 = "The winter is coming...Average temperature is about minus 60 C°, although it can vary from minus minus 125 C° near the poles during the winter to as much as a comfortable 20 C° at midday near the equator.";
         Planet planet1 = new Planet("Mars", description1, weather1, solarSystem1);
         planet1.setPicture(pictureMars);
 
-        String description2 = "Far far away from home";
-        String weather2 = "Stormy";
+        String description2 = "Far far away from home. Saturn is the sixth planet from the Sun and the second-largest in the Solar System.The planet's most famous feature is its prominent ring system that is composed mostly of ice particles, rocky debris and dust. ";
+        String weather2 = "Pretty violent and stormy!";
         Planet planet2 = new Planet("Saturn", description2, weather2, solarSystem1);
         planet2.setPicture(pictureSaturn);
 
-        String description3 = "In the neighbourhood";
-        String weather3 = "Cold";
+        String description3 = "In the neighbourhood.";
+        String weather3 = "Daytime temperatures on the sunny side of the moon reach 273 degrees F (134 C); on the dark side it gets as cold as minus 243 F (minus 153 C).";
         Planet planet3 = new Planet("Moon", description3, weather3, solarSystem1);
         planet3.setPicture(pictureMoon);
 
-        String description4 = "The planet where Luke lived in his childhood";
+        String description4 = "Tatooine was a sparsely inhabited circumbinary desert planet located in the galaxy's Outer Rim Territories. It would serve as the homeworld to the influential Anakin and Luke Skywalker, who would go on to shape galactic history.";
         String weather4 = "Warm and dry";
         Planet planet4 = new Planet("Tatooine", description4, weather4, solarSystem2);
         planet4.setPicture(pictureTatooine);
@@ -76,8 +76,8 @@ public class Main {
         planetsInStarWars.add(planet5);
         solarSystem2.setPlanets(planetsInStarWars);
 
-        Accomodation accommodation1 = new Accomodation("Mars base 1", planet1,"Hotel with green plants",pictureMarsbase1);
-        Accomodation accommodation2 = new Accomodation("Welcome Hotel", planet1,"ESA Hotel for backpackers", pictureMarsbase2);
+        Accomodation accommodation1 = new Accomodation("Mars base 1", planet1,"Hotel with green plants. On every morning we offer you to taste fresh veggies. Enjoy the long walk in the first Martian greenhouse!",pictureMarsbase1);
+        Accomodation accommodation2 = new Accomodation("Welcome Hotel", planet1,"ESA Hotel for backpackers. Since the dawn of the space age, Mars has been the target of orbiters, landers and rovers. And now for the backpackers! We offer a multicultural atmosphere, many cultural programs are available.", pictureMarsbase2);
         Accomodation accommodation3 = new Accomodation("Come and Maybe Go Apartman", planet1,"A very special place in the bizarre Venusville", pictureVenusville);
         Accomodation accommodation4 = new Accomodation("Jabba's palace", planet4, "Iron walls, deep jail cells", pictureJabbaPalace);
         Accomodation accommodation5 = new Accomodation("Mos Esley Cantina", planet4, "Nice music and a lot of guests from all part of the Universe", pictureMosEsley);
@@ -94,22 +94,44 @@ public class Main {
         planet4.setAccomodation(accommodationsInTatooine);
 
         RoomType roomType = new RoomType("Single Room",1);
-        Room room = new Room(accommodation1,300,roomType);
-        Room room2 = new Room(accommodation1,400,roomType);
+        RoomType roomType2 = new RoomType("King's Room", 4);
+        RoomType roomType3 = new RoomType("Family Room", 10);
+        RoomType roomType4 = new RoomType("Honeymoon Suite", 2);
+        RoomType roomType5 = new RoomType("Double Room", 2);
+
+        Room room1Acc1 = new Room(accommodation1,300,roomType5);
+        Room room2Acc1 = new Room(accommodation1,600,roomType2);
+        Room room3Acc1 = new Room(accommodation1,2500,roomType3);
+        Room room4Acc1 = new Room(accommodation1,2500,roomType3);
+        Room room5Acc1 = new Room(accommodation1,1000,roomType4);
+
+        Room room1Acc4 = new Room(accommodation4,300,roomType);
+        Room room2Acc4 = new Room(accommodation4,1000,roomType2);
+        Room room3Acc4 = new Room(accommodation4,600,roomType5);
+        Room room4Acc4 = new Room(accommodation4,800,roomType4);
+
         List<Room> rooms = new ArrayList<>();
-        rooms.add(room);
-        rooms.add(room2);
+        rooms.add(room1Acc1);
+        rooms.add(room2Acc1);
+        rooms.add(room3Acc1);
+        rooms.add(room4Acc1);
+        rooms.add(room5Acc1);
         //roomType.setRooms(rooms);
         accommodation1.setRooms(rooms);
 
-        RoomType roomType2 = new RoomType("Family Room", 4);
+        List<Room> roomsAcc4 = new ArrayList<>();
+        roomsAcc4.add(room1Acc4);
+        roomsAcc4.add(room2Acc4);
+        roomsAcc4.add(room3Acc4);
+        roomsAcc4.add(room4Acc4);
+        accommodation4.setRooms(roomsAcc4);
 
         Room marsBase2Room1 = new Room(accommodation2, 200, roomType);
-        Room marsBase2Room2 = new Room(accommodation2, 200, roomType);
-        Room marsBase2Room3 = new Room(accommodation2, 200, roomType);
-        Room marsBase2Room4 = new Room(accommodation2, 700, roomType2);
-        Room marsBase2Room5 = new Room(accommodation2, 700, roomType2);
-        Room marsBase2Room6 = new Room(accommodation2, 700, roomType2);
+        Room marsBase2Room2 = new Room(accommodation2, 600, roomType5);
+        Room marsBase2Room3 = new Room(accommodation2, 800, roomType4);
+        Room marsBase2Room4 = new Room(accommodation2, 1000, roomType2);
+        Room marsBase2Room5 = new Room(accommodation2, 1000, roomType2);
+        Room marsBase2Room6 = new Room(accommodation2, 2000, roomType3);
 
         List<Room> roomsInMarsBase2 = new ArrayList<>();
         roomsInMarsBase2.add(marsBase2Room1);
@@ -121,18 +143,36 @@ public class Main {
         accommodation2.setRooms(roomsInMarsBase2);
 
         List<Room> roomsToRoomType = new ArrayList<>();
-        roomsToRoomType.add(room);
-        roomsToRoomType.add(room2);
         roomsToRoomType.add(marsBase2Room1);
-        roomsToRoomType.add(marsBase2Room2);
-        roomsToRoomType.add(marsBase2Room3);
+        roomsToRoomType.add(room1Acc4);
         roomType.setRooms(roomsToRoomType);
 
         List<Room> roomsToRoomType2 = new ArrayList<>();
+        roomsToRoomType2.add(room2Acc1);
         roomsToRoomType2.add(marsBase2Room4);
         roomsToRoomType2.add(marsBase2Room5);
-        roomsToRoomType2.add(marsBase2Room6);
+        roomsToRoomType2.add(room2Acc4);
         roomType2.setRooms(roomsToRoomType2);
+
+        List<Room> roomsToRoomType3 = new ArrayList<>();
+        roomsToRoomType3.add(room3Acc1);
+        roomsToRoomType3.add(room4Acc1);
+        roomsToRoomType3.add(marsBase2Room6);
+        roomType3.setRooms(roomsToRoomType3);
+
+        List<Room> roomsToRoomType4 = new ArrayList<>();
+        roomsToRoomType4.add(room5Acc1);
+        roomsToRoomType4.add(marsBase2Room3);
+        roomsToRoomType4.add(room4Acc4);
+        roomType4.setRooms(roomsToRoomType4);
+
+        List<Room> roomsToRoomType5 = new ArrayList<>();
+        roomsToRoomType5.add(room1Acc1);
+        roomsToRoomType5.add(marsBase2Room2);
+        roomsToRoomType5.add(room3Acc4);
+        roomType5.setRooms(roomsToRoomType5);
+
+
 
         Customer testPerson = new Customer("Farkas Bertalan", "Hungary, Budapest, Hősök tere 1.", "berci@freemail.hu", "abcd1234");
 
@@ -179,9 +219,19 @@ public class Main {
         em.persist(accommodation4);
         em.persist(accommodation5);
         em.persist(roomType);
-        em.persist(room);
-        em.persist(room2);
         em.persist(roomType2);
+        em.persist(roomType3);
+        em.persist(roomType4);
+        em.persist(roomType5);
+        em.persist(room1Acc1);
+        em.persist(room2Acc1);
+        em.persist(room3Acc1);
+        em.persist(room4Acc1);
+        em.persist(room5Acc1);
+        em.persist(room1Acc4);
+        em.persist(room2Acc4);
+        em.persist(room3Acc4);
+        em.persist(room4Acc4);
         em.persist(marsBase2Room1);
         em.persist(marsBase2Room2);
         em.persist(marsBase2Room3);
