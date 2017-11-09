@@ -1,6 +1,7 @@
 package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.Model.Planet;
+import com.codecool.spacetravel.Model.SolarSystem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,6 +21,11 @@ public class QueryController {
         /*em.close();
         emf.close();*/
 
+        return results;
+    }
+
+    public static List getAllSolarSystem(EntityManager em) {
+        List<SolarSystem> results =  em.createNamedQuery("SolarSystem.getAllSolarSystem", SolarSystem.class).getResultList();
         return results;
     }
 }

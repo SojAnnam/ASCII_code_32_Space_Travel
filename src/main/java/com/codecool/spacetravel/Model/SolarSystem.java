@@ -1,8 +1,15 @@
 package com.codecool.spacetravel.Model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "SolarSystem.getAllSolarSystem",
+                query = "SELECT s FROM SolarSystem s"
+        )
+})
 @Entity
 @Table(name = "SolarSystem")
 public class SolarSystem {
@@ -16,11 +23,14 @@ public class SolarSystem {
     @OneToMany(mappedBy = "solarsystem")
     private List<Planet> planets;
 
+    public static List<SolarSystem> solarSystemList = new ArrayList<>();
+
     public SolarSystem() {
     }
 
     public SolarSystem(String name) {
         this.name = name;
+        solarSystemList.add(this);
     }
 
     public long getId() {
