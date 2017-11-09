@@ -20,7 +20,7 @@ public class PlanetController {
             solarSystemId = Integer.parseInt(req.params(":solarSystemId"));
         }
 
-        List<SolarSystem> solarSystemsList = QueryController.getSolarSystem(em);
+        List<SolarSystem> solarSystemsList = QueryController.getAllSolarSystem(em);
         List<Planet> planetListBySolarSystem = QueryController.getPlanetsBySolarSystemId(solarSystemId, em);
         List<Planet> allPlanet = QueryController.getAllPlanet(em);
 

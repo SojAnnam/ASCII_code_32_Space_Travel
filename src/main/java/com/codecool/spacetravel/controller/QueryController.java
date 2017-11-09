@@ -16,13 +16,6 @@ public class QueryController {
 
         return listOfPlanetsBySolarSystem;
     }
-    public static List getSolarSystem(EntityManager em) {
-
-        List<SolarSystem> listOfSolarSystem = em.createNamedQuery("SolarSystem.getSolarSystem", SolarSystem.class)
-                .getResultList();
-
-        return listOfSolarSystem;
-    }
 
     public static List getAccByPlanetId(long id, EntityManager em){
 
