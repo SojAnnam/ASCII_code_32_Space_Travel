@@ -1,4 +1,11 @@
-
+body {
+    font-family: 'Play', sans-serif;
+    font-size: 16px;
+    padding-bottom:25px;
+}
+.home-nav {
+    margin-bottom: 20px;
+}
 .logo a {
     color: #333;
 }
@@ -9,11 +16,17 @@
     width: 200px;
     height: 125px;
 }
-
-.dropdown-item{
-    text-align: center;
+.dropdown-menu {
+    font-size: 16px;
+}
+.dropdown-item {
+    text-align: left;
+    padding-left: 12px;
     display: block;
-
+}
+.thumbnail a>img, .thumbnail>img {
+    width:360px;
+    height:225px;
 }
 .jumbotron text-center{
     font-family: 'Bevan', cursive;
@@ -22,7 +35,7 @@
     background-color: cadetblue;
 }
 body{
-    background: #333;
+
 }
 .cover-card {
     border: 2px solid white;
@@ -114,4 +127,28 @@ body{
 }
 .minimal {
     width: 0px;
+}
+.accommodation-page h2 {
+    font-size: 27px;
+}
+.accommodations img {
+    width:100%;
+}
+.date-selection input[type="text"] {
+    height: 31px;
+    border-radius: 2px;
+    border: 1px solid #777;
+}
+.date-selection input[type="submit"] {
+    margin: 5px 0 0 0;
+}
+.date-selection label {
+    margin-right: 8px;
+}
+.available-rooms {
+    margin-bottom:0;
+}
+.fa-rocket {
+    font-size: 85px;
+    margin-left: 15px;
 }

@@ -24,25 +24,26 @@
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
 
+    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/custom.css" />
 </head>
 
 <body>
 
 <div class="jumbotron text-center">
-    <h1>Space Travel</h1>
+    <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
+    <h3>Reservation saved</h3>
 </div>
 
 <div class="container">
 
     <div class="well well-sm text-center">
-        <h3>Reservation saved.</h3>
-        <p>Bon voyage!</p>
+        <h3>Bon voyage!</h3>
     </div>
 
     <div>
-        <a href="/" role="button" class="btn btn-default">Back to Main Page</a>
-        <!--<a href="/checkout" role="button" class="btn btn-success push-right" th:if="${#lists.size(items) > 0}">Proceed to Checkout</a>-->
+        <a href="/" role="button" class="btn btn-primary">Back to Main Page</a>
     </div>
 </div>
 </body>
