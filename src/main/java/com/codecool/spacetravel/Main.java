@@ -192,60 +192,7 @@ public class Main {
         em.persist(secondReservation);
         transaction.commit();
         System.out.println("Galaxies, planets, accommodations, rooms, test user, reservations saved.");
-
-
-        // Test queries:
-        String queryString = "SELECT p.name " +
-                "FROM Planet p " +
-                "ORDER BY p.name ASC";
-        TypedQuery<String> jpqlQuery = em.createQuery(queryString, String.class);
-        List planetsByName = jpqlQuery.getResultList();
-        System.out.println("\nQuery result with JPQL (planet names in ascending order):");
-        if (planetsByName.size() > 0){
-            for (Object planet : planetsByName){
-                System.out.println(planet);
-            }
-        } else {
-            System.out.println("No record was founded.");
-        }
-
-        String queryString2 = "SELECT a " +
-                "FROM Accomodation a " +
-                "ORDER BY a.name ASC";
-        TypedQuery<Accomodation> jpqlQuery2 = em.createQuery(queryString2, Accomodation.class);
-        List accomodationsResultList = jpqlQuery2.getResultList();
-        System.out.println("\nQuery result with JPQL (accommodations):");
-        if (accomodationsResultList.size() > 0){
-            for (Object acc : accomodationsResultList){
-                System.out.println(acc);
-            }
-        } else {
-            System.out.println("No record was founded.");
-        }
-
-        List result = em.createQuery(
-                "SELECT a.name, p.name FROM Accomodation a JOIN a.planet p")
-                .getResultList();
-        System.out.println("\nQuery with JOIN:");
-        for (Iterator i = result.iterator(); i.hasNext(); ) {
-            Object[] values = (Object[]) i.next();
-            System.out.println(values[0] + ", " + values[1]);
-        }
-
-        List result2 = em.createQuery(
-                "SELECT c.name, acc.name, re.startDate, re.endDate, ro.id, ro.price, p.name " +
-                        "FROM Customer c " +
-                        "INNER JOIN c.roomReservation re " +
-                        "INNER JOIN re.room ro " +
-                        "INNER JOIN ro.accomodation acc " +
-                        "INNER JOIN acc.planet p")
-                .getResultList();
-        System.out.println("\nQuery with JOIN:");
-        for (Iterator i = result2.iterator(); i.hasNext(); ) {
-            Object[] values = (Object[]) i.next();
-            System.out.println(values[0] + ", " + values[1] + ", " + values[2] + ", " + values[3] + ", " + values[4] + ", " + values[5] + ", " + values[6]);
-        }
-
+        
     }
     public static void main(String[] args) {
 
@@ -267,7 +214,6 @@ public class Main {
         get("/", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
         });
-
 
 
         get("/planet", (Request req, Response res) -> {

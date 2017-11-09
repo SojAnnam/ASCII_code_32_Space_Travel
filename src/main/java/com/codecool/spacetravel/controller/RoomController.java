@@ -111,7 +111,11 @@ public class RoomController {
 
                             if ((startDateFromUser.before(endDateOfRes) && startDateFromUser.after(startDateOfRes)) ||
                                     (endDateFromUser.before(endDateOfRes) && endDateFromUser.after(startDateOfRes)) ||
-                                    (startDateFromUser.before(startDateOfRes) && endDateFromUser.after(endDateOfRes))){
+                                    (startDateFromUser.before(startDateOfRes) && endDateFromUser.after(endDateOfRes)) ||
+                                    startDateFromUser.equals(startDateOfRes) ||
+                                    startDateFromUser.equals(endDateOfRes) ||
+                                    endDateFromUser.equals(startDateOfRes) ||
+                                    endDateFromUser.equals(endDateOfRes)){
                                 if(roomList.contains(room)){
                                     roomList.remove(room);
                                 }
