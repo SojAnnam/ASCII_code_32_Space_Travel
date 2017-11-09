@@ -222,15 +222,6 @@ public class Main {
             System.out.println("No record was founded.");
         }
 
-        /*List result = em.createQuery(
-                "SELECT s.name, cl.name FROM Student s JOIN s.klass cl")
-                .getResultList();
-        System.out.println("\nQuery result with JPQL, JOIN, multiple tables (student name and class name):");
-        for (Iterator i = result.iterator(); i.hasNext(); ) {
-            Object[] values = (Object[]) i.next();
-            System.out.println(values[0] + ", " + values[1]);
-        }*/
-
         List result = em.createQuery(
                 "SELECT a.name, p.name FROM Accomodation a JOIN a.planet p")
                 .getResultList();
@@ -287,10 +278,11 @@ public class Main {
         });
 
         post("/reservation", (Request req, Response res) ->{
-            for (int i=0; i < req.queryParams().size(); i++){
-                System.out.println(req.queryParams().toArray()[i] + ": " + req.queryParams(req.queryParams().toArray()[i].toString()));
-            }
             return new ThymeleafTemplateEngine().render(RoomController.renderRoomsWithDateCheck(req, res, em));
+        });
+
+        post("/save", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(RoomController.renderSaving(req, res, em));
         });
 
         /*em.close();

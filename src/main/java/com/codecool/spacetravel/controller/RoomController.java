@@ -1,14 +1,12 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.Model.Accomodation;
-import com.codecool.spacetravel.Model.Planet;
-import com.codecool.spacetravel.Model.Room;
-import com.codecool.spacetravel.Model.RoomReservation;
+import com.codecool.spacetravel.Model.*;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -112,7 +110,8 @@ public class RoomController {
                             Date endDateOfRes = dateformat.parse(reservation.getEndDate());
 
                             if ((startDateFromUser.before(endDateOfRes) && startDateFromUser.after(startDateOfRes)) ||
-                                    (endDateFromUser.before(endDateOfRes) && endDateFromUser.after(startDateOfRes))){
+                                    (endDateFromUser.before(endDateOfRes) && endDateFromUser.after(startDateOfRes)) ||
+                                    (startDateFromUser.before(startDateOfRes) && endDateFromUser.after(endDateOfRes))){
                                 if(roomList.contains(room)){
                                     roomList.remove(room);
                                 }
@@ -152,5 +151,39 @@ public class RoomController {
             params.put("reservable", false);
         }
         return new ModelAndView(params, "roomreservation");
+    }
+
+    public static ModelAndView renderSaving(Request req, Response res, EntityManager em) {
+        long roomId = Long.parseLong(req.queryParams("selected-room-id"));
+        List<Room> rooms = QueryController.getRoomById(roomId, em);
+        Room room = rooms.get(0);
+
+        String startDateStringFromUser = req.queryParams("start-date-year") + "/" +
+                req.queryParams("start-date-month") + "/" +
+                req.queryParams("start-date-day");
+        String endDateStringFromUser = req.queryParams("end-date-year") + "/" +
+                req.queryParams("end-date-month") + "/" +
+                req.queryParams("end-date-day");
+
+        List<Customer> customerList = QueryController.getAllCustomers(em);
+        Customer testCustomer = customerList.get(0);
+
+        RoomReservation roomReservation = new RoomReservation(testCustomer, startDateStringFromUser, endDateStringFromUser, room);
+
+        List<RoomReservation> reservationsOfTestCustomer = testCustomer.getRoomReservation();
+        reservationsOfTestCustomer.add(roomReservation);
+        testCustomer.setRoomReservation(reservationsOfTestCustomer);
+
+        List<RoomReservation> reservationsInRoom = room.getRoomReservations();
+        reservationsInRoom.add(roomReservation);
+        room.setRoomReservations(reservationsInRoom);
+
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(roomReservation);
+        transaction.commit();
+
+        Map params = new HashMap<>();
+        return new ModelAndView(params, "reservationsaved");
     }
 }

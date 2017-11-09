@@ -1,6 +1,7 @@
 package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.Model.Accomodation;
+import com.codecool.spacetravel.Model.Customer;
 import com.codecool.spacetravel.Model.Planet;
 import com.codecool.spacetravel.Model.Room;
 
@@ -34,6 +35,18 @@ public class QueryController {
     public static List<Accomodation> getAccomodationById(long acommodationId, EntityManager em) {
         List<Accomodation> results = em.createNamedQuery("Accomodation.getAccomodationById", Accomodation.class)
                 .setParameter("accomodationId", acommodationId).getResultList();
+        return results;
+    }
+
+    public static List<Customer> getAllCustomers(EntityManager em) {
+        List<Customer> results = em.createNamedQuery("Customer.getAllCustomers", Customer.class)
+                .getResultList();
+        return results;
+    }
+
+    public static List<Room> getRoomById(long roomId, EntityManager em) {
+        List<Room> results = em.createNamedQuery("Room.getRoomById", Room.class)
+                .setParameter("roomId", roomId).getResultList();
         return results;
     }
 }

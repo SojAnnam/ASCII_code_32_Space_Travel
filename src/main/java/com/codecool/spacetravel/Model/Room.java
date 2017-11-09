@@ -8,7 +8,11 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "Room.getRoomsByAcommodationId",
-                query = "SELECT r from Room r where r.accomodation.id = :acommodationId"
+                query = "SELECT r FROM Room r WHERE r.accomodation.id = :acommodationId"
+        ),
+        @NamedQuery(
+                name = "Room.getRoomById",
+                query = "SELECT r FROM Room r WHERE r.id = :roomId"
         )
 })
 @Entity
