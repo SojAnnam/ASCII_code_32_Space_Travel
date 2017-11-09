@@ -3,6 +3,13 @@ package com.codecool.spacetravel.Model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+@NamedQueries({
+        @NamedQuery(
+                name = "SolarSystem.getSolarSystem",
+                query = "SELECT ss FROM SolarSystem ss "
+
+        )
+})
 
 @NamedQueries({
         @NamedQuery(

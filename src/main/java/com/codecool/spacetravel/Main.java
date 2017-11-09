@@ -1,13 +1,18 @@
 package com.codecool.spacetravel;
 
 import com.codecool.spacetravel.Model.*;
+import com.codecool.spacetravel.controller.AccController;
 import com.codecool.spacetravel.controller.PlanetController;
 import com.codecool.spacetravel.controller.RegistrationController;
+import com.codecool.spacetravel.controller.RoomController;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -73,7 +78,7 @@ public class Main {
 
         Accomodation accommodation1 = new Accomodation("Mars base 1", planet1,"Hotel with green plants",pictureMarsbase1);
         Accomodation accommodation2 = new Accomodation("Welcome Hotel", planet1,"ESA Hotel for backpackers", pictureMarsbase2);
-        Accomodation accommodation3 = new Accomodation("Come and Maybe go Apartman", planet1,"Very special place in he bizarre Venusville", pictureVenusville);
+        Accomodation accommodation3 = new Accomodation("Come and Maybe Go Apartman", planet1,"A very special place in the bizarre Venusville", pictureVenusville);
         Accomodation accommodation4 = new Accomodation("Jabba's palace", planet4, "Iron walls, deep jail cells", pictureJabbaPalace);
         Accomodation accommodation5 = new Accomodation("Mos Esley Cantina", planet4, "Nice music and a lot of guests from all part of the Universe", pictureMosEsley);
 
@@ -131,8 +136,11 @@ public class Main {
 
         Customer testPerson = new Customer("Farkas Bertalan", "Hungary, Budapest, Hősök tere 1.", "berci@freemail.hu", "abcd1234");
 
-        RoomReservation firstReservation = new RoomReservation(testPerson, new Date(), marsBase2Room1);
-        RoomReservation secondReservation = new RoomReservation(testPerson, new Date(), marsBase2Room4);
+        String startDateString = "2017/12/10";
+        String endDateString = "2017/12/20";
+
+        RoomReservation firstReservation = new RoomReservation(testPerson, startDateString, endDateString, marsBase2Room1);
+        RoomReservation secondReservation = new RoomReservation(testPerson, startDateString, endDateString, marsBase2Room4);
         List<RoomReservation> reservationsOfTestPerson = new ArrayList<>();
         reservationsOfTestPerson.add(firstReservation);
         reservationsOfTestPerson.add(secondReservation);
@@ -185,69 +193,7 @@ public class Main {
         em.persist(secondReservation);
         transaction.commit();
         System.out.println("Galaxies, planets, accommodations, rooms, test user, reservations saved.");
-
-
-        // Test queries:
-        String queryString = "SELECT p.name " +
-                "FROM Planet p " +
-                "ORDER BY p.name ASC";
-        TypedQuery<String> jpqlQuery = em.createQuery(queryString, String.class);
-        List planetsByName = jpqlQuery.getResultList();
-        System.out.println("\nQuery result with JPQL (planet names in ascending order):");
-        if (planetsByName.size() > 0){
-            for (Object planet : planetsByName){
-                System.out.println(planet);
-            }
-        } else {
-            System.out.println("No record was founded.");
-        }
-
-        String queryString2 = "SELECT a " +
-                "FROM Accomodation a " +
-                "ORDER BY a.name ASC";
-        TypedQuery<Accomodation> jpqlQuery2 = em.createQuery(queryString2, Accomodation.class);
-        List accomodationsResultList = jpqlQuery2.getResultList();
-        System.out.println("\nQuery result with JPQL (accommodations):");
-        if (accomodationsResultList.size() > 0){
-            for (Object acc : accomodationsResultList){
-                System.out.println(acc);
-            }
-        } else {
-            System.out.println("No record was founded.");
-        }
-
-        /*List result = em.createQuery(
-                "SELECT s.name, cl.name FROM Student s JOIN s.klass cl")
-                .getResultList();
-        System.out.println("\nQuery result with JPQL, JOIN, multiple tables (student name and class name):");
-        for (Iterator i = result.iterator(); i.hasNext(); ) {
-            Object[] values = (Object[]) i.next();
-            System.out.println(values[0] + ", " + values[1]);
-        }*/
-
-        List result = em.createQuery(
-                "SELECT a.name, p.name FROM Accomodation a JOIN a.planet p")
-                .getResultList();
-        System.out.println("\nQuery with JOIN:");
-        for (Iterator i = result.iterator(); i.hasNext(); ) {
-            Object[] values = (Object[]) i.next();
-            System.out.println(values[0] + ", " + values[1]);
-        }
-
-        List result2 = em.createQuery(
-                "SELECT c.name, acc.name, ro.id, ro.price, p.name " +
-                        "FROM Customer c " +
-                        "INNER JOIN c.roomReservation re " +
-                        "INNER JOIN re.room ro " +
-                        "INNER JOIN ro.accomodation acc " +
-                        "INNER JOIN acc.planet p")
-                .getResultList();
-        System.out.println("\nQuery with JOIN:");
-        for (Iterator i = result2.iterator(); i.hasNext(); ) {
-            Object[] values = (Object[]) i.next();
-            System.out.println(values[0] + ", " + values[1] + ", " + values[2] + ", " + values[3] + ", " + values[4]);
-        }
-
+        
     }
     public static void main(String[] args) {
 
@@ -266,12 +212,10 @@ public class Main {
 
         populateDb(em);
 
-
-
-        //get("/", PlanetController::renderPlanets, new ThymeleafTemplateEngine());
         get("/", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
         });
+      
 
         get("/registration-planet", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, em));
@@ -281,8 +225,33 @@ public class Main {
         });
 
 
-        /*em.close();
-        emf.close();*/
+        get("/planet", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+        });
+        get("/planet/:solarSystemId", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+        });
+
+        get("/:planetId/accomodation", (Request req, Response res) -> {
+            int planetId = Integer.parseInt(req.params(":planetId"));
+
+            return new ThymeleafTemplateEngine().render(AccController.renderAcc(req, res,planetId, em));
+        });
+
+        get("/reservation/:id", (Request req, Response res) -> {
+            /*int id = Integer.parseInt(req.params(":id"));
+            System.out.println("ID: " + id);*/
+            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, em));
+        });
+
+        post("/reservation", (Request req, Response res) ->{
+            return new ThymeleafTemplateEngine().render(RoomController.renderRoomsWithDateCheck(req, res, em));
+        });
+
+        post("/save", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(RoomController.renderSaving(req, res, em));
+        });
+
 
     }
 }

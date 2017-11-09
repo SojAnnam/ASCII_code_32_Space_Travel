@@ -1,6 +1,7 @@
 package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.Model.Planet;
+import com.codecool.spacetravel.Model.SolarSystem;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -13,23 +14,20 @@ import java.util.Map;
 public class PlanetController {
 
     public static ModelAndView renderPlanets(Request req, Response res, EntityManager em) {
+        long solarSystemId = 1;
 
+        if (req.params("solarSystemId")!=null){
+            solarSystemId = Integer.parseInt(req.params(":solarSystemId"));
+        }
 
-//
-//        ProductDao productDataStore = ProductDaoJdbc.getInstance();
-//        ProductCategoryDao productCategoryDataStore = ProductCategoryDaoJdbc.getInstance();
-//        SupplierDao supplierDataStore = SupplierDaoJdbc.getInstance();
-
-        List<Planet> planetList = QueryController.getPlanetsBySolarSystemId(1, em);
-        //System.out.println("getPlanetsBySolarSystemId - controller");
-
+        List<SolarSystem> solarSystemsList = QueryController.getSolarSystem(em);
+        List<Planet> planetListBySolarSystem = QueryController.getPlanetsBySolarSystemId(solarSystemId, em);
+        List<Planet> allPlanet = QueryController.getAllPlanet(em);
 
         Map params = new HashMap<>();
-        params.put("planets", planetList);
-//        params.put("category", productCategoryDataStore.getAll());
-//        params.put("products", productDataStore.getAll());
-//        params.put("suppliers", supplierDataStore.getAll());
-//        params.put("numberOfOrderedItems", order.getNumberOfItems());
+        params.put("solarsystems",solarSystemsList);
+        params.put("planets", planetListBySolarSystem);
+        params.put("allplanet",allPlanet);
         return new ModelAndView(params, "index");
     }
 }

@@ -5,6 +5,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Room.getRoomsByAcommodationId",
+                query = "SELECT r FROM Room r WHERE r.accomodation.id = :acommodationId"
+        ),
+        @NamedQuery(
+                name = "Room.getRoomById",
+                query = "SELECT r FROM Room r WHERE r.id = :roomId"
+        )
+})
 @Entity
 public class Room {
 

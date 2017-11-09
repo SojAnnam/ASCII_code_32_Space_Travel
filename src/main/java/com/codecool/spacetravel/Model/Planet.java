@@ -7,15 +7,23 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "Planet.getPlanetsBySolarSystemId",
-                query = "SELECT p from Planet p where p.solarsystem.id = :solarSystemId"
-        )
+                query = "SELECT p FROM Planet p WHERE p.solarsystem.id = :solarSystemId"
+        ),
+        @NamedQuery(
+                name = "Planet.getAllPlanet",
+                query = "SELECT p from Planet p"
+        ),
+        @NamedQuery(name= "getPlanet",
+                    query = "SELECT p from Planet p where p.id = :planetId")
+
+
 })
 @Entity
 public class Planet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String name;
 

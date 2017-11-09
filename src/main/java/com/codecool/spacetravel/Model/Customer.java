@@ -5,6 +5,12 @@ import javax.persistence.*;
 import java.util.List;
 import java.util.ResourceBundle;
 
+@NamedQueries({
+        @NamedQuery(
+                name = "Customer.getAllCustomers",
+                query = "SELECT c FROM Customer c"
+        )
+})
 @Entity
 public class Customer {
 
