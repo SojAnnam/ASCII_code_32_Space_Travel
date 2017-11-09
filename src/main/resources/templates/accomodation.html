@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Accommodation | Space Travel</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+</head>
+
+<body>
+
+<div class="jumbotron text-center">
+    <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
+    <h3>Accommodations</h3>
+</div>
+<div class="container accommodation-page">
+    <div class="row">
+        <div class="col-md-4">
+            <h1 th:text="${planet.name}">Planet name</h1>
+            <h2><i class="fa fa-info-circle" aria-hidden="true"></i> Information</h2>
+            <h3 th:text="${planet.description}">Description</h3>
+            <h2><i class="fa fa-sun-o" aria-hidden="true"></i> Weather</h2>
+            <h3 th:text="${planet.weather}">Weather</h3>
+        </div>
+        <div class="col-md-8">
+            <h3 class="text-center" th:text="${'No accommodation.'}" th:style="${#lists.size(accomodations) == 0} ? 'visibility: visible' : 'visibility: hidden'"></h3>
+            <div class="col-md-6" th:each="acc,iterStat : ${accomodations}">
+                <h2 th:text="${acc.name}">accname</h2>
+                <a class="accommodations" th:id="${acc.id}"
+                   th:href="@{'~/reservation/' + ${acc.id}}">
+                    <img th:attr="src='/img_collection/' + ${acc.getPicture().fileName}" />
+                </a>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button onclick="window.history.back();" role="button" class="btn btn-primary">Back to Home</button>
+    </div>
+</div>
+</body>
+</html>
