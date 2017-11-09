@@ -2,6 +2,13 @@ package com.codecool.spacetravel.Model;
 
 import javax.persistence.*;
 import java.util.List;
+@NamedQueries({
+        @NamedQuery(
+                name = "SolarSystem.getSolarSystem",
+                query = "SELECT ss FROM SolarSystem ss "
+
+        )
+})
 
 @Entity
 @Table(name = "SolarSystem")
