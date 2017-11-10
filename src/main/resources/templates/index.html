@@ -43,13 +43,13 @@
         <div class="home-nav clearfix">
             <ul class="nav nav-tabs pull-left">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"  aria-haspopup="true" aria-expanded="false">Galaxy</a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button"  aria-haspopup="true" aria-expanded="false">Galaxy</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" th:each="solarsystem,iterStat : ${solarsystems}" href="#" th:href="@{'~/planet/' + ${solarsystem.id}}"  th:text="${solarsystem.name}" th:value="${solarsystem.id}" id="category">Galaxy</a>
+                        <a class="dropdown-item" th:each="solarsystem,iterStat : ${solarsystems}"  th:href="@{'~/planet/' + ${solarsystem.id}}"  th:text="${solarsystem.name}" th:value="${solarsystem.id}" id="category">Galaxy</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"  aria-haspopup="true" aria-expanded="false">Planet</a>
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown"  role="button"  aria-haspopup="true" aria-expanded="false">Planet</a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item"  th:each="planet,iterStat : ${allplanet}" th:text="${planet.name}" th:href="@{'~/'+ ${planet.id}+'/accomodation'}">Planet</a>
                     </div>

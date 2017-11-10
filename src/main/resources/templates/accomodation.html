@@ -55,7 +55,7 @@
         </div>
     </div>
     <div>
-        <button onclick="window.history.back();" role="button" class="btn btn-primary">Back to Home</button>
+        <a th:href="@{'~/planet/' + ${planet.getSolarSystem().getId()}}" role="button" class="btn btn-primary" th:text="'Back to Planets of ' + ${planet.getSolarSystem().getName()}">Back to Planets</a>
     </div>
 </div>
 </body>
