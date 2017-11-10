@@ -41,7 +41,7 @@ public class Main {
         SolarSystem solarSystem2 = new SolarSystem("Star Wars");
 
         String description1 = "The place where we live. Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System after Mercury. Mars's average distance from the Sun is roughly 230 million kilometres. Orbital period is 687 (Earth) days.";
-        String weather1 = "The winter is coming...Average temperature is about minus 60 C°, although it can vary from minus minus 125 C° near the poles during the winter to as much as a comfortable 20 C° at midday near the equator.";
+        String weather1 = "The winter is coming...Average temperature is about -60 C°, although it can vary from -125 C° near the poles during the winter to as much as a comfortable 20 C° at midday near the equator.";
         Planet planet1 = new Planet("Mars", description1, weather1, solarSystem1);
         planet1.setPicture(pictureMars);
 
@@ -51,7 +51,7 @@ public class Main {
         planet2.setPicture(pictureSaturn);
 
         String description3 = "In the neighbourhood.";
-        String weather3 = "Daytime temperatures on the sunny side of the moon reach 273 degrees F (134 C); on the dark side it gets as cold as minus 243 F (minus 153 C).";
+        String weather3 = "Daytime temperatures on the sunny side of the moon reach 273 degrees F (134 C°); on the dark side it gets as cold as minus 243 F (minus 153 C°).";
         Planet planet3 = new Planet("Moon", description3, weather3, solarSystem1);
         planet3.setPicture(pictureMoon);
 
@@ -60,7 +60,7 @@ public class Main {
         Planet planet4 = new Planet("Tatooine", description4, weather4, solarSystem2);
         planet4.setPicture(pictureTatooine);
 
-        String description5 = "Rocky and hard place";
+        String description5 = "Rocky and hard place.Situated in the Geonosis system of the Arkanis sector in the Outer Rim Territories, the planet of Geonosis was 43,000 light years from the Galactic Core, and less than a parsec away from the Outer Rim planet of Tatooine.";
         String weather5 = "Dry";
         Planet planet5 = new Planet("Geonosis", description5, weather5, solarSystem2);
         planet5.setPicture(pictureGeonosis);
@@ -94,7 +94,7 @@ public class Main {
         planet4.setAccomodation(accommodationsInTatooine);
 
         RoomType roomType = new RoomType("Single Room",1);
-        RoomType roomType2 = new RoomType("King's Room", 4);
+        RoomType roomType2 = new RoomType("King's Suite", 4);
         RoomType roomType3 = new RoomType("Family Room", 10);
         RoomType roomType4 = new RoomType("Honeymoon Suite", 2);
         RoomType roomType5 = new RoomType("Double Room", 2);

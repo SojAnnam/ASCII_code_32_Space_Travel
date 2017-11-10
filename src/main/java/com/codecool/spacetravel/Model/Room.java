@@ -8,7 +8,7 @@ import java.util.List;
 @NamedQueries({
         @NamedQuery(
                 name = "Room.getRoomsByAcommodationId",
-                query = "SELECT r FROM Room r WHERE r.accomodation.id = :acommodationId"
+                query = "SELECT r FROM Room r JOIN RoomType rt On rt.id = r.roomType.id WHERE r.accomodation.id = :acommodationId order by rt.bednumber asc,rt.name asc"
         ),
         @NamedQuery(
                 name = "Room.getRoomById",

@@ -50,8 +50,15 @@ public class RoomController {
         try {
             Date startDateFromUser = dateformat.parse(startDateStringFromUser);
             Date endDateFromUser = dateformat.parse(endDateStringFromUser);
+
+            Date easterEggDate = dateformat.parse("2050/01/01");
+
             boolean datesAreValid = true;
 
+            if (startDateFromUser.before(easterEggDate)){
+                errorMessages.add("Sorry, you can book rooms from 2050/01/01. Space technology is advanced now, but not enough. You will be old and ugly, but it is worth to wait.");
+                datesAreValid = false;
+            }
             if (startDateFromUser.after(endDateFromUser)){
                 errorMessages.add("Start date must be earlier than end date.");
                 datesAreValid = false;
