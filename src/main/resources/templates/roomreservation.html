@@ -101,8 +101,7 @@
                     <table class="table table-hover available-rooms">
                         <thead>
                         <tr>
-                            <th class="center">Id</th>
-                            <th class="center">Type</th>
+                            <th class="center">Room Type</th>
                             <th class="center">Beds</th>
                             <th class="center">Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</th>
                             <th class="center" th:if="${reservable}">Reservation</th>
@@ -110,7 +109,6 @@
                         </thead>
                         <tbody>
                         <tr th:each="room : ${roomlist}">
-                            <td th:text="${room.getId()}">0</td>
                             <td th:text="${room.getRoomType().getName()}">xx</td>
                             <td th:text="${room.getRoomType().getBednumber()}">0</td>
                             <td th:text="${room.getPrice()}">0</td>
@@ -123,7 +121,7 @@
                                     <input name="end-date-year" type="hidden" th:value="${dateelements[3]}" th:style="${'visibility: hidden'}" />
                                     <input name="end-date-month" type="hidden" th:value="${dateelements[4]}" th:style="${'visibility: hidden'}" />
                                     <input name="end-date-day" type="hidden" th:value="${dateelements[5]}" th:style="${'visibility: hidden'}" />
-                                    <button type="submit" class="btn btn-success push-right">I book</button>
+                                    <button type="submit" class="btn btn-success push-right">Reserve</button>
                                 </form>
                             </td>
                         </tr>
@@ -135,7 +133,7 @@
         </div>
 
         <div>
-            <button onclick="window.history.back();" role="button" class="btn btn-primary">Back to Accommodations</button>
+            <a th:href="@{'~/' + ${accomodation.getPlanet().getId()}+'/accomodation'}" role="button" class="btn btn-primary">Back to Accommodations</a>
         </div>
     </div>
 </body>

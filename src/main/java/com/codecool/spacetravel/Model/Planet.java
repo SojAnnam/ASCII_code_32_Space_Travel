@@ -11,7 +11,7 @@ import java.util.List;
         ),
         @NamedQuery(
                 name = "Planet.getAllPlanet",
-                query = "SELECT p from Planet p"
+                query = "SELECT p from Planet p ORDER BY p.name asc"
         ),
         @NamedQuery(name= "getPlanet",
                     query = "SELECT p from Planet p where p.id = :planetId")
