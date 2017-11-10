@@ -52,19 +52,14 @@ public class RoomController {
             Date endDateFromUser = dateformat.parse(endDateStringFromUser);
             boolean datesAreValid = true;
 
-            if (Integer.parseInt(req.queryParams("start-date-year")) < 2100 ){
-                errorMessages.add("Sorry, due to technical limitations Intergalactic Space Travel is only possible from year 2100.");
-                datesAreValid = false;
-            }
-
             if (startDateFromUser.after(endDateFromUser)){
                 errorMessages.add("Start date must be earlier than end date.");
                 datesAreValid = false;
             }
-            /*if (startDateFromUser.before(new Date())) {
+            if (startDateFromUser.before(new Date())) {
                 errorMessages.add("Start date must be later than current date.");
                 datesAreValid = false;
-            }*/
+            }
             if (Integer.parseInt(req.queryParams("start-date-month")) < 1 || Integer.parseInt(req.queryParams("start-date-month")) > 12 ||
                     Integer.parseInt(req.queryParams("end-date-month")) < 1 || Integer.parseInt(req.queryParams("end-date-month")) > 12){
                 errorMessages.add("Month must be greater than 0 and lesser than 13.");
