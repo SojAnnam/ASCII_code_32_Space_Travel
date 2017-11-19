@@ -1,18 +1,14 @@
 package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.Model.Customer;
-import com.codecool.spacetravel.Model.Room;
-import com.codecool.spacetravel.Model.RoomReservation;
+import com.codecool.spacetravel.PasswordStorage;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,12 +31,25 @@ public class CustomerAccountController {
             errorMessages = validateRegistrationDatas(userDatas);
 
             if (errorMessages.size() == 0){
+                String hashedPasswordAndSalt;
+
+                try {
+                    hashedPasswordAndSalt = PasswordStorage.createHash(PasswordStorage.createHash(userDatas.get("password")));
+                    userDatas.put("password", hashedPasswordAndSalt);
+                } catch (PasswordStorage.CannotPerformOperationException e) {
+                    Map<String, Object> params = new HashMap<>();
+                    params.put("user", userDatas);
+                    errorMessages.add("Cannot save account. Please, try again later.");
+                    params.put("errors", errorMessages);
+                    return new ModelAndView(params, "customer_registration");
+                }
+
                 saveCustomerDatas(userDatas, em);
                 res.redirect("/customer-registration-succeeded");
             }
         }
 
-        Map params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put("user", userDatas);
         params.put("errors", errorMessages);
         return new ModelAndView(params, "customer_registration");
