@@ -269,6 +269,18 @@ public class Main {
             return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, true));
         });
 
+        get("/login", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderLogin(req, res, em));
+        });
+
+        post("/login", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderLogin(req, res, em));
+        });
+
+        get("/logout", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderLogout(req, res, em));
+        });
+
         get("/registration-planet", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, em));
         });

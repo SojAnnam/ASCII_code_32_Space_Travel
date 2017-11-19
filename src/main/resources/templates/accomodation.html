@@ -41,13 +41,13 @@
                 </th:block>
 
                 <th:block th:unless="${loggedIn}">
-                    <li><a href="/registration">Registration</a></li>
+                    <li><a href="/customer-registration">Registration</a></li>
                     <li><a href="/login">Login</a></li>
                 </th:block>
             </ul>
 
             <th:block th:if="${loggedIn}">
-                <p class="navbar-text pull-right" id="identification">USERNAME COMES HERE</p>
+                <p class="navbar-text pull-right" id="identification" th:text="${customername}">Customer's name</p>
             </th:block>
         </div>
     </nav>

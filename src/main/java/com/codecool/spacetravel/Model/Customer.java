@@ -9,6 +9,10 @@ import java.util.ResourceBundle;
         @NamedQuery(
                 name = "Customer.getAllCustomers",
                 query = "SELECT c FROM Customer c"
+        ),
+        @NamedQuery(
+                name="Customer.getCustomerByEmail",
+                query = "SELECT c FROM Customer c WHERE c.email = :email"
         )
 })
 @Entity
@@ -19,7 +23,10 @@ public class Customer {
     private long id;
 
     private String name;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String country;
     private String city;
     private String postalcode;

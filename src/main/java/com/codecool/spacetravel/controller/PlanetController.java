@@ -14,8 +14,8 @@ import java.util.Map;
 public class PlanetController {
 
     public static ModelAndView renderPlanets(Request req, Response res, EntityManager em, boolean newCustomerSaved) {
-
-        Integer userId = req.session().attribute("user_id");
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
 
         long solarSystemId = 1;
 
@@ -28,7 +28,8 @@ public class PlanetController {
         List<Planet> allPlanet = QueryController.getAllPlanet(em);
 
         Map params = new HashMap<>();
-        params.put("loggedIn", userId != null);
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
         params.put("solarsystems",solarSystemsList);
         params.put("planets", planetListBySolarSystem);
         params.put("allplanet",allPlanet);

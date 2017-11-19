@@ -71,4 +71,15 @@ public class QueryController {
         List<SolarSystem> results =  em.createNamedQuery("SolarSystem.getAllSolarSystem", SolarSystem.class).getResultList();
         return results;
     }
+
+    public static Customer getCustomerByEmail(String email, EntityManager em) {
+        Customer customer = null;
+        try{
+            customer = em.createNamedQuery("Customer.getCustomerByEmail", Customer.class)
+                    .setParameter("email", email).getSingleResult();
+        } catch (Exception e){
+            System.out.println("No record found: " + e.getMessage());
+        }
+        return customer;
+    }
 }
