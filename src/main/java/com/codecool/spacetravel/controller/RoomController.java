@@ -13,6 +13,9 @@ import java.util.*;
 public class RoomController {
 
     public static ModelAndView renderRooms(Request req, Response res, EntityManager em){
+
+        Integer userId = req.session().attribute("user_id");
+
         long acommodationId = Long.parseLong(req.params(":id"));
         List<Room> roomList = QueryController.getRoomsByAcommodationId(acommodationId, em);
 
@@ -27,6 +30,7 @@ public class RoomController {
         }
 
         Map params = new HashMap<>();
+        params.put("loggedIn", userId != null);
         params.put("roomlist", roomList);
         params.put("accomodation", selectedAccomodation);
         params.put("errors", errorMessages);
@@ -36,6 +40,9 @@ public class RoomController {
     }
 
     public static ModelAndView renderRoomsWithDateCheck(Request req, Response res, EntityManager em) {
+
+        Integer userId = req.session().attribute("user_id");
+
         List<String> errorMessages = new ArrayList();
         long acommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
         String startDateStringFromUser = req.queryParams("start-date-year") + "/" +
@@ -152,6 +159,7 @@ public class RoomController {
         dateElements.add(req.queryParams("end-date-day"));
 
         Map params = new HashMap<>();
+        params.put("loggedIn", userId != null);
         params.put("roomlist", roomList);
         params.put("accomodation", selectedAccomodation);
         params.put("errors", errorMessages);
@@ -165,6 +173,9 @@ public class RoomController {
     }
 
     public static ModelAndView renderSaving(Request req, Response res, EntityManager em) {
+
+        Integer userId = req.session().attribute("user_id");
+
         long roomId = Long.parseLong(req.queryParams("selected-room-id"));
         List<Room> rooms = QueryController.getRoomById(roomId, em);
         Room room = rooms.get(0);
@@ -195,6 +206,7 @@ public class RoomController {
         transaction.commit();
 
         Map params = new HashMap<>();
+        params.put("loggedIn", userId != null);
         return new ModelAndView(params, "reservationsaved");
     }
 }
