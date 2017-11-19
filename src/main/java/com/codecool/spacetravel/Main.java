@@ -1,21 +1,13 @@
 package com.codecool.spacetravel;
 
 import com.codecool.spacetravel.Model.*;
-import com.codecool.spacetravel.controller.AccController;
-import com.codecool.spacetravel.controller.PlanetController;
-import com.codecool.spacetravel.controller.RegistrationController;
-import com.codecool.spacetravel.controller.RoomController;
+import com.codecool.spacetravel.controller.*;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import static spark.Spark.*;
@@ -172,9 +164,8 @@ public class Main {
         roomsToRoomType5.add(room3Acc4);
         roomType5.setRooms(roomsToRoomType5);
 
-
-
-        Customer testPerson = new Customer("Farkas Bertalan", "Hungary, Budapest, Hősök tere 1.", "berci@freemail.hu", "abcd1234");
+        Customer testPerson = new Customer("Farkas Bertalan", "berci@freemail.hu", "Hungary",
+                "Budapest", "1140", "Hősök tere 1.", "abcd1234");
 
         String startDateString = "2017/12/10";
         String endDateString = "2017/12/20";
@@ -263,9 +254,20 @@ public class Main {
         populateDb(em);
 
         get("/", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, false));
         });
-      
+
+        get("/customer-registration", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderCustomerRegistration(req, res, em));
+        });
+
+        post("/customer-registration", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderCustomerRegistration(req, res, em));
+        });
+
+        get("/customer-registration-succeeded", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, true));
+        });
 
         get("/registration-planet", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, em));
@@ -276,10 +278,10 @@ public class Main {
 
 
         get("/planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, false));
         });
         get("/planet/:solarSystemId", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em));
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, false));
         });
 
         get("/:planetId/accomodation", (Request req, Response res) -> {
