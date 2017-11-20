@@ -164,6 +164,11 @@ public class Main {
         roomsToRoomType5.add(room3Acc4);
         roomType5.setRooms(roomsToRoomType5);
 
+        Customer admin = new Customer("admin", "admin@freemail.hu", "Hungary",
+                "Budapest", "1140", "Várkert bazár 1.", "admin");
+        List<RoomReservation> reservationsOfAdmin = new ArrayList<>();
+        admin.setRoomReservation(reservationsOfAdmin);
+
         Customer testPerson = new Customer("Farkas Bertalan", "berci@freemail.hu", "Hungary",
                 "Budapest", "1140", "Hősök tere 1.", "abcd1234");
 
@@ -229,6 +234,7 @@ public class Main {
         em.persist(marsBase2Room4);
         em.persist(marsBase2Room5);
         em.persist(marsBase2Room6);
+        em.persist(admin);
         em.persist(testPerson);
         em.persist(firstReservation);
         em.persist(secondReservation);

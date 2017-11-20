@@ -14,7 +14,8 @@ import java.util.Map;
 public class AccController {
     public static ModelAndView renderAcc(Request req, Response res, long planetId, EntityManager em) {
 
-        Integer userId = req.session().attribute("user_id");
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
 
         Planet planet = QueryController.getPlanet(planetId,em);
 
@@ -22,7 +23,9 @@ public class AccController {
         //System.out.println("getPlanetsBySolarSystemId - controller");
 
         Map params = new HashMap<>();
-        params.put("loggedIn", userId != null);
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
+        params.put("loggedIn", customerId != null);
         params.put("accomodations", accList);
         params.put("planet", planet);
         return new ModelAndView(params, "accomodation");

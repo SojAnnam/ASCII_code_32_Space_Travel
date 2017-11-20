@@ -14,7 +14,8 @@ public class RoomController {
 
     public static ModelAndView renderRooms(Request req, Response res, EntityManager em){
 
-        Integer userId = req.session().attribute("user_id");
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
 
         long acommodationId = Long.parseLong(req.params(":id"));
         List<Room> roomList = QueryController.getRoomsByAcommodationId(acommodationId, em);
@@ -29,8 +30,9 @@ public class RoomController {
             dateElements.add("");
         }
 
-        Map params = new HashMap<>();
-        params.put("loggedIn", userId != null);
+        Map<String, Object> params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
         params.put("roomlist", roomList);
         params.put("accomodation", selectedAccomodation);
         params.put("errors", errorMessages);
@@ -41,7 +43,8 @@ public class RoomController {
 
     public static ModelAndView renderRoomsWithDateCheck(Request req, Response res, EntityManager em) {
 
-        Integer userId = req.session().attribute("user_id");
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
 
         List<String> errorMessages = new ArrayList();
         long acommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
@@ -158,13 +161,14 @@ public class RoomController {
         dateElements.add(req.queryParams("end-date-month"));
         dateElements.add(req.queryParams("end-date-day"));
 
-        Map params = new HashMap<>();
-        params.put("loggedIn", userId != null);
+        Map<String, Object> params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
         params.put("roomlist", roomList);
         params.put("accomodation", selectedAccomodation);
         params.put("errors", errorMessages);
         params.put("dateelements", dateElements);
-        if (errorMessages.size() == 0){
+        if (errorMessages.size() == 0 && customerId != null){
             params.put("reservable", true);
         } else {
             params.put("reservable", false);
@@ -174,7 +178,8 @@ public class RoomController {
 
     public static ModelAndView renderSaving(Request req, Response res, EntityManager em) {
 
-        Integer userId = req.session().attribute("user_id");
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
 
         long roomId = Long.parseLong(req.queryParams("selected-room-id"));
         List<Room> rooms = QueryController.getRoomById(roomId, em);
@@ -187,14 +192,13 @@ public class RoomController {
                 req.queryParams("end-date-month") + "/" +
                 req.queryParams("end-date-day");
 
-        List<Customer> customerList = QueryController.getAllCustomers(em);
-        Customer testCustomer = customerList.get(0);
+        Customer customer = QueryController.getCustomerById(customerId, em);
 
-        RoomReservation roomReservation = new RoomReservation(testCustomer, startDateStringFromUser, endDateStringFromUser, room);
+        RoomReservation roomReservation = new RoomReservation(customer, startDateStringFromUser, endDateStringFromUser, room);
 
-        List<RoomReservation> reservationsOfTestCustomer = testCustomer.getRoomReservation();
-        reservationsOfTestCustomer.add(roomReservation);
-        testCustomer.setRoomReservation(reservationsOfTestCustomer);
+        List<RoomReservation> reservationsOfCustomer = customer.getRoomReservation();
+        reservationsOfCustomer.add(roomReservation);
+        customer.setRoomReservation(reservationsOfCustomer);
 
         List<RoomReservation> reservationsInRoom = room.getRoomReservations();
         reservationsInRoom.add(roomReservation);
@@ -205,8 +209,9 @@ public class RoomController {
         em.persist(roomReservation);
         transaction.commit();
 
-        Map params = new HashMap<>();
-        params.put("loggedIn", userId != null);
+        Map<String, Object> params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
         return new ModelAndView(params, "reservationsaved");
     }
 }

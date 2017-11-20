@@ -31,20 +31,42 @@
 
 <body>
 
-<div class="jumbotron text-center">
-    <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
-    <h3>Reservation saved</h3>
-</div>
+    <!--navigation bar-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Main Page</a></li>
 
-<div class="container">
+                <th:block th:if="${loggedIn}">
+                    <li><a href="/logout">Logout</a></li>
+                </th:block>
 
-    <div class="well well-sm text-center">
-        <h3>Bon voyage!</h3>
+                <th:block th:unless="${loggedIn}">
+                    <li><a href="/customer-registration">Registration</a></li>
+                    <li><a href="/login">Login</a></li>
+                </th:block>
+            </ul>
+
+            <th:block th:if="${loggedIn}">
+                <p class="navbar-text pull-right" id="identification" th:text="${customername}">Customer's name</p>
+            </th:block>
+        </div>
+    </nav>
+
+    <div class="jumbotron text-center">
+        <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
+        <h3>Reservation saved</h3>
     </div>
 
-    <div>
-        <a href="/" role="button" class="btn btn-primary">Back to Main Page</a>
+    <div class="container">
+
+        <div class="well well-sm text-center">
+            <h3>Bon voyage!</h3>
+        </div>
+
+        <div>
+            <a href="/" role="button" class="btn btn-primary">Back to Main Page</a>
+        </div>
     </div>
-</div>
 </body>
 </html>

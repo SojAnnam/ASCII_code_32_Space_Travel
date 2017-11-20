@@ -13,6 +13,10 @@ import java.util.ResourceBundle;
         @NamedQuery(
                 name="Customer.getCustomerByEmail",
                 query = "SELECT c FROM Customer c WHERE c.email = :email"
+        ),
+        @NamedQuery(
+                name = "Customer.getCustomerById",
+                query = "SELECT c FROM Customer c WHERE c.id = :id"
         )
 })
 @Entity

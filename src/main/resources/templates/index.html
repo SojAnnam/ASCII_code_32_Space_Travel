@@ -85,7 +85,11 @@
                         </div>
                     </li>
                 </ul>
-                <a href="/registration-planet" class="btn btn-primary pull-right">Add planet</a>
+
+                <th:block th:if="${loggedIn and customername == 'admin'}">
+                    <a href="/registration-planet" class="btn btn-primary pull-right">Add planet</a>
+                </th:block>
+
             </div>
 
             <div id="planets" class="row list-group">

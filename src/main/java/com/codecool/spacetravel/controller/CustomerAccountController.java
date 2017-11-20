@@ -1,6 +1,7 @@
 package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.Model.Customer;
+import com.codecool.spacetravel.Model.RoomReservation;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -159,6 +160,9 @@ public class CustomerAccountController {
                 customerDatas.get("address"),
                 customerDatas.get("password")
         );
+
+        List<RoomReservation> reservationsOfCustomer = new ArrayList<>();
+        customer.setRoomReservation(reservationsOfCustomer);
 
         try{
             EntityTransaction transaction = em.getTransaction();
