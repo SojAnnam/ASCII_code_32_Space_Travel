@@ -19,7 +19,8 @@ public class CustomerAccountController {
         Map<String, String> customerDatas = new HashMap<>();
 
         if (req.queryParams().size() > 0){
-            customerDatas.put("name", req.queryParams("name"));
+            customerDatas.put("firstname", req.queryParams("firstname"));
+            customerDatas.put("lastname", req.queryParams("lastname"));
             customerDatas.put("email", req.queryParams("email"));
             customerDatas.put("country", req.queryParams("country"));
             customerDatas.put("city", req.queryParams("city"));
@@ -49,17 +50,29 @@ public class CustomerAccountController {
     private static List<String> validateRegistrationDatas(Map<String, String> customerDatas, EntityManager em) {
         List<String> errorMessages = new ArrayList();
 
-        if (customerDatas.get("name").length() < 5){
-            errorMessages.add("Name must be at least 5 character long.");
+        if (customerDatas.get("firstname").length() < 2){
+            errorMessages.add("First name must be at least 2 character long.");
         }
-        if (dataContainsNumber(customerDatas.get("name"))){
-            errorMessages.add("Human name shall be free of numbers.");
+        if (dataContainsNumber(customerDatas.get("firstname"))){
+            errorMessages.add("First name shall be free of numbers.");
         }
-        if (dataContainsSigns(customerDatas.get("name"))){
-            errorMessages.add("Human name shall be free of signs.");
+        if (dataContainsSigns(customerDatas.get("firstname"))){
+            errorMessages.add("First name shall be free of signs.");
         }
-        if (nameNotContainsTwoNameElement(customerDatas.get("name"))){
-            errorMessages.add("Type the name in 'firstname lastname' format, e.g. John Doe.");
+        if (customerDatas.get("firstname").length() > 0 && dataNotStartsWithUpperCaseLetter(customerDatas.get("firstname"))){
+            errorMessages.add("First name must start with upper case letter.");
+        }
+        if (customerDatas.get("lastname").length() < 2){
+            errorMessages.add("Last name must be at least 2 character long.");
+        }
+        if (dataContainsNumber(customerDatas.get("lastname"))){
+            errorMessages.add("Last name shall be free of numbers.");
+        }
+        if (dataContainsSigns(customerDatas.get("lastname"))){
+            errorMessages.add("Last name shall be free of signs.");
+        }
+        if (customerDatas.get("lastname").length() > 0 && dataNotStartsWithUpperCaseLetter(customerDatas.get("lastname"))){
+            errorMessages.add("Last name must start with upper case letter.");
         }
 
         Pattern compiledPattern = Pattern.compile(
@@ -72,7 +85,7 @@ public class CustomerAccountController {
         }
 
         if (emailExists(customerDatas.get("email"), em)){
-            errorMessages.add("This email is already exists in our database. Give another one");
+            errorMessages.add("This email is already exists in our database. Give another one.");
         }
 
         if (customerDatas.get("country").length() < 5){
@@ -110,6 +123,10 @@ public class CustomerAccountController {
         return errorMessages;
     }
 
+    private static boolean dataNotStartsWithUpperCaseLetter(String word) {
+        return Character.isLowerCase(word.charAt(0));
+    }
+
     private static boolean emailExists(String email, EntityManager em) {
         boolean emailExists = false;
         Customer customer = QueryController.getCustomerByEmail(email, em);
@@ -139,20 +156,12 @@ public class CustomerAccountController {
         return false;
     }
 
-    private static boolean nameNotContainsTwoNameElement(String name){
-        String[] parts = name.split(" ");
-        if (parts.length < 2){
-            return true;
-        }
-        return false;
-    }
-
-
     public static boolean saveCustomerDatas(Map<String, String> customerDatas, EntityManager em) {
         boolean savingSucceeded = false;
 
         Customer customer = new Customer(
-                customerDatas.get("name"),
+                customerDatas.get("firstname"),
+                customerDatas.get("lastname"),
                 customerDatas.get("email"),
                 customerDatas.get("country"),
                 customerDatas.get("city"),
@@ -190,7 +199,7 @@ public class CustomerAccountController {
 
             if (errorMessages.size() == 0 && customer != null){
                 req.session().attribute("customer_id", customer.getId());
-                req.session().attribute("customer_name", customer.getName());
+                req.session().attribute("customer_name", customer.getFirstName() + " " + customer.getLastName());
                 res.redirect("/");
                 return null;
             }
