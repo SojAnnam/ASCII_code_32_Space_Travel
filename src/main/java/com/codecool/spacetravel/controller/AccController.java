@@ -14,12 +14,18 @@ import java.util.Map;
 public class AccController {
     public static ModelAndView renderAcc(Request req, Response res, long planetId, EntityManager em) {
 
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
+
         Planet planet = QueryController.getPlanet(planetId,em);
 
         List<Accomodation> accList = QueryController.getAccByPlanetId(planetId, em);
         //System.out.println("getPlanetsBySolarSystemId - controller");
 
         Map params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
+        params.put("loggedIn", customerId != null);
         params.put("accomodations", accList);
         params.put("planet", planet);
         return new ModelAndView(params, "accomodation");

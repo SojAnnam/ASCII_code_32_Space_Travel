@@ -16,6 +16,9 @@ import java.util.Map;
 public class RegistrationController {
 
     public static ModelAndView renderPlanetRegistration(Request req, Response res, EntityManager em) {
+
+        Integer userId = req.session().attribute("user_id");
+
         List<SolarSystem> solarSystems = QueryController.getAllSolarSystem(em);
 
         String name = req.queryParams("name");
@@ -43,7 +46,9 @@ public class RegistrationController {
         }
 
         Map params = new HashMap<>();
+        params.put("loggedIn", userId != null);
         params.put("solarsystems", solarSystems);
+
         return new ModelAndView(params, "registration_planet");
     }
 }

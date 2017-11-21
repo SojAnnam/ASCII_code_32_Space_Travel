@@ -13,7 +13,10 @@ import java.util.Map;
 
 public class PlanetController {
 
-    public static ModelAndView renderPlanets(Request req, Response res, EntityManager em) {
+    public static ModelAndView renderPlanets(Request req, Response res, EntityManager em, boolean newCustomerSaved) {
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
+
         long solarSystemId = 1;
 
         if (req.params("solarSystemId")!=null){
@@ -25,9 +28,12 @@ public class PlanetController {
         List<Planet> allPlanet = QueryController.getAllPlanet(em);
 
         Map params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
         params.put("solarsystems",solarSystemsList);
         params.put("planets", planetListBySolarSystem);
         params.put("allplanet",allPlanet);
+        params.put("newcustomersaved", newCustomerSaved);
         return new ModelAndView(params, "index");
     }
 }

@@ -21,7 +21,6 @@ public class QueryController {
 
         List<Accomodation> results = em.createNamedQuery("getAccByPlanetId", Accomodation.class)
                 .setParameter("planetId", id).getResultList();
-        System.out.println("SIZE IN QueryController: " + results.size());
 
         return results;
     }
@@ -70,5 +69,27 @@ public class QueryController {
     public static List getAllSolarSystem(EntityManager em) {
         List<SolarSystem> results =  em.createNamedQuery("SolarSystem.getAllSolarSystem", SolarSystem.class).getResultList();
         return results;
+    }
+
+    public static Customer getCustomerByEmail(String email, EntityManager em) {
+        Customer customer = null;
+        try{
+            customer = em.createNamedQuery("Customer.getCustomerByEmail", Customer.class)
+                    .setParameter("email", email).getSingleResult();
+        } catch (Exception e){
+            System.out.println("No record found: " + e.getMessage());
+        }
+        return customer;
+    }
+
+    public static Customer getCustomerById(Long customerId, EntityManager em) {
+        Customer customer = null;
+        try{
+            customer = em.createNamedQuery("Customer.getCustomerById", Customer.class)
+                    .setParameter("id", customerId).getSingleResult();
+        } catch (Exception e){
+            System.out.println("No record found: " + e.getMessage());
+        }
+        return customer;
     }
 }
