@@ -21,7 +21,7 @@ public class PlanetController {
         this.planetDataHandler = planetDataHandler;
     }
 
-    public  ModelAndView renderPlanets(Request req, Response res, EntityManager em, boolean newCustomerSaved) {
+    public  ModelAndView renderPlanets(Request req, Response res, boolean newCustomerSaved) {
         Long customerId = req.session().attribute("customer_id");
         String customerName = req.session().attribute("customer_name");
 
@@ -31,9 +31,9 @@ public class PlanetController {
             solarSystemId = Integer.parseInt(req.params(":solarSystemId"));
         }
 
-        List<SolarSystem> solarSystemsList = planetDataHandler.getAllSolarSystem(em);
-        List<Planet> planetListBySolarSystem = planetDataHandler.getPlanetsBySolarSystemId(solarSystemId, em);
-        List<Planet> allPlanet = planetDataHandler.getAllPlanet(em);
+        List<SolarSystem> solarSystemsList = planetDataHandler.getAllSolarSystem();
+        List<Planet> planetListBySolarSystem = planetDataHandler.getPlanetsBySolarSystemId(solarSystemId);
+        List<Planet> allPlanet = planetDataHandler.getAllPlanet();
 
         Map params = new HashMap<>();
         params.put("loggedIn", customerId != null);

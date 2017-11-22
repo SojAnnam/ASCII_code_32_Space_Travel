@@ -22,11 +22,11 @@ public class PlanetRegistrationController {
         this.planetDataHandler = planetDataHandler;
     }
 
-    public ModelAndView renderPlanetRegistration(Request req, Response res, EntityManager em) {
+    public ModelAndView renderPlanetRegistration(Request req, Response res) {
 
         Integer userId = req.session().attribute("user_id");
 
-        List<SolarSystem> solarSystems = planetDataHandler.getAllSolarSystem(em);
+        List<SolarSystem> solarSystems = planetDataHandler.getAllSolarSystem();
 
         String name = req.queryParams("name");
         String description = req.queryParams("desc");

@@ -1,5 +1,6 @@
 package com.codecool.spacetravel.controller;
 
+import com.codecool.spacetravel.datahandler.AccDataHandler;
 import com.codecool.spacetravel.datahandler.PlanetDataHandler;
 import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Planet;
@@ -16,9 +17,11 @@ public class AccController {
 
 
     private PlanetDataHandler planetDataHandler;
+    private AccDataHandler accDataHandler;
 
-    public AccController(PlanetDataHandler planetDataHandler) {
+    public AccController(PlanetDataHandler planetDataHandler, AccDataHandler accDataHandler) {
         this.planetDataHandler = planetDataHandler;
+        this.accDataHandler = accDataHandler;
     }
 
     public ModelAndView renderAcc(Request req, Response res, long planetId, EntityManager em) {
@@ -26,9 +29,9 @@ public class AccController {
         Long customerId = req.session().attribute("customer_id");
         String customerName = req.session().attribute("customer_name");
 
-        Planet planet = planetDataHandler.getPlanet(planetId,em);
+        Planet planet = planetDataHandler.getPlanet(planetId);
 
-        List<Accomodation> accList = QueryController.getAccByPlanetId(planetId, em);
+        List<Accomodation> accList = accDataHandler.getAccByPlanetId(planetId);
         //System.out.println("getPlanetsBySolarSystemId - controller");
 
         Map params = new HashMap<>();
