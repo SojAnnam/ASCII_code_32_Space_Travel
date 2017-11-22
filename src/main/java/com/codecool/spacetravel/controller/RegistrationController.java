@@ -1,8 +1,8 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.Model.Picture;
-import com.codecool.spacetravel.Model.Planet;
-import com.codecool.spacetravel.Model.SolarSystem;
+import com.codecool.spacetravel.model.Picture;
+import com.codecool.spacetravel.model.Planet;
+import com.codecool.spacetravel.model.SolarSystem;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

@@ -1,7 +1,7 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.Model.Customer;
-import com.codecool.spacetravel.Model.RoomReservation;
+import com.codecool.spacetravel.model.Customer;
+import com.codecool.spacetravel.model.RoomReservation;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

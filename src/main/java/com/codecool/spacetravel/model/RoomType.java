@@ -1,4 +1,4 @@
-package com.codecool.spacetravel.Model;
+package com.codecool.spacetravel.model;
 
 
 import javax.persistence.*;

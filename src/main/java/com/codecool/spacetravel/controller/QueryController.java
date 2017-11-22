@@ -1,10 +1,10 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.Model.Accomodation;
-import com.codecool.spacetravel.Model.Planet;
-import com.codecool.spacetravel.Model.SolarSystem;
-import com.codecool.spacetravel.Model.Customer;
-import com.codecool.spacetravel.Model.Room;
+import com.codecool.spacetravel.model.Accomodation;
+import com.codecool.spacetravel.model.Planet;
+import com.codecool.spacetravel.model.SolarSystem;
+import com.codecool.spacetravel.model.Customer;
+import com.codecool.spacetravel.model.Room;
 import javax.persistence.*;
 import java.util.*;
 

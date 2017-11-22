@@ -1,6 +1,6 @@
 package com.codecool.spacetravel;
 
-import com.codecool.spacetravel.Model.*;
+import com.codecool.spacetravel.model.*;
 import com.codecool.spacetravel.controller.*;
 import spark.Request;
 import spark.Response;
@@ -16,7 +16,7 @@ import java.util.List;
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
-public class Main {
+public class SpaceTravelAgency {
 
 
     public static void populateDb(EntityManager em) {

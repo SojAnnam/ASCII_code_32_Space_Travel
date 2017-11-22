@@ -1,6 +1,6 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.Model.*;
+import com.codecool.spacetravel.model.*;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
