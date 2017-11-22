@@ -102,10 +102,12 @@ body{
 {
     float: left;
 }
+
 .item.list-group-item:after
 {
     clear: both;
 }
+
 .list-group-item-text
 {
     margin: 0 0 11px;
@@ -116,33 +118,24 @@ body{
     background-color: white;
 }
 
-.four-num {
-    width: 50px;
-    text-align: center;
-    padding: 5px;
-
-}
-
-.two-num {
-    width: 50px;
-    text-align: center;
-    padding: 5px 0;
-    margin: 5px;
-
-}
 .minimal {
     width: 0px;
 }
+
 .accommodation-page h2 {
     font-size: 27px;
 }
+
 .accommodations img {
     width:100%;
 }
+
 .date-selection input[type="text"] {
     height: 31px;
     border-radius: 2px;
     border: 1px solid #777;
+    width: 40%;
+    text-align: center;
 }
 .date-selection input[type="submit"] {
     margin: 5px 0 0 0;
@@ -195,4 +188,15 @@ input::-webkit-input-placeholder {
 
 .registration-button{
     margin-top: 5px;
+}
+
+#hidden-acc-id {
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+}
+
+.search-button{
+    margin-top: 3.2%;
 }
