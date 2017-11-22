@@ -25,7 +25,6 @@ public class AccDataHandler {
 
         List<Accomodation> results = em.createNamedQuery("getAccByPlanetId", Accomodation.class)
                 .setParameter("planetId", id).getResultList();
-        System.out.println("SIZE IN QueryController: " + results.size());
 
         return results;
     }
