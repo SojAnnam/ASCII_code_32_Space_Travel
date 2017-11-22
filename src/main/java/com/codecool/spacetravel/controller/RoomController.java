@@ -7,6 +7,7 @@ import spark.Response;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -17,149 +18,33 @@ public class RoomController {
         Long customerId = req.session().attribute("customer_id");
         String customerName = req.session().attribute("customer_name");
 
-        long acommodationId = Long.parseLong(req.params(":id"));
-        List<Room> roomList = QueryController.getRoomsByAcommodationId(acommodationId, em);
-
-        List<Accomodation> accList = QueryController.getAccomodationById(acommodationId, em);
-        Accomodation selectedAccomodation = accList.get(0);
-
         List<String> errorMessages = new ArrayList();
 
+        long accommodationId;
+        if (req.queryParams().size() > 1){
+            accommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
+        } else {
+            accommodationId = Long.parseLong(req.params(":id"));
+        }
+
+        List<Room> roomList = QueryController.getRoomsByAcommodationId(accommodationId, em);
         List<String> dateElements = new ArrayList<>();
-        for (int counter = 0; counter < 6; counter++){
+
+        if (req.queryParams().size() > 1){
+            String startDateStringFromUser = req.queryParams("start-date");
+            String endDateStringFromUser = req.queryParams("end-date");
+            System.out.println(startDateStringFromUser);
+            System.out.println(endDateStringFromUser);
+            errorMessages = validateDates(startDateStringFromUser, endDateStringFromUser, roomList, em);
+            dateElements.add(startDateStringFromUser);
+            dateElements.add(endDateStringFromUser);
+        } else {
+            dateElements.add("");
             dateElements.add("");
         }
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("loggedIn", customerId != null);
-        params.put("customername", customerName);
-        params.put("roomlist", roomList);
-        params.put("accomodation", selectedAccomodation);
-        params.put("errors", errorMessages);
-        params.put("dateelements", dateElements);
-        params.put("reservable", false);
-        return new ModelAndView(params, "roomreservation");
-    }
-
-    public static ModelAndView renderRoomsWithDateCheck(Request req, Response res, EntityManager em) {
-
-        Long customerId = req.session().attribute("customer_id");
-        String customerName = req.session().attribute("customer_name");
-
-        List<String> errorMessages = new ArrayList();
-        long acommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
-        String startDateStringFromUser = req.queryParams("start-date-year") + "/" +
-                req.queryParams("start-date-month") + "/" +
-                req.queryParams("start-date-day");
-        String endDateStringFromUser = req.queryParams("end-date-year") + "/" +
-                req.queryParams("end-date-month") + "/" +
-                req.queryParams("end-date-day");
-        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
-        List<Room> roomList = QueryController.getRoomsByAcommodationId(acommodationId, em);
-
-        try {
-            Date startDateFromUser = dateformat.parse(startDateStringFromUser);
-            Date endDateFromUser = dateformat.parse(endDateStringFromUser);
-
-            Date easterEggDate = dateformat.parse("2050/01/01");
-
-            boolean datesAreValid = true;
-
-            if (startDateFromUser.before(easterEggDate)){
-                errorMessages.add("Sorry, you can book rooms from 2050/01/01. Space technology is advanced now, but not enough. You will be old and ugly, but it is worth to wait.");
-                datesAreValid = false;
-            }
-            if (startDateFromUser.after(endDateFromUser)){
-                errorMessages.add("Start date must be earlier than end date.");
-                datesAreValid = false;
-            }
-            if (startDateFromUser.before(new Date())) {
-                errorMessages.add("Start date must be later than current date.");
-                datesAreValid = false;
-            }
-            if (Integer.parseInt(req.queryParams("start-date-month")) < 1 || Integer.parseInt(req.queryParams("start-date-month")) > 12 ||
-                    Integer.parseInt(req.queryParams("end-date-month")) < 1 || Integer.parseInt(req.queryParams("end-date-month")) > 12){
-                errorMessages.add("Month must be greater than 0 and lesser than 13.");
-                datesAreValid = false;
-            }
-
-            int maxDay = 0;
-            String[] longMonths = {"01", "03", "05", "07", "08", "10", "12"};
-            if (Arrays.asList(longMonths).contains(req.queryParams("start-date-day"))) {
-                maxDay = 31;
-            } else if (req.queryParams("start-date-day").equals("02")){
-                maxDay = 28;
-            } else {
-                maxDay = 30;
-            }
-
-            if (Integer.parseInt(req.queryParams("start-date-day")) < 1 ||
-                    Integer.parseInt(req.queryParams("start-date-day")) > maxDay){
-                errorMessages.add("Day in start date should be between 1 and " + maxDay + ".");
-                datesAreValid = false;
-            }
-
-            if (Arrays.asList(longMonths).contains(req.queryParams("end-date-day"))) {
-                maxDay = 31;
-            } else if (req.queryParams("end-date-day").equals("02")){
-                maxDay = 28;
-            } else {
-                maxDay = 30;
-            }
-
-            if (Integer.parseInt(req.queryParams("end-date-day")) < 1 ||
-                    Integer.parseInt(req.queryParams("end-date-day")) > maxDay){
-                errorMessages.add("Day in end date should be between 1 and " + maxDay + ".");
-                datesAreValid = false;
-            }
-
-            if (datesAreValid){
-                List<Room> temp = new ArrayList<>();
-                for (Room room : roomList){
-                    temp.add(room);
-                }
-
-                for (Room room : temp){
-                    List<RoomReservation> reservations = room.getRoomReservations();
-                    for (RoomReservation reservation : reservations){
-                        try{
-                            Date startDateOfRes = dateformat.parse(reservation.getStartDate());
-                            Date endDateOfRes = dateformat.parse(reservation.getEndDate());
-
-                            if ((startDateFromUser.before(endDateOfRes) && startDateFromUser.after(startDateOfRes)) ||
-                                    (endDateFromUser.before(endDateOfRes) && endDateFromUser.after(startDateOfRes)) ||
-                                    (startDateFromUser.before(startDateOfRes) && endDateFromUser.after(endDateOfRes)) ||
-                                    startDateFromUser.equals(startDateOfRes) ||
-                                    startDateFromUser.equals(endDateOfRes) ||
-                                    endDateFromUser.equals(startDateOfRes) ||
-                                    endDateFromUser.equals(endDateOfRes)){
-                                if(roomList.contains(room)){
-                                    roomList.remove(room);
-                                }
-                            }
-
-                        } catch (Exception e){
-                            System.out.println("INVALID DATE STRING IN ROOMRESERVATION TABLE");
-                        }
-
-                    }
-
-                }
-            }
-        } catch (Exception e){
-            errorMessages.add("Invalid input datas.");
-        }
-
-        List<Accomodation> accList = QueryController.getAccomodationById(acommodationId, em);
-        Accomodation selectedAccomodation = accList.get(0);
-
-        List<String> dateElements = new ArrayList<>();
-        dateElements.add(req.queryParams("start-date-year"));
-        dateElements.add(req.queryParams("start-date-month"));
-        dateElements.add(req.queryParams("start-date-day"));
-        dateElements.add(req.queryParams("end-date-year"));
-        dateElements.add(req.queryParams("end-date-month"));
-        dateElements.add(req.queryParams("end-date-day"));
+        List<Accomodation> accomodationList = QueryController.getAccomodationById(accommodationId, em);
+        Accomodation selectedAccomodation = accomodationList.get(0);
 
         Map<String, Object> params = new HashMap<>();
         params.put("loggedIn", customerId != null);
@@ -176,6 +61,151 @@ public class RoomController {
         return new ModelAndView(params, "roomreservation");
     }
 
+    /*public static ModelAndView renderRoomsWithDateCheck(Request req, Response res, EntityManager em) {
+
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
+
+        List<String> errorMessages = new ArrayList();
+        long acommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
+        String startDateStringFromUser = req.queryParams("start-date");
+        String endDateStringFromUser = req.queryParams("end-date");
+        System.out.println(startDateStringFromUser);
+        System.out.println(endDateStringFromUser);
+
+
+        List<Room> roomList = QueryController.getRoomsByAcommodationId(acommodationId, em);
+
+        errorMessages = validateDates(startDateStringFromUser, endDateStringFromUser, roomList, em);
+
+        List<Accomodation> accList = QueryController.getAccomodationById(acommodationId, em);
+        Accomodation selectedAccomodation = accList.get(0);
+
+        List<String> dateElements = new ArrayList<>();
+        dateElements.add(req.queryParams("start-date"));
+        dateElements.add(req.queryParams("end-date"));
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
+        params.put("roomlist", roomList);
+        params.put("accomodation", selectedAccomodation);
+        params.put("errors", errorMessages);
+        params.put("dateelements", dateElements);
+        if (errorMessages.size() == 0 && customerId != null){
+            params.put("reservable", true);
+        } else {
+            params.put("reservable", false);
+        }
+        return new ModelAndView(params, "roomreservation");
+    }*/
+
+    private static List<String> validateDates(String startDateStringFromUser,
+                                              String endDateStringFromUser,
+                                              List<Room> roomList,
+                                              EntityManager em) {
+
+        List<String> errorMessages = new ArrayList<>();
+        SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
+
+        try {
+            Date startDateFromUser = dateformat.parse(startDateStringFromUser);
+            Date endDateFromUser = dateformat.parse(endDateStringFromUser);
+
+            String[] startDateElements = startDateStringFromUser.split("/");
+            String startDateYear = startDateElements[0];
+            String startDateMonth = startDateElements[1];
+            String startDateDay = startDateElements[2];
+
+            String[] endDateElements = endDateStringFromUser.split("/");
+            String endDateYear = endDateElements[0];
+            String endDateMonth = endDateElements[1];
+            String endDateDay = endDateElements[2];
+
+            boolean datesAreValid = true;
+
+            if (startDateFromUser.after(endDateFromUser) || startDateFromUser.equals(endDateFromUser)){
+                errorMessages.add("Start date must be earlier than end date.");
+                datesAreValid = false;
+            }
+            if (startDateFromUser.before(new Date())) {
+                errorMessages.add("Start date must be later than current date.");
+                datesAreValid = false;
+            }
+            if (Integer.parseInt(startDateMonth) < 1 || Integer.parseInt(startDateMonth) > 12 ||
+                    Integer.parseInt(endDateMonth) < 1 || Integer.parseInt(endDateMonth) > 12){
+                errorMessages.add("Month must be greater than 0 and lesser than 13.");
+                datesAreValid = false;
+            }
+
+            int maxDay = 0;
+            String[] longMonths = {"01", "03", "05", "07", "08", "10", "12"};
+            if (Arrays.asList(longMonths).contains(startDateDay)) {
+                maxDay = 31;
+            } else if (startDateDay.equals("02")){
+                maxDay = 28;
+            } else {
+                maxDay = 30;
+            }
+
+            if (Integer.parseInt(startDateDay) < 1 ||
+                    Integer.parseInt(startDateDay) > maxDay){
+                errorMessages.add("Day in start date should be between 1 and " + maxDay + ".");
+                datesAreValid = false;
+            }
+
+            if (Arrays.asList(longMonths).contains(endDateDay)) {
+                maxDay = 31;
+            } else if (endDateDay.equals("02")){
+                maxDay = 28;
+            } else {
+                maxDay = 30;
+            }
+
+            if (Integer.parseInt(endDateDay) < 1 ||
+                    Integer.parseInt(endDateDay) > maxDay){
+                errorMessages.add("Day in end date should be between 1 and " + maxDay + ".");
+                datesAreValid = false;
+            }
+
+            if (datesAreValid){
+                List<Room> temp = new ArrayList<>();
+                for (Room room : roomList){
+                    temp.add(room);
+                }
+
+                for (Room room : temp){
+                    List<RoomReservation> reservations = room.getRoomReservations();
+                    for (RoomReservation reservation : reservations){
+                        try{
+                            Date startDateOfRes = reservation.getStartDate();
+                            Date endDateOfRes = reservation.getEndDate();
+
+                            if ((startDateFromUser.before(endDateOfRes) && startDateFromUser.after(startDateOfRes)) ||
+                                    (endDateFromUser.before(endDateOfRes) && endDateFromUser.after(startDateOfRes)) ||
+                                    (startDateFromUser.before(startDateOfRes) && endDateFromUser.after(endDateOfRes)) ||
+                                    startDateFromUser.equals(startDateOfRes) ||
+                                    startDateFromUser.equals(endDateOfRes) ||
+                                    endDateFromUser.equals(startDateOfRes) ||
+                                    endDateFromUser.equals(endDateOfRes)){
+                                if(roomList.contains(room)){
+                                    roomList.remove(room);
+                                }
+                            }
+
+                        } catch (Exception e){
+                            System.out.println("INVALID DATE STRING IN ROOMRESERVATION TABLE");
+                        }
+                    }
+                }
+            }
+        } catch (Exception e){
+            errorMessages.add("Invalid date format.");
+        }
+
+        return errorMessages;
+    }
+
     public static ModelAndView renderSaving(Request req, Response res, EntityManager em) {
 
         Long customerId = req.session().attribute("customer_id");
@@ -185,16 +215,24 @@ public class RoomController {
         List<Room> rooms = QueryController.getRoomById(roomId, em);
         Room room = rooms.get(0);
 
-        String startDateStringFromUser = req.queryParams("start-date-year") + "/" +
-                req.queryParams("start-date-month") + "/" +
-                req.queryParams("start-date-day");
-        String endDateStringFromUser = req.queryParams("end-date-year") + "/" +
-                req.queryParams("end-date-month") + "/" +
-                req.queryParams("end-date-day");
+        String startDateStringFromUser = req.queryParams("start-date");
+        String endDateStringFromUser = req.queryParams("end-date");
 
         Customer customer = QueryController.getCustomerById(customerId, em);
 
-        RoomReservation roomReservation = new RoomReservation(customer, startDateStringFromUser, endDateStringFromUser, room);
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date startDate = null;
+        Date endDate = null;
+
+        try {
+            startDate = dateFormat.parse(startDateStringFromUser);
+            endDate = dateFormat.parse(endDateStringFromUser);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        RoomReservation roomReservation = new RoomReservation(customer, startDate, endDate, room);
 
         List<RoomReservation> reservationsOfCustomer = customer.getRoomReservation();
         reservationsOfCustomer.add(roomReservation);
