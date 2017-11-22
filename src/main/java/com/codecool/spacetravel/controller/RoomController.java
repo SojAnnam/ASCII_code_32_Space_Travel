@@ -7,10 +7,6 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class RoomController {
@@ -30,14 +26,23 @@ public class RoomController {
 
         List<String> errorMessages = new ArrayList();
 
-        long accommodationId;
+        long accommodationId = 0;
         if (req.queryParams().size() > 1){
             accommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
         } else {
-            accommodationId = Long.parseLong(req.params(":id"));
+            try{
+                accommodationId = Long.parseLong(req.params(":id"));
+            } catch (Exception e){
+                System.out.println("Invalid accommodation id: " + e.getMessage());
+            }
         }
 
-        List<Room> roomList = roomDataHandler.getRoomsByAcommodationId(accommodationId);
+        boolean reservable = false;
+        List<Room> roomList = new ArrayList<>();
+        if (accommodationId != 0){
+            roomList = roomDataHandler.getRoomsByAcommodationId(accommodationId);
+        }
+
         List<String> dateElements = new ArrayList<>();
 
         if (req.queryParams().size() > 1){
@@ -47,7 +52,10 @@ public class RoomController {
             System.out.println(endDateStringFromUser);
             errorMessages = RoomReservationDataValidator.validateDates(startDateStringFromUser, endDateStringFromUser);
             if (errorMessages.size() == 0) {
-                roomDataHandler.filterOutReservedRooms(startDateStringFromUser, endDateStringFromUser, roomList);
+                roomDataHandler.filterReservedRooms(startDateStringFromUser, endDateStringFromUser, roomList);
+                if (customerId != null){
+                    reservable = true;
+                }
             }
             dateElements.add(startDateStringFromUser);
             dateElements.add(endDateStringFromUser);
@@ -56,8 +64,7 @@ public class RoomController {
             dateElements.add("");
         }
 
-        List<Accomodation> accomodationList = roomDataHandler.getAccomodationById(accommodationId);
-        Accomodation selectedAccomodation = accomodationList.get(0);
+        Accomodation selectedAccomodation = roomDataHandler.getAccomodationById(accommodationId);
 
         Map<String, Object> params = new HashMap<>();
         params.put("loggedIn", customerId != null);
@@ -66,11 +73,7 @@ public class RoomController {
         params.put("accomodation", selectedAccomodation);
         params.put("errors", errorMessages);
         params.put("dateelements", dateElements);
-        if (errorMessages.size() == 0 && customerId != null){
-            params.put("reservable", true);
-        } else {
-            params.put("reservable", false);
-        }
+        params.put("reservable", reservable);
         return new ModelAndView(params, "roomreservation");
     }
 
@@ -86,7 +89,7 @@ public class RoomController {
         boolean savingSucceeded = false;
         if (errorMessages.size() == 0){
             Map<String, String> roomReservationDatas = new HashMap<>();
-            roomReservationDatas.put("customerId", req.session().attribute("customer_id"));
+            roomReservationDatas.put("customerId", customerId.toString());
             roomReservationDatas.put("roomId", req.queryParams("selected-room-id"));
             roomReservationDatas.put("startDateStringFromUser", startDateStringFromUser);
             roomReservationDatas.put("endDateStringFromUser", endDateStringFromUser);

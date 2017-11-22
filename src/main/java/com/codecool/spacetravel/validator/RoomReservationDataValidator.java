@@ -41,7 +41,7 @@ public class RoomReservationDataValidator {
 
             int maxDay = 0;
             String[] longMonths = {"01", "03", "05", "07", "08", "10", "12"};
-            if (Arrays.asList(longMonths).contains(startDateDay)) {
+            if (Arrays.asList(longMonths).contains(startDateMonth)) {
                 maxDay = 31;
             } else if (startDateDay.equals("02")){
                 maxDay = 28;
@@ -54,7 +54,7 @@ public class RoomReservationDataValidator {
                 errorMessages.add("Day in start date should be between 1 and " + maxDay + ".");
             }
 
-            if (Arrays.asList(longMonths).contains(endDateDay)) {
+            if (Arrays.asList(longMonths).contains(endDateMonth)) {
                 maxDay = 31;
             } else if (endDateDay.equals("02")){
                 maxDay = 28;

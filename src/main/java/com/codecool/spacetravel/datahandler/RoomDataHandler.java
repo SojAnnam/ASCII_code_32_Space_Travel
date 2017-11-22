@@ -28,10 +28,16 @@ public class RoomDataHandler {
         return results;
     }
 
-    public List<Accomodation> getAccomodationById(long acommodationId) {
-        List<Accomodation> results = em.createNamedQuery("Accomodation.getAccomodationById", Accomodation.class)
-                .setParameter("accomodationId", acommodationId).getResultList();
-        return results;
+    public Accomodation getAccomodationById(long acommodationId) {
+        Accomodation accomodation = null;
+        try {
+            accomodation = em.createNamedQuery("Accomodation.getAccomodationById", Accomodation.class)
+                    .setParameter("accomodationId", acommodationId).getSingleResult();
+
+        } catch (Exception e){
+            System.out.println("No accomodation.");
+        }
+        return accomodation;
     }
 
     public Room getRoomById(long roomId) {
@@ -56,7 +62,7 @@ public class RoomDataHandler {
         return customer;
     }
 
-    public void filterOutReservedRooms(String startDateStringFromUser, String endDateStringFromUser, List<Room> roomList) {
+    public void filterReservedRooms(String startDateStringFromUser, String endDateStringFromUser, List<Room> roomList) {
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
         Date startDateFromUser = null;
         Date endDateFromUser = null;
@@ -103,8 +109,8 @@ public class RoomDataHandler {
         boolean savingSucceeded = false;
         String startDateStringFromUser = roomReservationDatas.get("startDateStringFromUser");
         String endDateStringFromUser = roomReservationDatas.get("endDateStringFromUser");
-        long customerId = Long.parseLong(roomReservationDatas.get("customerId"));
         long roomId = Long.parseLong(roomReservationDatas.get("roomId"));
+        long customerId = Long.parseLong(roomReservationDatas.get("customerId"));
 
         Room room = getRoomById(roomId);
 
@@ -112,42 +118,77 @@ public class RoomDataHandler {
 
             Customer customer = getCustomerById(customerId);
 
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-            Date startDate = null;
-            Date endDate = null;
+            if (customer != null){
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+                Date startDate = null;
+                Date endDate = null;
 
-            try {
-                startDate = dateFormat.parse(startDateStringFromUser);
-                endDate = dateFormat.parse(endDateStringFromUser);
-            } catch (ParseException e) {
-                e.printStackTrace();
+                try {
+                    startDate = dateFormat.parse(startDateStringFromUser);
+                    endDate = dateFormat.parse(endDateStringFromUser);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+                if (roomIsFree(room, startDate, endDate)){
+                    RoomReservation roomReservation = new RoomReservation(customer, startDate, endDate, room);
+
+                    List<RoomReservation> reservationsOfCustomer = customer.getRoomReservation();
+                    reservationsOfCustomer.add(roomReservation);
+                    customer.setRoomReservation(reservationsOfCustomer);
+
+                    List<RoomReservation> reservationsInRoom = room.getRoomReservations();
+                    reservationsInRoom.add(roomReservation);
+                    room.setRoomReservations(reservationsInRoom);
+
+                    try {
+                        EntityTransaction transaction = em.getTransaction();
+                        transaction.begin();
+                        em.persist(roomReservation);
+                        transaction.commit();
+                        savingSucceeded = true;
+                    } catch (Exception e){
+                        System.out.println("SAVING FAILED: " + e.getMessage());
+                        errorMessages.add("Database problem. Please, try later.");
+                    }
+
+                } else {
+                    errorMessages.add("Room is already reserved in the choosed time interval.");
+                }
+            } else {
+                errorMessages.add("Database problem. Please, try it later.");
+                System.out.println("Customer not found in database.");
             }
 
-            RoomReservation roomReservation = new RoomReservation(customer, startDate, endDate, room);
 
-            List<RoomReservation> reservationsOfCustomer = customer.getRoomReservation();
-            reservationsOfCustomer.add(roomReservation);
-            customer.setRoomReservation(reservationsOfCustomer);
-
-            List<RoomReservation> reservationsInRoom = room.getRoomReservations();
-            reservationsInRoom.add(roomReservation);
-            room.setRoomReservations(reservationsInRoom);
-
-            try {
-                EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.persist(roomReservation);
-                transaction.commit();
-                savingSucceeded = true;
-            } catch (Exception e){
-                System.out.println("SAVING FAILED: " + e.getMessage());
-                errorMessages.add("Database problem. Please, try later.");
-            }
         } else {
             errorMessages.add("Room not found in database.");
         }
 
         return savingSucceeded;
+    }
+
+    private boolean roomIsFree(Room room, Date startDate, Date endDate) {
+        boolean roomIsFree = true;
+
+        List<RoomReservation> reservationsInThisRoom = room.getRoomReservations();
+        for (RoomReservation roomReservation : reservationsInThisRoom){
+            Date startDateOfReservation = roomReservation.getStartDate();
+            Date endDateOfReservation = roomReservation.getEndDate();
+
+            if ((startDate.before(endDateOfReservation) && startDate.after(startDateOfReservation)) ||
+                    (endDate.before(endDateOfReservation) && endDate.after(startDateOfReservation)) ||
+                    (startDate.before(startDateOfReservation) && endDate.after(endDateOfReservation)) ||
+                    startDate.equals(startDateOfReservation) ||
+                    startDate.equals(endDateOfReservation) ||
+                    endDate.equals(startDateOfReservation) ||
+                    endDate.equals(endDateOfReservation)){
+                roomIsFree = false;
+            }
+        }
+
+        return roomIsFree;
+
     }
 
 }

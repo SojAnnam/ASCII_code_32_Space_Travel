@@ -34,7 +34,7 @@ public class CustomerDataHandler {
         List<RoomReservation> reservationsOfCustomer = new ArrayList<>();
         customer.setRoomReservation(reservationsOfCustomer);
 
-        try{
+        try {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
             em.persist(customer);
