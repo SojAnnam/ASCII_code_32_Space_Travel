@@ -5,9 +5,10 @@ import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.model.SolarSystem;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 
-public class PlanetDataHandler {
+public class PlanetDataHandler implements PersistHandler {
 
     EntityManager em;
 
@@ -43,5 +44,13 @@ public class PlanetDataHandler {
                 .setParameter("planetId", planetId).getSingleResult();
 
         return planet;
+    }
+
+    @Override
+    public void persistData(Object object) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(object);
+        transaction.commit();
     }
 }
