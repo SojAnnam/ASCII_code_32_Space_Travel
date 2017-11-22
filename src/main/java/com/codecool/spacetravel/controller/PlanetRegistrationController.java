@@ -1,5 +1,6 @@
 package com.codecool.spacetravel.controller;
 
+import com.codecool.spacetravel.datahandler.PlanetDataHandler;
 import com.codecool.spacetravel.model.Picture;
 import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.model.SolarSystem;
@@ -13,13 +14,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RegistrationController {
+public class PlanetRegistrationController {
 
-    public static ModelAndView renderPlanetRegistration(Request req, Response res, EntityManager em) {
+    PlanetDataHandler planetDataHandler;
+
+    public PlanetRegistrationController(PlanetDataHandler planetDataHandler) {
+        this.planetDataHandler = planetDataHandler;
+    }
+
+    public ModelAndView renderPlanetRegistration(Request req, Response res, EntityManager em) {
 
         Integer userId = req.session().attribute("user_id");
 
-        List<SolarSystem> solarSystems = QueryController.getAllSolarSystem(em);
+        List<SolarSystem> solarSystems = planetDataHandler.getAllSolarSystem(em);
 
         String name = req.queryParams("name");
         String description = req.queryParams("desc");
@@ -30,7 +37,8 @@ public class RegistrationController {
                 Picture pictureDefault = new Picture("default-planet.jpg","default-text", "default-title");
                 SolarSystem currentSolarSystem = null;
                 long galaxyIdLong = Long.parseLong(req.queryParams("galaxy"));
-                for (SolarSystem solarSystem : SolarSystem.solarSystemList) {
+
+                for (SolarSystem solarSystem : solarSystems) {
                     if (solarSystem.getId() == galaxyIdLong) {
                         currentSolarSystem = solarSystem;
                     }
