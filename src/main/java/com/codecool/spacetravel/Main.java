@@ -7,7 +7,10 @@ import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
 
 import javax.persistence.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static spark.Spark.*;
@@ -174,9 +177,19 @@ public class Main {
 
         String startDateString = "2017/12/10";
         String endDateString = "2017/12/20";
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        Date startDate = null;
+        Date endDate = null;
 
-        RoomReservation firstReservation = new RoomReservation(testPerson, startDateString, endDateString, marsBase2Room1);
-        RoomReservation secondReservation = new RoomReservation(testPerson, startDateString, endDateString, marsBase2Room4);
+        try {
+            startDate = dateFormat.parse(startDateString);
+            endDate = dateFormat.parse(endDateString);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        RoomReservation firstReservation = new RoomReservation(testPerson, startDate, endDate, marsBase2Room1);
+        RoomReservation secondReservation = new RoomReservation(testPerson, startDate, endDate, marsBase2Room4);
         List<RoomReservation> reservationsOfTestPerson = new ArrayList<>();
         reservationsOfTestPerson.add(firstReservation);
         reservationsOfTestPerson.add(secondReservation);
@@ -315,7 +328,7 @@ public class Main {
         });
 
         post("/reservation", (Request req, Response res) ->{
-            return new ThymeleafTemplateEngine().render(RoomController.renderRoomsWithDateCheck(req, res, em));
+            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, em));
         });
 
         post("/save", (Request req, Response res) -> {
