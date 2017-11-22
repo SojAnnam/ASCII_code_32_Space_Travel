@@ -1,7 +1,10 @@
 package com.codecool.spacetravel;
 
+import com.codecool.spacetravel.datahandler.CustomerDataHandler;
 import com.codecool.spacetravel.model.*;
 import com.codecool.spacetravel.controller.*;
+
+import com.codecool.spacetravel.validator.CustomerDataValidator;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -17,6 +20,121 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class SpaceTravelAgency {
+
+    CustomerDataValidator customerDataValidator;
+    CustomerDataHandler customerDataHandler;
+    CustomerAccountController customerAccountController;
+    EntityManager entityManager;
+
+    public SpaceTravelAgency(){
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
+        this.entityManager = emf.createEntityManager();
+        this.customerDataHandler = new CustomerDataHandler(entityManager);
+        this.customerDataValidator = new CustomerDataValidator(customerDataHandler);
+        this.customerAccountController = new CustomerAccountController(customerDataValidator, customerDataHandler);
+    }
+
+    public static void main(String[] args) {
+
+        /*
+        DIContainer di = new ..
+        MainClass cl = di.doInject();
+        cl.start()
+
+        DI CONTAINER:
+
+        doInject function:
+        EntityManager em = new...
+        PlanetDH = new PlanetDH(em)
+        PlanetController pc = new PlanetController(planetDH)
+
+
+
+         */
+
+        SpaceTravelAgency spaceTravelAgency = new SpaceTravelAgency();
+
+
+        // default server settings
+        exception(Exception.class, (e, req, res) -> e.printStackTrace());
+        staticFileLocation("/public");
+        port(8888);
+
+        // Add this line to your project to enable the debug screen
+        enableDebugScreen();
+
+        System.out.println("Starting...");
+
+        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
+        EntityManager em = emf.createEntityManager();*/
+
+        populateDb(spaceTravelAgency.entityManager);
+
+        get("/", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, spaceTravelAgency.entityManager, false));
+        });
+
+        get("/customer-registration", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderCustomerRegistration(req, res));
+        });
+
+        post("/customer-registration", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderCustomerRegistration(req, res));
+        });
+
+        get("/customer-registration-succeeded", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, spaceTravelAgency.entityManager, true));
+        });
+
+        get("/login", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderLogin(req, res));
+        });
+
+        post("/login", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderLogin(req, res));
+        });
+
+        get("/logout", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderLogout(req, res));
+        });
+
+        get("/registration-planet", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, spaceTravelAgency.entityManager));
+        });
+        post("/registration-planet", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, spaceTravelAgency.entityManager));
+        });
+
+
+        get("/planet", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, spaceTravelAgency.entityManager, false));
+        });
+        get("/planet/:solarSystemId", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, spaceTravelAgency.entityManager, false));
+        });
+
+        get("/:planetId/accomodation", (Request req, Response res) -> {
+            int planetId = Integer.parseInt(req.params(":planetId"));
+
+            return new ThymeleafTemplateEngine().render(AccController.renderAcc(req, res,planetId, spaceTravelAgency.entityManager));
+        });
+
+        get("/reservation/:id", (Request req, Response res) -> {
+            /*int id = Integer.parseInt(req.params(":id"));
+            System.out.println("ID: " + id);*/
+            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, spaceTravelAgency.entityManager));
+        });
+
+        post("/reservation", (Request req, Response res) ->{
+            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, spaceTravelAgency.entityManager));
+        });
+
+        post("/save", (Request req, Response res) -> {
+            return new ThymeleafTemplateEngine().render(RoomController.renderSaving(req, res, spaceTravelAgency.entityManager));
+        });
+
+
+    }
 
 
     public static void populateDb(EntityManager em) {
@@ -255,86 +373,5 @@ public class SpaceTravelAgency {
         System.out.println("Galaxies, planets, accommodations, rooms, test user, reservations saved.");
         
     }
-    public static void main(String[] args) {
 
-        // default server settings
-        exception(Exception.class, (e, req, res) -> e.printStackTrace());
-        staticFileLocation("/public");
-        port(8888);
-
-        // Add this line to your project to enable the debug screen
-        enableDebugScreen();
-
-        System.out.println("Starting...");
-
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
-        EntityManager em = emf.createEntityManager();
-
-        populateDb(em);
-
-        get("/", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, false));
-        });
-
-        get("/customer-registration", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderCustomerRegistration(req, res, em));
-        });
-
-        post("/customer-registration", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderCustomerRegistration(req, res, em));
-        });
-
-        get("/customer-registration-succeeded", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, true));
-        });
-
-        get("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderLogin(req, res, em));
-        });
-
-        post("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderLogin(req, res, em));
-        });
-
-        get("/logout", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(CustomerAccountController.renderLogout(req, res, em));
-        });
-
-        get("/registration-planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetRegistrationController.renderPlanetRegistration(req, res, em));
-        });
-        post("/registration-planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetRegistrationController.renderPlanetRegistration(req, res, em));
-        });
-
-
-        get("/planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, false));
-        });
-        get("/planet/:solarSystemId", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, em, false));
-        });
-
-        get("/:planetId/accomodation", (Request req, Response res) -> {
-            int planetId = Integer.parseInt(req.params(":planetId"));
-
-            return new ThymeleafTemplateEngine().render(AccController.renderAcc(req, res,planetId, em));
-        });
-
-        get("/reservation/:id", (Request req, Response res) -> {
-            /*int id = Integer.parseInt(req.params(":id"));
-            System.out.println("ID: " + id);*/
-            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, em));
-        });
-
-        post("/reservation", (Request req, Response res) ->{
-            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, em));
-        });
-
-        post("/save", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(RoomController.renderSaving(req, res, em));
-        });
-
-
-    }
 }
