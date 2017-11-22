@@ -46,13 +46,16 @@ public class CustomerDataHandler {
         return savingSucceeded;
     }
 
-
+    public Customer getBla(String email){
+        Customer customer= em.createNamedQuery("Customer.getCustomerByEmail", Customer.class)
+                .setParameter("email", email).getSingleResult();
+        return customer;
+    }
 
     public Customer getCustomerByEmail(String email) {
         Customer customer = null;
-        try{
-            customer = em.createNamedQuery("Customer.getCustomerByEmail", Customer.class)
-                    .setParameter("email", email).getSingleResult();
+        try{ customer = getBla(email);
+
         } catch (Exception e){
             System.out.println("No record found: " + e.getMessage());
         }
