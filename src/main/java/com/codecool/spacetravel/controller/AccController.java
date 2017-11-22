@@ -1,5 +1,6 @@
 package com.codecool.spacetravel.controller;
 
+import com.codecool.spacetravel.AccDataHandler;
 import com.codecool.spacetravel.Model.Accomodation;
 import com.codecool.spacetravel.Model.Planet;
 import spark.ModelAndView;
@@ -12,11 +13,18 @@ import java.util.List;
 import java.util.Map;
 
 public class AccController {
-    public static ModelAndView renderAcc(Request req, Response res, long planetId, EntityManager em) {
 
-        Planet planet = QueryController.getPlanet(planetId,em);
+    private AccDataHandler accDataHandler;
 
-        List<Accomodation> accList = QueryController.getAccByPlanetId(planetId, em);
+    public AccController(AccDataHandler accDataHandler) {
+        this.accDataHandler = accDataHandler;
+    }
+
+    public ModelAndView renderAcc(Request req, Response res, long planetId) {
+
+        Planet planet = accDataHandler.getPlanet(planetId);
+
+        List<Accomodation> accList = accDataHandler.getAccByPlanetId(planetId);
         //System.out.println("getPlanetsBySolarSystemId - controller");
 
         Map params = new HashMap<>();
