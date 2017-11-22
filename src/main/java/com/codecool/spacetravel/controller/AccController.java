@@ -24,7 +24,7 @@ public class AccController {
         this.accDataHandler = accDataHandler;
     }
 
-    public ModelAndView renderAcc(Request req, Response res, long planetId, EntityManager em) {
+    public ModelAndView renderAcc(Request req, Response res, long planetId) {
 
         Long customerId = req.session().attribute("customer_id");
         String customerName = req.session().attribute("customer_name");

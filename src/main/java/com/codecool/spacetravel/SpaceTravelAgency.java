@@ -1,6 +1,8 @@
 package com.codecool.spacetravel;
 
+import com.codecool.spacetravel.datahandler.AccDataHandler;
 import com.codecool.spacetravel.datahandler.CustomerDataHandler;
+import com.codecool.spacetravel.datahandler.PlanetDataHandler;
 import com.codecool.spacetravel.model.*;
 import com.codecool.spacetravel.controller.*;
 
@@ -20,7 +22,11 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class SpaceTravelAgency {
-
+    PlanetDataHandler planetDataHandler;
+    AccDataHandler accDataHandler;
+    AccController accController;
+    PlanetController planetController;
+    PlanetRegistrationController planetRegistrationController;
     CustomerDataValidator customerDataValidator;
     CustomerDataHandler customerDataHandler;
     CustomerAccountController customerAccountController;
@@ -29,6 +35,11 @@ public class SpaceTravelAgency {
     public SpaceTravelAgency(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
         this.entityManager = emf.createEntityManager();
+        this.accDataHandler = new AccDataHandler(entityManager);
+        this.planetDataHandler = new PlanetDataHandler(entityManager);
+        this.planetRegistrationController = new PlanetRegistrationController(planetDataHandler);
+        this.planetController = new PlanetController(planetDataHandler);
+        this.accController = new AccController(planetDataHandler, accDataHandler);
         this.customerDataHandler = new CustomerDataHandler(entityManager);
         this.customerDataValidator = new CustomerDataValidator(customerDataHandler);
         this.customerAccountController = new CustomerAccountController(customerDataValidator, customerDataHandler);
@@ -71,7 +82,7 @@ public class SpaceTravelAgency {
         populateDb(spaceTravelAgency.entityManager);
 
         get("/", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, spaceTravelAgency.entityManager, false));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, false));
         });
 
         get("/customer-registration", (Request req, Response res) -> {
@@ -83,7 +94,7 @@ public class SpaceTravelAgency {
         });
 
         get("/customer-registration-succeeded", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, spaceTravelAgency.entityManager, true));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, true));
         });
 
         get("/login", (Request req, Response res) -> {
@@ -99,24 +110,24 @@ public class SpaceTravelAgency {
         });
 
         get("/registration-planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, spaceTravelAgency.entityManager));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetRegistrationController.renderPlanetRegistration(req, res));
         });
         post("/registration-planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, spaceTravelAgency.entityManager));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetRegistrationController.renderPlanetRegistration(req, res));
         });
 
 
         get("/planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, spaceTravelAgency.entityManager, false));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, false));
         });
         get("/planet/:solarSystemId", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(PlanetController.renderPlanets(req, res, spaceTravelAgency.entityManager, false));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, false));
         });
 
         get("/:planetId/accomodation", (Request req, Response res) -> {
             int planetId = Integer.parseInt(req.params(":planetId"));
 
-            return new ThymeleafTemplateEngine().render(AccController.renderAcc(req, res,planetId, spaceTravelAgency.entityManager));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.accController.renderAcc(req, res, planetId));
         });
 
         get("/reservation/:id", (Request req, Response res) -> {
