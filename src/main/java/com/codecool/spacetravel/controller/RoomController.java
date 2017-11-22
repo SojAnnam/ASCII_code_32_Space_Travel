@@ -60,46 +60,7 @@ public class RoomController {
         }
         return new ModelAndView(params, "roomreservation");
     }
-
-    /*public static ModelAndView renderRoomsWithDateCheck(Request req, Response res, EntityManager em) {
-
-        Long customerId = req.session().attribute("customer_id");
-        String customerName = req.session().attribute("customer_name");
-
-        List<String> errorMessages = new ArrayList();
-        long acommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
-        String startDateStringFromUser = req.queryParams("start-date");
-        String endDateStringFromUser = req.queryParams("end-date");
-        System.out.println(startDateStringFromUser);
-        System.out.println(endDateStringFromUser);
-
-
-        List<Room> roomList = QueryController.getRoomsByAcommodationId(acommodationId, em);
-
-        errorMessages = validateDates(startDateStringFromUser, endDateStringFromUser, roomList, em);
-
-        List<Accomodation> accList = QueryController.getAccomodationById(acommodationId, em);
-        Accomodation selectedAccomodation = accList.get(0);
-
-        List<String> dateElements = new ArrayList<>();
-        dateElements.add(req.queryParams("start-date"));
-        dateElements.add(req.queryParams("end-date"));
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("loggedIn", customerId != null);
-        params.put("customername", customerName);
-        params.put("roomlist", roomList);
-        params.put("accomodation", selectedAccomodation);
-        params.put("errors", errorMessages);
-        params.put("dateelements", dateElements);
-        if (errorMessages.size() == 0 && customerId != null){
-            params.put("reservable", true);
-        } else {
-            params.put("reservable", false);
-        }
-        return new ModelAndView(params, "roomreservation");
-    }*/
-
+    
     private static List<String> validateDates(String startDateStringFromUser,
                                               String endDateStringFromUser,
                                               List<Room> roomList,
