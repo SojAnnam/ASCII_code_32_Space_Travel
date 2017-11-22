@@ -3,10 +3,12 @@ package com.codecool.spacetravel;
 import com.codecool.spacetravel.datahandler.AccDataHandler;
 import com.codecool.spacetravel.datahandler.CustomerDataHandler;
 import com.codecool.spacetravel.datahandler.PlanetDataHandler;
+import com.codecool.spacetravel.datahandler.RoomDataHandler;
 import com.codecool.spacetravel.model.*;
 import com.codecool.spacetravel.controller.*;
 
 import com.codecool.spacetravel.validator.CustomerDataValidator;
+import com.codecool.spacetravel.validator.RoomReservationDataValidator;
 import spark.Request;
 import spark.Response;
 import spark.template.thymeleaf.ThymeleafTemplateEngine;
@@ -22,15 +24,19 @@ import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class SpaceTravelAgency {
-    PlanetDataHandler planetDataHandler;
-    AccDataHandler accDataHandler;
-    AccController accController;
-    PlanetController planetController;
-    PlanetRegistrationController planetRegistrationController;
-    CustomerDataValidator customerDataValidator;
-    CustomerDataHandler customerDataHandler;
-    CustomerAccountController customerAccountController;
-    EntityManager entityManager;
+
+    private PlanetDataHandler planetDataHandler;
+    private AccDataHandler accDataHandler;
+    private AccController accController;
+    private PlanetController planetController;
+    private PlanetRegistrationController planetRegistrationController;
+    private CustomerDataValidator customerDataValidator;
+    private CustomerDataHandler customerDataHandler;
+    private CustomerAccountController customerAccountController;
+    private EntityManager entityManager;
+    private RoomController roomController;
+    private RoomDataHandler roomDataHandler;
+    private RoomReservationDataValidator roomReservationDataValidator;
 
     public SpaceTravelAgency(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
@@ -43,6 +49,9 @@ public class SpaceTravelAgency {
         this.customerDataHandler = new CustomerDataHandler(entityManager);
         this.customerDataValidator = new CustomerDataValidator(customerDataHandler);
         this.customerAccountController = new CustomerAccountController(customerDataValidator, customerDataHandler);
+        this.roomReservationDataValidator = new RoomReservationDataValidator();
+        this.roomDataHandler = new RoomDataHandler(entityManager);
+        this.roomController = new RoomController(roomDataHandler, roomReservationDataValidator);
     }
 
     public static void main(String[] args) {
@@ -79,7 +88,7 @@ public class SpaceTravelAgency {
         /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
         EntityManager em = emf.createEntityManager();*/
 
-        populateDb(spaceTravelAgency.entityManager);
+        spaceTravelAgency.populateDb();
 
         get("/", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, false));
@@ -133,22 +142,21 @@ public class SpaceTravelAgency {
         get("/reservation/:id", (Request req, Response res) -> {
             /*int id = Integer.parseInt(req.params(":id"));
             System.out.println("ID: " + id);*/
-            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, spaceTravelAgency.entityManager));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.roomController.renderRooms(req, res));
         });
 
         post("/reservation", (Request req, Response res) ->{
-            return new ThymeleafTemplateEngine().render(RoomController.renderRooms(req, res, spaceTravelAgency.entityManager));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.roomController.renderRooms(req, res));
         });
 
         post("/save", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(RoomController.renderSaving(req, res, spaceTravelAgency.entityManager));
+            return new ThymeleafTemplateEngine().render(spaceTravelAgency.roomController.renderRoomReservationSaving(req, res));
         });
-
 
     }
 
 
-    public static void populateDb(EntityManager em) {
+    private void populateDb() {
 
         Picture pictureGeonosis = new Picture("geonosis.jpg","Ugly insects", "Geonosis");
         Picture pictureJabbaPalace = new Picture("jabba_palace.jpg","Jabba and his bounty hunters will be your neighbour", "Jabba's palace");
@@ -332,54 +340,54 @@ public class SpaceTravelAgency {
         reservationsInmarsBase2Room4.add(secondReservation);
         marsBase2Room4.setRoomReservations(reservationsInmarsBase2Room4);
 
-        EntityTransaction transaction = em.getTransaction();
+        EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        em.persist(pictureGeonosis);
-        em.persist(pictureJabbaPalace);
-        em.persist(pictureMars);
-        em.persist(pictureMarsbase1);
-        em.persist(pictureMarsbase2);
-        em.persist(pictureMoon);
-        em.persist(pictureMosEsley);
-        em.persist(pictureSaturn);
-        em.persist(pictureTatooine);
-        em.persist(pictureVenusville);
-        em.persist(solarSystem1);
-        em.persist(solarSystem2);
-        em.persist(planet1);
-        em.persist(planet2);
-        em.persist(planet3);
-        em.persist(planet4);
-        em.persist(planet5);
-        em.persist(accommodation1);
-        em.persist(accommodation2);
-        em.persist(accommodation3);
-        em.persist(accommodation4);
-        em.persist(accommodation5);
-        em.persist(roomType);
-        em.persist(roomType2);
-        em.persist(roomType3);
-        em.persist(roomType4);
-        em.persist(roomType5);
-        em.persist(room1Acc1);
-        em.persist(room2Acc1);
-        em.persist(room3Acc1);
-        em.persist(room4Acc1);
-        em.persist(room5Acc1);
-        em.persist(room1Acc4);
-        em.persist(room2Acc4);
-        em.persist(room3Acc4);
-        em.persist(room4Acc4);
-        em.persist(marsBase2Room1);
-        em.persist(marsBase2Room2);
-        em.persist(marsBase2Room3);
-        em.persist(marsBase2Room4);
-        em.persist(marsBase2Room5);
-        em.persist(marsBase2Room6);
-        em.persist(admin);
-        em.persist(testPerson);
-        em.persist(firstReservation);
-        em.persist(secondReservation);
+        entityManager.persist(pictureGeonosis);
+        entityManager.persist(pictureJabbaPalace);
+        entityManager.persist(pictureMars);
+        entityManager.persist(pictureMarsbase1);
+        entityManager.persist(pictureMarsbase2);
+        entityManager.persist(pictureMoon);
+        entityManager.persist(pictureMosEsley);
+        entityManager.persist(pictureSaturn);
+        entityManager.persist(pictureTatooine);
+        entityManager.persist(pictureVenusville);
+        entityManager.persist(solarSystem1);
+        entityManager.persist(solarSystem2);
+        entityManager.persist(planet1);
+        entityManager.persist(planet2);
+        entityManager.persist(planet3);
+        entityManager.persist(planet4);
+        entityManager.persist(planet5);
+        entityManager.persist(accommodation1);
+        entityManager.persist(accommodation2);
+        entityManager.persist(accommodation3);
+        entityManager.persist(accommodation4);
+        entityManager.persist(accommodation5);
+        entityManager.persist(roomType);
+        entityManager.persist(roomType2);
+        entityManager.persist(roomType3);
+        entityManager.persist(roomType4);
+        entityManager.persist(roomType5);
+        entityManager.persist(room1Acc1);
+        entityManager.persist(room2Acc1);
+        entityManager.persist(room3Acc1);
+        entityManager.persist(room4Acc1);
+        entityManager.persist(room5Acc1);
+        entityManager.persist(room1Acc4);
+        entityManager.persist(room2Acc4);
+        entityManager.persist(room3Acc4);
+        entityManager.persist(room4Acc4);
+        entityManager.persist(marsBase2Room1);
+        entityManager.persist(marsBase2Room2);
+        entityManager.persist(marsBase2Room3);
+        entityManager.persist(marsBase2Room4);
+        entityManager.persist(marsBase2Room5);
+        entityManager.persist(marsBase2Room6);
+        entityManager.persist(admin);
+        entityManager.persist(testPerson);
+        entityManager.persist(firstReservation);
+        entityManager.persist(secondReservation);
         transaction.commit();
         System.out.println("Galaxies, planets, accommodations, rooms, test user, reservations saved.");
         
