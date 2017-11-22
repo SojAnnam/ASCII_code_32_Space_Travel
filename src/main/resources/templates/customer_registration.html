@@ -69,85 +69,118 @@
             </ul>
         </div>
 
-        <div class="main-registration main-center">
+        <div class="main-registration main-center-registration">
             <form action="/customer-registration" class="form-horizontal" method="post">
-
-                <div class="form-group">
-                    <label for="name" class="cols-sm-2 control-label">Name</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="name" id="name"  placeholder="Enter your Name" th:value="${customer.name}"/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="first-name" class="cols-sm-2 control-label">First Name</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="firstname" id="first-name"  placeholder="Enter your First Name" th:value="${customer.firstname}"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="last-name" class="cols-sm-2 control-label">Last Name</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="lastname" id="last-name"  placeholder="Enter your Last Name" th:value="${customer.lastname}"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="email" class="cols-sm-2 control-label">Email</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email" th:value="${customer.email}"/>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="country" class="cols-sm-2 control-label">Country</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                                    <input class="form-control" id="country" placeholder="Enter your Country" name="country" th:value="${customer.country}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="city" class="cols-sm-2 control-label">City</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                                    <input class="form-control" id="city" placeholder="Enter your City" name="city" th:value="${customer.city}" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="country" class="cols-sm-2 control-label">Country</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
-                            <input class="form-control" id="country" placeholder="Enter your Country" name="country" th:value="${customer.country}" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="postalcode" class="cols-sm-2 control-label">Zip</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                                    <input class="form-control" id="postalcode" placeholder="Enter your Postal Code" name="postalcode" th:value="${customer.postalcode}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="address" class="cols-sm-2 control-label">Address</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
+                                    <input class="form-control" id="address" placeholder="Enter your Address" name="address" th:value="${customer.address}" />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="city" class="cols-sm-2 control-label">City</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
-                            <input class="form-control" id="city" placeholder="Enter your City" name="city" th:value="${customer.city}" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email" class="cols-sm-2 control-label">Email</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                                    <input type="text" class="form-control" name="email" id="email"  placeholder="Enter your Email" th:value="${customer.email}"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="postalcode" class="cols-sm-2 control-label">Zip</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
-                            <input class="form-control" id="postalcode" placeholder="Enter your Postal Code" name="postalcode" th:value="${customer.postalcode}" />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="password" class="cols-sm-2 control-label">Password</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="address" class="cols-sm-2 control-label">Address</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-address-card-o" aria-hidden="true"></i></span>
-                            <input class="form-control" id="address" placeholder="Enter your Address" name="address" th:value="${customer.address}" />
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="password" class="cols-sm-2 control-label">Password</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="password" id="password"  placeholder="Enter your Password"/>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
-                    <div class="cols-sm-10">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
-                            <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="confirm" class="cols-sm-2 control-label">Confirm Password</label>
+                            <div class="cols-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                                    <input type="password" class="form-control" name="confirm" id="confirm"  placeholder="Confirm your Password"/>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

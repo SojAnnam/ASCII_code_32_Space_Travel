@@ -3,7 +3,6 @@ package com.codecool.spacetravel.Model;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.ResourceBundle;
 
 @NamedQueries({
         @NamedQuery(
@@ -26,14 +25,15 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private String name;
+    private String firstName;
+    private String lastName;
 
     @Column(unique = true, nullable = false)
     private String email;
 
     private String country;
     private String city;
-    private String postalcode;
+    private String postalCode;
     private String address;
     private String password;
 
@@ -43,12 +43,13 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String name, String email, String country, String city, String postalcode, String address, String password) {
-        this.name = name;
+    public Customer(String firstName, String lastName, String email, String country, String city, String postalCode, String address, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
         this.country = country;
         this.city = city;
-        this.postalcode = postalcode;
+        this.postalCode = postalCode;
         this.address = address;
         this.password = password;
     }
@@ -62,12 +63,28 @@ public class Customer {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getPostalCode() {
+        return postalCode;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getAddress() {
@@ -111,11 +128,11 @@ public class Customer {
     }
 
     public String getpostalcode() {
-        return postalcode;
+        return postalCode;
     }
 
     public void setpostalcode(String postalcode) {
-        this.postalcode = postalcode;
+        this.postalCode = postalcode;
     }
 
     public List<RoomReservation> getRoomReservation() {

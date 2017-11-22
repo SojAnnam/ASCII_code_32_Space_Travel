@@ -167,12 +167,12 @@ public class Main {
         roomsToRoomType5.add(room3Acc4);
         roomType5.setRooms(roomsToRoomType5);
 
-        Customer admin = new Customer("admin", "admin@freemail.hu", "Hungary",
+        Customer admin = new Customer("admin", "admin", "admin", "Hungary",
                 "Budapest", "1140", "Várkert bazár 1.", "admin");
         List<RoomReservation> reservationsOfAdmin = new ArrayList<>();
         admin.setRoomReservation(reservationsOfAdmin);
 
-        Customer testPerson = new Customer("Farkas Bertalan", "berci@freemail.hu", "Hungary",
+        Customer testPerson = new Customer("Bertalan", "Farkas", "berci@freemail.hu", "Hungary",
                 "Budapest", "1140", "Hősök tere 1.", "abcd1234");
 
         String startDateString = "2017/12/10";

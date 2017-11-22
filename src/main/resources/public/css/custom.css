@@ -154,6 +154,7 @@ body{
 
 .form-group{
     margin-bottom: 15px;
+    padding: 0px 5px 0px 5px;
 }
 
 label{
@@ -178,10 +179,10 @@ input::-webkit-input-placeholder {
 
 }
 
-.main-center{
+.main-center-registration{
     margin-top: 30px;
     margin: 0 auto;
-    max-width: 330px;
+    max-width: 700px;
     padding: 40px 40px;
 
 }
@@ -189,6 +190,12 @@ input::-webkit-input-placeholder {
 .registration-button{
     margin-top: 5px;
 }
+.main-center-login{
+    margin-top: 30px;
+    margin: 0 auto;
+    max-width: 350px;
+    padding: 40px 40px;
+
 
 #hidden-acc-id {
     margin: 0;
@@ -199,4 +206,5 @@ input::-webkit-input-placeholder {
 
 .search-button{
     margin-top: 3.2%;
+
 }
