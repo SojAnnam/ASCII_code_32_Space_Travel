@@ -9,13 +9,13 @@ import javax.persistence.*;
 import java.util.*;
 
 public class QueryController {
-    public static List getPlanetsBySolarSystemId(long id, EntityManager em) {
+    /*public static List getPlanetsBySolarSystemId(long id, EntityManager em) {
 
         List<Planet> listOfPlanetsBySolarSystem = em.createNamedQuery("Planet.getPlanetsBySolarSystemId", Planet.class)
                 .setParameter("solarSystemId", id).getResultList();
 
         return listOfPlanetsBySolarSystem;
-    }
+    }*/
 
     public static List getAccByPlanetId(long id, EntityManager em){
 
@@ -25,7 +25,7 @@ public class QueryController {
         return results;
     }
 
-    public static List<Planet> getAllPlanet(EntityManager em){
+    /*public static List<Planet> getAllPlanet(EntityManager em){
 
         List<Planet> listOfAllPlanets = em.createNamedQuery("Planet.getAllPlanet", Planet.class)
                 .getResultList();
@@ -40,7 +40,7 @@ public class QueryController {
                 .setParameter("planetId", planetId).getSingleResult();
 
         return planet;
-    }
+    }*/
 
     public static List<Room> getRoomsByAcommodationId(long acommodationId, EntityManager em) {
         List<Room> results = em.createNamedQuery("Room.getRoomsByAcommodationId", Room.class)
@@ -66,10 +66,10 @@ public class QueryController {
         return results;
     }
 
-    public static List getAllSolarSystem(EntityManager em) {
+    /*public static List getAllSolarSystem(EntityManager em) {
         List<SolarSystem> results =  em.createNamedQuery("SolarSystem.getAllSolarSystem", SolarSystem.class).getResultList();
         return results;
-    }
+    }*/
 
     public static Customer getCustomerByEmail(String email, EntityManager em) {
         Customer customer = null;

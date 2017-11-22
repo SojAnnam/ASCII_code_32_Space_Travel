@@ -301,10 +301,10 @@ public class SpaceTravelAgency {
         });
 
         get("/registration-planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, em));
+            return new ThymeleafTemplateEngine().render(PlanetRegistrationController.renderPlanetRegistration(req, res, em));
         });
         post("/registration-planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(RegistrationController.renderPlanetRegistration(req, res, em));
+            return new ThymeleafTemplateEngine().render(PlanetRegistrationController.renderPlanetRegistration(req, res, em));
         });
 
 
