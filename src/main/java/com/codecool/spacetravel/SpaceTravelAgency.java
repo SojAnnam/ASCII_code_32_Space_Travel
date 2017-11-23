@@ -25,7 +25,6 @@ public class SpaceTravelAgency {
     private PlanetController planetController;
     private PlanetDataHandler planetDataHandler;
     private PlanetRegistrationController planetRegistrationController;
-    private PopulateDatabase populateDatabase;
     private RoomController roomController;
     private RoomDataHandler roomDataHandler;
     private RoomReservationDataValidator roomReservationDataValidator;
@@ -35,7 +34,6 @@ public class SpaceTravelAgency {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
         this.entityManager = emf.createEntityManager();
         this.queryHandler =  new QueryHandler(entityManager);
-        this.populateDatabase = new PopulateDatabase(entityManager);
         this.planetDataHandler = new PlanetDataHandler(entityManager,queryHandler);
         this.planetRegistrationController = new PlanetRegistrationController(planetDataHandler);
         this.planetController = new PlanetController(planetDataHandler);
@@ -67,7 +65,7 @@ public class SpaceTravelAgency {
 
 
 
-        spaceTravelAgency.populateDatabase.createEntities();
+
 
         get("/", (Request req, Response res) -> {
             return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, false));
