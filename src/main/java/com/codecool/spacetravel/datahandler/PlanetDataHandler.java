@@ -6,6 +6,7 @@ import com.codecool.spacetravel.model.SolarSystem;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class PlanetDataHandler implements PersistHandler {
@@ -17,7 +18,6 @@ public class PlanetDataHandler implements PersistHandler {
     }
 
     public List getPlanetsBySolarSystemId(long id) {
-
         List<Planet> listOfPlanetsBySolarSystem = em.createNamedQuery("Planet.getPlanetsBySolarSystemId", Planet.class)
                 .setParameter("solarSystemId", id).getResultList();
 
