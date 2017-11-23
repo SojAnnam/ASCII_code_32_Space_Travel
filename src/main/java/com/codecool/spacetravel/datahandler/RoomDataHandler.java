@@ -124,7 +124,7 @@ public class RoomDataHandler {
         return savingSucceeded;
     }
 
-    private boolean roomIsFree(Room room, Date startDate, Date endDate) {
+    public boolean roomIsFree(Room room, Date startDate, Date endDate) {
         boolean roomIsFree = true;
 
         List<RoomReservation> reservationsInThisRoom = room.getRoomReservations();
