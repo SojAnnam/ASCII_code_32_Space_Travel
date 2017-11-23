@@ -8,8 +8,7 @@ import java.util.List;
 
 public class RoomReservationDataValidator {
 
-
-    public static List<String> validateDates(String startDateStringFromUser, String endDateStringFromUser) {
+    public List<String> validateDates(String startDateStringFromUser, String endDateStringFromUser) {
 
         List<String> errorMessages = new ArrayList<>();
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");

@@ -1,49 +1,87 @@
 package com.codecool.spacetravel.datahandler;
 
 import com.codecool.spacetravel.model.Accomodation;
+import com.codecool.spacetravel.model.Picture;
 import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.model.SolarSystem;
+import spark.Request;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.TypedQuery;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlanetDataHandler implements PersistHandler {
 
     EntityManager em;
+    QueryHandler queryHandler;
 
-    public PlanetDataHandler(EntityManager em) {
+    public PlanetDataHandler(EntityManager em,QueryHandler queryHandler) {
+
         this.em = em;
+        this.queryHandler = queryHandler;
     }
 
-    public List getPlanetsBySolarSystemId(long id) {
-        List<Planet> listOfPlanetsBySolarSystem = em.createNamedQuery("Planet.getPlanetsBySolarSystemId", Planet.class)
-                .setParameter("solarSystemId", id).getResultList();
+    public Map renderPlanetHandler (Request req, boolean newCustomerSaved){
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
 
-        return listOfPlanetsBySolarSystem;
+        long solarSystemId = 1;
+
+        if (req.params("solarSystemId")!=null){
+            solarSystemId = Integer.parseInt(req.params(":solarSystemId"));
+        }
+
+        List<SolarSystem> solarSystemsList = queryHandler.getAllSolarSystem();
+        List<Planet> planetListBySolarSystem = queryHandler.getPlanetsBySolarSystemId(solarSystemId);
+        List<Planet> allPlanet = queryHandler.getAllPlanet();
+
+        Map params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
+        params.put("solarsystems",solarSystemsList);
+        params.put("planets", planetListBySolarSystem);
+        params.put("allplanet",allPlanet);
+        params.put("newcustomersaved", newCustomerSaved);
+
+        return params;
     }
 
-    public List getAllSolarSystem() {
-        List<SolarSystem> results =  em.createNamedQuery("SolarSystem.getAllSolarSystem", SolarSystem.class).getResultList();
-        return results;
-    }
+    public Map renderPlanetRegistration(Request req) {
+        Integer userId = req.session().attribute("user_id");
 
-    public  List<Planet> getAllPlanet(){
+        List<SolarSystem> solarSystems = queryHandler.getAllSolarSystem();
 
-        List<Planet> listOfAllPlanets = em.createNamedQuery("Planet.getAllPlanet", Planet.class)
-                .getResultList();
+        String name = req.queryParams("name");
+        String description = req.queryParams("desc");
+        String weather = req.queryParams("weather");
 
-        return listOfAllPlanets;
+        if (name != null && description != null  && weather != null) {
+            if (!name.equals("") && !description.equals("")  && !weather.equals("")) {
+                Picture pictureDefault = new Picture("default-planet.jpg","default-text", "default-title");
+                SolarSystem currentSolarSystem = null;
+                long galaxyIdLong = Long.parseLong(req.queryParams("galaxy"));
 
-    }
+                for (SolarSystem solarSystem : solarSystems) {
+                    if (solarSystem.getId() == galaxyIdLong) {
+                        currentSolarSystem = solarSystem;
+                    }
+                }
+                Planet currentPlanet = new Planet(name, description, weather, currentSolarSystem);
+                currentPlanet.setPicture(pictureDefault);
+                queryHandler.persistData(pictureDefault);
+                queryHandler.persistData(currentPlanet);
+            }
+        }
 
-    public Planet getPlanet(long planetId){
+        Map params = new HashMap<>();
 
-        Planet planet = em.createNamedQuery("getPlanet", Planet.class)
-                .setParameter("planetId", planetId).getSingleResult();
+        params.put("loggedIn", userId != null);
+        params.put("solarsystems", solarSystems);
 
-        return planet;
+        return params;
     }
 
     @Override

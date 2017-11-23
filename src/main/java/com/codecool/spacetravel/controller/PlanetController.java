@@ -1,6 +1,7 @@
 package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.datahandler.PlanetDataHandler;
+import com.codecool.spacetravel.datahandler.QueryHandler;
 import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.model.SolarSystem;
 import spark.ModelAndView;
@@ -18,30 +19,13 @@ public class PlanetController {
     PlanetDataHandler planetDataHandler;
 
     public PlanetController(PlanetDataHandler planetDataHandler) {
-        this.planetDataHandler = planetDataHandler;
+        this.planetDataHandler = planetDataHandler ;
     }
 
     public  ModelAndView renderPlanets(Request req, Response res, boolean newCustomerSaved) {
-        Long customerId = req.session().attribute("customer_id");
-        String customerName = req.session().attribute("customer_name");
 
-        long solarSystemId = 1;
+        Map params = planetDataHandler.renderPlanetHandler(req,newCustomerSaved);
 
-        if (req.params("solarSystemId")!=null){
-            solarSystemId = Integer.parseInt(req.params(":solarSystemId"));
-        }
-
-        List<SolarSystem> solarSystemsList = planetDataHandler.getAllSolarSystem();
-        List<Planet> planetListBySolarSystem = planetDataHandler.getPlanetsBySolarSystemId(solarSystemId);
-        List<Planet> allPlanet = planetDataHandler.getAllPlanet();
-
-        Map params = new HashMap<>();
-        params.put("loggedIn", customerId != null);
-        params.put("customername", customerName);
-        params.put("solarsystems",solarSystemsList);
-        params.put("planets", planetListBySolarSystem);
-        params.put("allplanet",allPlanet);
-        params.put("newcustomersaved", newCustomerSaved);
         return new ModelAndView(params, "index");
     }
 }

@@ -1,6 +1,7 @@
 package com.codecool.spacetravel.validator;
 
 import com.codecool.spacetravel.datahandler.CustomerDataHandler;
+import com.codecool.spacetravel.datahandler.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 
 import javax.persistence.EntityManager;
@@ -13,10 +14,10 @@ import java.util.regex.Pattern;
 
 public class CustomerDataValidator {
 
-    private CustomerDataHandler customerDataHandler;
+    private QueryHandler queryHandler;
 
-    public CustomerDataValidator(CustomerDataHandler customerDataHandler) {
-        this.customerDataHandler = customerDataHandler;
+    public CustomerDataValidator(QueryHandler queryHandler) {
+        this.queryHandler = queryHandler;
     }
 
     public List<String> validateRegistrationDatas(Map<String, String> customerDatas) {
@@ -101,7 +102,7 @@ public class CustomerDataValidator {
 
     private boolean emailExists(String email) {
         boolean emailExists = false;
-        Customer customer = customerDataHandler.getCustomerByEmail(email);
+        Customer customer = queryHandler.getCustomerByEmail(email);
         if (customer != null){
             emailExists = true;
         }
@@ -134,7 +135,7 @@ public class CustomerDataValidator {
 
         List<String> errorMessages = new ArrayList();
 
-        Customer customerFromDB = customerDataHandler.getCustomerByEmail(email);
+        Customer customerFromDB = queryHandler.getCustomerByEmail(email);
 
         if (customerFromDB == null) {
             errorMessages.add("Invalid email or password.");
