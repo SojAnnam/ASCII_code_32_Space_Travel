@@ -41,7 +41,7 @@ public class SpaceTravelAgency {
         this.accController = new AccController(accDataHandler);
         this.customerDataValidator = new CustomerDataValidator(queryHandler);
         this.customerDataHandler = new CustomerDataHandler(queryHandler, customerDataValidator);
-        this.customerAccountController = new CustomerAccountController(customerDataValidator, customerDataHandler);
+        this.customerAccountController = new CustomerAccountController(customerDataHandler);
         this.roomReservationDataValidator = new RoomReservationDataValidator();
         this.roomDataHandler = new RoomDataHandler(queryHandler, roomReservationDataValidator);
         this.roomController = new RoomController(roomDataHandler);

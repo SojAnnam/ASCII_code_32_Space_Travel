@@ -13,12 +13,9 @@ import java.util.*;
 
 public class CustomerAccountController {
 
-    private CustomerDataValidator customerDataValidator;
     private CustomerDataHandler customerDataHandler;
 
-
-    public CustomerAccountController(CustomerDataValidator customerDataValidator, CustomerDataHandler customerDataHandler) {
-        this.customerDataValidator = customerDataValidator;
+    public CustomerAccountController(CustomerDataHandler customerDataHandler) {
         this.customerDataHandler = customerDataHandler;
     }
 
