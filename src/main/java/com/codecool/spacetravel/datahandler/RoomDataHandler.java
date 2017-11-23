@@ -4,62 +4,29 @@ import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.Room;
 import com.codecool.spacetravel.model.RoomReservation;
+import com.codecool.spacetravel.validator.CustomerDataValidator;
+import com.codecool.spacetravel.validator.RoomReservationDataValidator;
+import spark.Request;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.xml.ws.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class RoomDataHandler {
+public class RoomDataHandler implements PersistHandler {
 
     private EntityManager em;
+    private QueryHandler queryHandler;
+    private RoomReservationDataValidator roomReservationDataValidator;
 
-    public RoomDataHandler(EntityManager em) {
+    public RoomDataHandler(EntityManager em,
+                           QueryHandler queryHandler,
+                           RoomReservationDataValidator roomReservationDataValidator) {
         this.em = em;
-    }
-
-    public List<Room> getRoomsByAcommodationId(long acommodationId) {
-        List<Room> results = em.createNamedQuery("Room.getRoomsByAcommodationId", Room.class)
-                .setParameter("acommodationId", acommodationId).getResultList();
-        return results;
-    }
-
-    public Accomodation getAccomodationById(long acommodationId) {
-        Accomodation accomodation = null;
-        try {
-            accomodation = em.createNamedQuery("Accomodation.getAccomodationById", Accomodation.class)
-                    .setParameter("accomodationId", acommodationId).getSingleResult();
-
-        } catch (Exception e){
-            System.out.println("No accomodation.");
-        }
-        return accomodation;
-    }
-
-    public Room getRoomById(long roomId) {
-        Room room = null;
-        try {
-            room = em.createNamedQuery("Room.getRoomById", Room.class)
-                    .setParameter("roomId", roomId).getSingleResult();
-        } catch (Exception e){
-            System.out.println("No room.");
-        }
-        return room;
-    }
-
-    public Customer getCustomerById(Long customerId) {
-        Customer customer = null;
-        try{
-            customer = em.createNamedQuery("Customer.getCustomerById", Customer.class)
-                    .setParameter("id", customerId).getSingleResult();
-        } catch (Exception e){
-            System.out.println("No record found: " + e.getMessage());
-        }
-        return customer;
+        this.queryHandler = queryHandler;
+        this.roomReservationDataValidator = roomReservationDataValidator;
     }
 
     public void filterReservedRooms(String startDateStringFromUser, String endDateStringFromUser, List<Room> roomList) {
@@ -112,11 +79,11 @@ public class RoomDataHandler {
         long roomId = Long.parseLong(roomReservationDatas.get("roomId"));
         long customerId = Long.parseLong(roomReservationDatas.get("customerId"));
 
-        Room room = getRoomById(roomId);
+        Room room = queryHandler.getRoomById(roomId);
 
         if (room != null) {
 
-            Customer customer = getCustomerById(customerId);
+            Customer customer = queryHandler.getCustomerById(customerId);
 
             if (customer != null){
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
@@ -142,10 +109,7 @@ public class RoomDataHandler {
                     room.setRoomReservations(reservationsInRoom);
 
                     try {
-                        EntityTransaction transaction = em.getTransaction();
-                        transaction.begin();
-                        em.persist(roomReservation);
-                        transaction.commit();
+                        persistData(roomReservation);
                         savingSucceeded = true;
                     } catch (Exception e){
                         System.out.println("SAVING FAILED: " + e.getMessage());
@@ -189,6 +153,102 @@ public class RoomDataHandler {
 
         return roomIsFree;
 
+    }
+
+    public Map renderRoomsHandler(Request req){
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
+
+        List<String> errorMessages = new ArrayList();
+
+        long accommodationId = 0;
+        if (req.queryParams().size() > 1){
+            accommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
+        } else {
+            try{
+                accommodationId = Long.parseLong(req.params(":id"));
+            } catch (Exception e){
+                System.out.println("Invalid accommodation id: " + e.getMessage());
+            }
+        }
+
+        boolean reservable = false;
+        List<Room> roomList = new ArrayList<>();
+        if (accommodationId != 0){
+            roomList = queryHandler.getRoomsByAcommodationId(accommodationId);
+        }
+
+        List<String> dateElements = new ArrayList<>();
+
+        if (req.queryParams().size() > 1){
+            String startDateStringFromUser = req.queryParams("start-date");
+            String endDateStringFromUser = req.queryParams("end-date");
+            System.out.println(startDateStringFromUser);
+            System.out.println(endDateStringFromUser);
+            errorMessages = roomReservationDataValidator.validateDates(startDateStringFromUser, endDateStringFromUser);
+            if (errorMessages.size() == 0) {
+                filterReservedRooms(startDateStringFromUser, endDateStringFromUser, roomList);
+                if (customerId != null){
+                    reservable = true;
+                }
+            }
+            dateElements.add(startDateStringFromUser);
+            dateElements.add(endDateStringFromUser);
+        } else {
+            dateElements.add("");
+            dateElements.add("");
+        }
+
+        Accomodation selectedAccomodation = queryHandler.getAccomodationById(accommodationId);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
+        params.put("roomlist", roomList);
+        params.put("accomodation", selectedAccomodation);
+        params.put("errors", errorMessages);
+        params.put("dateelements", dateElements);
+        params.put("reservable", reservable);
+
+        return params;
+
+    }
+
+
+    public Map renderRoomReservationSavingHandler(Request req) {
+        Long customerId = req.session().attribute("customer_id");
+        String customerName = req.session().attribute("customer_name");
+
+        String startDateStringFromUser = req.queryParams("start-date");
+        String endDateStringFromUser = req.queryParams("end-date");
+
+        List<String> errorMessages = roomReservationDataValidator.validateDates(startDateStringFromUser, endDateStringFromUser);
+        boolean savingSucceeded = false;
+        if (errorMessages.size() == 0){
+            Map<String, String> roomReservationDatas = new HashMap<>();
+            roomReservationDatas.put("customerId", customerId.toString());
+            roomReservationDatas.put("roomId", req.queryParams("selected-room-id"));
+            roomReservationDatas.put("startDateStringFromUser", startDateStringFromUser);
+            roomReservationDatas.put("endDateStringFromUser", endDateStringFromUser);
+            savingSucceeded = saveRoomReservation(roomReservationDatas, errorMessages);
+        }
+
+        if (!savingSucceeded){
+            errorMessages.add("Saving failed.");
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("loggedIn", customerId != null);
+        params.put("customername", customerName);
+        params.put("errors", errorMessages);
+        return params;
+    }
+    @Override
+    public void persistData(Object object) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(object);
+        transaction.commit();
     }
 
 }

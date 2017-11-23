@@ -29,22 +29,24 @@ public class SpaceTravelAgency {
     private RoomController roomController;
     private RoomDataHandler roomDataHandler;
     private RoomReservationDataValidator roomReservationDataValidator;
+    private QueryHandler queryHandler;
 
     public SpaceTravelAgency(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
         this.entityManager = emf.createEntityManager();
+        this.queryHandler =  new QueryHandler(entityManager);
         this.populateDatabase = new PopulateDatabase(entityManager);
-        this.planetDataHandler = new PlanetDataHandler(entityManager);
+        this.planetDataHandler = new PlanetDataHandler(entityManager,queryHandler);
         this.planetRegistrationController = new PlanetRegistrationController(planetDataHandler);
         this.planetController = new PlanetController(planetDataHandler);
-        this.accDataHandler = new AccDataHandler(entityManager);
-        this.accController = new AccController(planetDataHandler, accDataHandler);
-        this.customerDataHandler = new CustomerDataHandler(entityManager);
-        this.customerDataValidator = new CustomerDataValidator(customerDataHandler);
+        this.accDataHandler = new AccDataHandler(entityManager,queryHandler);
+        this.accController = new AccController(accDataHandler);
+        this.customerDataValidator = new CustomerDataValidator(queryHandler);
+        this.customerDataHandler = new CustomerDataHandler(entityManager, customerDataValidator);
         this.customerAccountController = new CustomerAccountController(customerDataValidator, customerDataHandler);
         this.roomReservationDataValidator = new RoomReservationDataValidator();
-        this.roomDataHandler = new RoomDataHandler(entityManager);
-        this.roomController = new RoomController(roomDataHandler, roomReservationDataValidator);
+        this.roomDataHandler = new RoomDataHandler(entityManager,queryHandler, roomReservationDataValidator);
+        this.roomController = new RoomController(roomDataHandler);
     }
 
     public static void main(String[] args) {

@@ -2,19 +2,24 @@ package com.codecool.spacetravel.datahandler;
 
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.RoomReservation;
+import com.codecool.spacetravel.validator.CustomerDataValidator;
+import spark.Request;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomerDataHandler {
+public class CustomerDataHandler implements  PersistHandler{
 
     private EntityManager em;
+    private CustomerDataValidator customerDataValidator;
 
-    public CustomerDataHandler(EntityManager em) {
+    public CustomerDataHandler(EntityManager em, CustomerDataValidator customerDataValidator) {
         this.em = em;
+        this.customerDataValidator = customerDataValidator;
     }
 
     public boolean saveCustomerDatas(Map<String, String> customerDatas) {
@@ -35,10 +40,7 @@ public class CustomerDataHandler {
         customer.setRoomReservation(reservationsOfCustomer);
 
         try {
-            EntityTransaction transaction = em.getTransaction();
-            transaction.begin();
-            em.persist(customer);
-            transaction.commit();
+            persistData(customer);
             savingSucceeded = true;
         } catch (Exception e){
             System.out.println("SAVING FAILED: " + e.getMessage());
@@ -46,15 +48,69 @@ public class CustomerDataHandler {
         return savingSucceeded;
     }
 
-    public Customer getCustomerByEmail(String email) {
-        Customer customer = null;
-        try{ customer = customer= em.createNamedQuery("Customer.getCustomerByEmail", Customer.class)
-                .setParameter("email", email).getSingleResult();
+    public Map renderCustomerRegistrationHandler(Request req) {
+        List<String> errorMessages = new ArrayList();
+        Map<String, String> customerDatas = new HashMap<>();
+        boolean savingSucceeded = false;
+        boolean savingTried = false;
 
-        } catch (Exception e){
-            System.out.println("No record found: " + e.getMessage());
+        if (req.queryParams().size() > 0){
+            customerDatas.put("firstname", req.queryParams("firstname"));
+            customerDatas.put("lastname", req.queryParams("lastname"));
+            customerDatas.put("email", req.queryParams("email"));
+            customerDatas.put("country", req.queryParams("country"));
+            customerDatas.put("city", req.queryParams("city"));
+            customerDatas.put("postalcode", req.queryParams("postalcode"));
+            customerDatas.put("address", req.queryParams("address"));
+            customerDatas.put("password", req.queryParams("password"));
+            customerDatas.put("confirm", req.queryParams("confirm"));
+
+            errorMessages = customerDataValidator.validateRegistrationDatas(customerDatas);
+
+            if (errorMessages.size() == 0){
+                savingTried = true;
+                savingSucceeded = saveCustomerDatas(customerDatas);
+            }
         }
-        return customer;
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("customer", customerDatas);
+        params.put("errors", errorMessages);
+        params.put("savingsucceeded", savingSucceeded);
+        params.put("savingtried", savingTried);
+
+        return params;
+    }
+
+    public Map renderLoginHandler(Request req) {
+        List<String> errorMessages = new ArrayList();
+        Map<String, String> customerDatas = new HashMap<>();
+        Customer customer = null;
+        if (req.queryParams().size() > 0){
+            customerDatas.put("email", req.queryParams("email"));
+            customerDatas.put("password", req.queryParams("password"));
+
+            Map<String, Object> errorMessagesAndCustomer = customerDataValidator.validateLoginDatas(customerDatas);
+            errorMessages = (List<String>) errorMessagesAndCustomer.get("errors");
+            customer = (Customer) errorMessagesAndCustomer.get("customer");
+
+
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("customer", customerDatas);
+        params.put("errors", errorMessages);
+        params.put("validcustomer", customer);
+
+        return  params;
+    }
+
+    @Override
+    public void persistData(Object object) {
+        EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        em.persist(object);
+        transaction.commit();
     }
 
 }

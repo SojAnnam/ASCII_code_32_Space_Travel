@@ -25,8 +25,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class PlanetDataHandlerTest {
 
-    @Test
-    void getPlanetsBySolarSystemId() throws NoSuchFieldException {
+
+    /*void getPlanetsBySolarSystemId() throws NoSuchFieldException {
         List<Planet> planetList= new ArrayList<>();
         planetList.add(new Planet());
         EntityManager entityManagerMock = Mockito.mock(EntityManager.class);
@@ -38,20 +38,9 @@ class PlanetDataHandlerTest {
 
         PlanetDataHandler planetDataHandler = new PlanetDataHandler(entityManagerMock);
         List<Planet> actualList = planetDataHandler.getPlanetsBySolarSystemId(1);
-        assertEquals(planetList,actualList);
-    }
+        assertEquals(planetList,actualList);*/
+
 
     
-    @Test
-    void getAllPlanet() {
-    }
-
-    @Test
-    void getPlanet() {
-    }
-
-    @Test
-    void persistData() {
-    }
 
 }
