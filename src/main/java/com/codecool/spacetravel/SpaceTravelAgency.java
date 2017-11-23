@@ -51,21 +51,6 @@ public class SpaceTravelAgency {
 
     public static void main(String[] args) {
 
-        /*
-        DIContainer di = new ..
-        MainClass cl = di.doInject();
-        cl.start()
-
-        DI CONTAINER:
-
-        doInject function:
-        EntityManager em = new...
-        PlanetDH = new PlanetDH(em)
-        PlanetController pc = new PlanetController(planetDH)
-
-
-
-         */
 
         SpaceTravelAgency spaceTravelAgency = new SpaceTravelAgency();
 
@@ -80,8 +65,7 @@ public class SpaceTravelAgency {
 
         System.out.println("Starting...");
 
-        /*EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
-        EntityManager em = emf.createEntityManager();*/
+
 
         spaceTravelAgency.populateDatabase.createEntities();
 
@@ -135,8 +119,7 @@ public class SpaceTravelAgency {
         });
 
         get("/reservation/:id", (Request req, Response res) -> {
-            /*int id = Integer.parseInt(req.params(":id"));
-            System.out.println("ID: " + id);*/
+
             return new ThymeleafTemplateEngine().render(spaceTravelAgency.roomController.renderRooms(req, res));
         });
 
