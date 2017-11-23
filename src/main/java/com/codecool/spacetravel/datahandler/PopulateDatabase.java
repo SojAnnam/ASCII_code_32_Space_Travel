@@ -28,7 +28,7 @@ public class PopulateDatabase {
         Picture pictureMosEsley = new Picture("mos_esley.jpg","Han Solo and Luke: The beginning of a beautiful friendship", "mos_esley");
         Picture pictureSaturn = new Picture("saturn.jpg","Giant planet with giant ring", "Saturn");
         Picture pictureTatooine = new Picture("tatooine.jpg","Desert Planet", "Tatooine");
-        Picture pictureVenusville = new Picture("venusville.jpg","Total Recall", "Venusville");
+        Picture pictureVenusville = new Picture("venusville2.jpg","Total Recall", "Venusville");
 
         SolarSystem solarSystem1 = new SolarSystem("Milky Way");
         SolarSystem solarSystem2 = new SolarSystem("Star Wars");
