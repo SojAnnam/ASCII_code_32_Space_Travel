@@ -45,11 +45,8 @@ public class PlanetRegistrationController {
                 }
                 Planet currentPlanet = new Planet(name, description, weather, currentSolarSystem);
                 currentPlanet.setPicture(pictureDefault);
-                /*EntityTransaction transaction = em.getTransaction();
-                transaction.begin();
-                em.persist(pictureDefault);
-                em.persist(currentPlanet);
-                transaction.commit();*/
+                planetDataHandler.persistData(pictureDefault);
+                planetDataHandler.persistData(currentPlanet);
             }
         }
 
