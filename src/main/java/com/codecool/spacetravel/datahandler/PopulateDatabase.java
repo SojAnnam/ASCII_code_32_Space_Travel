@@ -28,7 +28,7 @@ public class PopulateDatabase {
         Picture pictureMosEsley = new Picture("mos_esley.jpg","Han Solo and Luke: The beginning of a beautiful friendship", "mos_esley");
         Picture pictureSaturn = new Picture("saturn.jpg","Giant planet with giant ring", "Saturn");
         Picture pictureTatooine = new Picture("tatooine.jpg","Desert Planet", "Tatooine");
-        Picture pictureVenusville = new Picture("venusville2.jpg","Total Recall", "Venusville");
+        Picture pictureVenusville = new Picture("venusville4.jpg","Total Recall", "Venusville");
 
         SolarSystem solarSystem1 = new SolarSystem("Milky Way");
         SolarSystem solarSystem2 = new SolarSystem("Star Wars");
@@ -71,7 +71,7 @@ public class PopulateDatabase {
 
         Accomodation accommodation1 = new Accomodation("Mars base 1", planet1,"Hotel with green plants. On every morning we offer you to taste fresh veggies. Enjoy the long walk in the first Martian greenhouse!",pictureMarsbase1);
         Accomodation accommodation2 = new Accomodation("Welcome Hotel", planet1,"ESA Hotel for backpackers. Since the dawn of the space age, Mars has been the target of orbiters, landers and rovers. And now for the backpackers! We offer a multicultural atmosphere, many cultural programs are available.", pictureMarsbase2);
-        Accomodation accommodation3 = new Accomodation("Come and Maybe Go Apartman", planet1,"A very special place in the bizarre Venusville", pictureVenusville);
+        Accomodation accommodation3 = new Accomodation("The Last Resort in Venusville", planet1,"Memorable and chip hotel in Venusville, a very special and bizarre district of a human town. Radiation protection is weak, but enjoyment is guaranteed. Mercenaries, freedom fighters and a lot of mutants.", pictureVenusville);
         Accomodation accommodation4 = new Accomodation("Jabba's palace", planet4, "Iron walls, deep jail cells", pictureJabbaPalace);
         Accomodation accommodation5 = new Accomodation("Mos Esley Cantina", planet4, "Nice music and a lot of guests from all part of the Universe", pictureMosEsley);
 
@@ -119,49 +119,49 @@ public class PopulateDatabase {
         roomsAcc4.add(room4Acc4);
         accommodation4.setRooms(roomsAcc4);
 
-        Room marsBase2Room1 = new Room(accommodation2, 200, roomType);
-        Room marsBase2Room2 = new Room(accommodation2, 600, roomType5);
-        Room marsBase2Room3 = new Room(accommodation2, 800, roomType4);
-        Room marsBase2Room4 = new Room(accommodation2, 1000, roomType2);
-        Room marsBase2Room5 = new Room(accommodation2, 1000, roomType2);
-        Room marsBase2Room6 = new Room(accommodation2, 2000, roomType3);
+        Room lastResortRoom1 = new Room(accommodation3, 200, roomType);
+        Room lastResortRoom2 = new Room(accommodation3, 600, roomType5);
+        Room lastResortRoom3 = new Room(accommodation3, 800, roomType4);
+        Room lastResortRoom4 = new Room(accommodation3, 1000, roomType2);
+        Room lastResortRoom5 = new Room(accommodation3, 1000, roomType2);
+        Room lastResortRoom6 = new Room(accommodation3, 2000, roomType3);
 
-        List<Room> roomsInMarsBase2 = new ArrayList<>();
-        roomsInMarsBase2.add(marsBase2Room1);
-        roomsInMarsBase2.add(marsBase2Room2);
-        roomsInMarsBase2.add(marsBase2Room3);
-        roomsInMarsBase2.add(marsBase2Room4);
-        roomsInMarsBase2.add(marsBase2Room5);
-        roomsInMarsBase2.add(marsBase2Room6);
-        accommodation2.setRooms(roomsInMarsBase2);
+        List<Room> roomsInLastResort = new ArrayList<>();
+        roomsInLastResort.add(lastResortRoom1);
+        roomsInLastResort.add(lastResortRoom2);
+        roomsInLastResort.add(lastResortRoom3);
+        roomsInLastResort.add(lastResortRoom4);
+        roomsInLastResort.add(lastResortRoom5);
+        roomsInLastResort.add(lastResortRoom6);
+        accommodation3.setRooms(roomsInLastResort);
 
         List<Room> roomsToRoomType = new ArrayList<>();
-        roomsToRoomType.add(marsBase2Room1);
+        roomsToRoomType.add(lastResortRoom1);
         roomsToRoomType.add(room1Acc4);
         roomType.setRooms(roomsToRoomType);
 
         List<Room> roomsToRoomType2 = new ArrayList<>();
         roomsToRoomType2.add(room2Acc1);
-        roomsToRoomType2.add(marsBase2Room4);
-        roomsToRoomType2.add(marsBase2Room5);
+        roomsToRoomType2.add(lastResortRoom4);
+        roomsToRoomType2.add(lastResortRoom5);
         roomsToRoomType2.add(room2Acc4);
         roomType2.setRooms(roomsToRoomType2);
 
         List<Room> roomsToRoomType3 = new ArrayList<>();
         roomsToRoomType3.add(room3Acc1);
         roomsToRoomType3.add(room4Acc1);
-        roomsToRoomType3.add(marsBase2Room6);
+        roomsToRoomType3.add(lastResortRoom6);
         roomType3.setRooms(roomsToRoomType3);
 
         List<Room> roomsToRoomType4 = new ArrayList<>();
         roomsToRoomType4.add(room5Acc1);
-        roomsToRoomType4.add(marsBase2Room3);
+        roomsToRoomType4.add(lastResortRoom3);
         roomsToRoomType4.add(room4Acc4);
         roomType4.setRooms(roomsToRoomType4);
 
         List<Room> roomsToRoomType5 = new ArrayList<>();
         roomsToRoomType5.add(room1Acc1);
-        roomsToRoomType5.add(marsBase2Room2);
+        roomsToRoomType5.add(lastResortRoom2);
         roomsToRoomType5.add(room3Acc4);
         roomType5.setRooms(roomsToRoomType5);
 
@@ -186,20 +186,20 @@ public class PopulateDatabase {
             e.printStackTrace();
         }
 
-        RoomReservation firstReservation = new RoomReservation(testPerson, startDate, endDate, marsBase2Room1);
-        RoomReservation secondReservation = new RoomReservation(testPerson, startDate, endDate, marsBase2Room4);
+        RoomReservation firstReservation = new RoomReservation(testPerson, startDate, endDate, lastResortRoom1);
+        RoomReservation secondReservation = new RoomReservation(testPerson, startDate, endDate, lastResortRoom4);
         List<RoomReservation> reservationsOfTestPerson = new ArrayList<>();
         reservationsOfTestPerson.add(firstReservation);
         reservationsOfTestPerson.add(secondReservation);
         testPerson.setRoomReservation(reservationsOfTestPerson);
 
-        List<RoomReservation> reservationsInmarsBase2Room1 = new ArrayList<>();
-        reservationsInmarsBase2Room1.add(firstReservation);
-        marsBase2Room1.setRoomReservations(reservationsInmarsBase2Room1);
+        List<RoomReservation> reservationsInLastResortRoom1 = new ArrayList<>();
+        reservationsInLastResortRoom1.add(firstReservation);
+        lastResortRoom1.setRoomReservations(reservationsInLastResortRoom1);
 
-        List<RoomReservation> reservationsInmarsBase2Room4 = new ArrayList<>();
-        reservationsInmarsBase2Room4.add(secondReservation);
-        marsBase2Room4.setRoomReservations(reservationsInmarsBase2Room4);
+        List<RoomReservation> reservationsInLastResortRoom4 = new ArrayList<>();
+        reservationsInLastResortRoom4.add(secondReservation);
+        lastResortRoom4.setRoomReservations(reservationsInLastResortRoom4);
 
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -239,12 +239,12 @@ public class PopulateDatabase {
         entityManager.persist(room2Acc4);
         entityManager.persist(room3Acc4);
         entityManager.persist(room4Acc4);
-        entityManager.persist(marsBase2Room1);
-        entityManager.persist(marsBase2Room2);
-        entityManager.persist(marsBase2Room3);
-        entityManager.persist(marsBase2Room4);
-        entityManager.persist(marsBase2Room5);
-        entityManager.persist(marsBase2Room6);
+        entityManager.persist(lastResortRoom1);
+        entityManager.persist(lastResortRoom2);
+        entityManager.persist(lastResortRoom3);
+        entityManager.persist(lastResortRoom4);
+        entityManager.persist(lastResortRoom5);
+        entityManager.persist(lastResortRoom6);
         entityManager.persist(admin);
         entityManager.persist(testPerson);
         entityManager.persist(firstReservation);
