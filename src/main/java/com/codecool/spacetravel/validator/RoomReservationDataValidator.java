@@ -38,28 +38,14 @@ public class RoomReservationDataValidator {
                 errorMessages.add("Month must be greater than 0 and lesser than 13.");
             }
 
-            int maxDay = 0;
-            String[] longMonths = {"01", "03", "05", "07", "08", "10", "12"};
-            if (Arrays.asList(longMonths).contains(startDateMonth)) {
-                maxDay = 31;
-            } else if (startDateDay.equals("02")){
-                maxDay = 28;
-            } else {
-                maxDay = 30;
-            }
+            int maxDay = getMaxDayOfMonth(startDateMonth);
 
             if (Integer.parseInt(startDateDay) < 1 ||
                     Integer.parseInt(startDateDay) > maxDay){
                 errorMessages.add("Day in start date should be between 1 and " + maxDay + ".");
             }
 
-            if (Arrays.asList(longMonths).contains(endDateMonth)) {
-                maxDay = 31;
-            } else if (endDateDay.equals("02")){
-                maxDay = 28;
-            } else {
-                maxDay = 30;
-            }
+            maxDay = getMaxDayOfMonth(endDateMonth);
 
             if (Integer.parseInt(endDateDay) < 1 ||
                     Integer.parseInt(endDateDay) > maxDay){
@@ -71,6 +57,19 @@ public class RoomReservationDataValidator {
         }
 
         return errorMessages;
+    }
+
+    private int getMaxDayOfMonth(String month){
+        int maxDay;
+        String[] longMonths = {"01", "03", "05", "07", "08", "10", "12"};
+        if (Arrays.asList(longMonths).contains(month)) {
+            maxDay = 31;
+        } else if (month.equals("02")){
+            maxDay = 28;
+        } else {
+            maxDay = 30;
+        }
+        return maxDay;
     }
 
 }
