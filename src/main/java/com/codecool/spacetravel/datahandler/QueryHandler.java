@@ -14,7 +14,7 @@ import javax.persistence.EntityTransaction;
 import java.util.List;
 
 
-public class QueryHandler implements PersistHandler{
+public class QueryHandler {
 
     EntityManager em;
 
@@ -118,7 +118,7 @@ public class QueryHandler implements PersistHandler{
         return customer;
     }
 
-    @Override
+
     public void persistData(Object object) {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();

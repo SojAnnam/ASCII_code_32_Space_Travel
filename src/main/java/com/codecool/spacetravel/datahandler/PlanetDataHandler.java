@@ -5,22 +5,16 @@ import com.codecool.spacetravel.model.Picture;
 import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.model.SolarSystem;
 import spark.Request;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.TypedQuery;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PlanetDataHandler implements PersistHandler {
+public class PlanetDataHandler{
 
-    EntityManager em;
+
     QueryHandler queryHandler;
 
-    public PlanetDataHandler(EntityManager em,QueryHandler queryHandler) {
-
-        this.em = em;
+    public PlanetDataHandler(QueryHandler queryHandler) {
         this.queryHandler = queryHandler;
     }
 
@@ -84,11 +78,4 @@ public class PlanetDataHandler implements PersistHandler {
         return params;
     }
 
-    @Override
-    public void persistData(Object object) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(object);
-        transaction.commit();
-    }
 }

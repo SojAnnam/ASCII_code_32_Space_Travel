@@ -4,27 +4,19 @@ import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.Room;
 import com.codecool.spacetravel.model.RoomReservation;
-import com.codecool.spacetravel.validator.CustomerDataValidator;
 import com.codecool.spacetravel.validator.RoomReservationDataValidator;
 import spark.Request;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.xml.ws.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class RoomDataHandler implements PersistHandler {
+public class RoomDataHandler {
 
-    private EntityManager em;
     private QueryHandler queryHandler;
     private RoomReservationDataValidator roomReservationDataValidator;
 
-    public RoomDataHandler(EntityManager em,
-                           QueryHandler queryHandler,
+    public RoomDataHandler(QueryHandler queryHandler,
                            RoomReservationDataValidator roomReservationDataValidator) {
-        this.em = em;
         this.queryHandler = queryHandler;
         this.roomReservationDataValidator = roomReservationDataValidator;
     }
@@ -109,7 +101,7 @@ public class RoomDataHandler implements PersistHandler {
                     room.setRoomReservations(reservationsInRoom);
 
                     try {
-                        persistData(roomReservation);
+                        queryHandler.persistData(roomReservation);
                         savingSucceeded = true;
                     } catch (Exception e){
                         System.out.println("SAVING FAILED: " + e.getMessage());
@@ -242,13 +234,6 @@ public class RoomDataHandler implements PersistHandler {
         params.put("customername", customerName);
         params.put("errors", errorMessages);
         return params;
-    }
-    @Override
-    public void persistData(Object object) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(object);
-        transaction.commit();
     }
 
 }
