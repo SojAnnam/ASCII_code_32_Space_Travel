@@ -41,24 +41,7 @@ class PlanetDataHandlerTest {
         assertEquals(planetList,actualList);
     }
 
-    @Test
-    void getAllSolarSystem() {
-        List<SolarSystem> solarList= new ArrayList<>();
-        solarList.add(new SolarSystem());
-        EntityManager entityManagerMock = Mockito.mock(EntityManager.class);
-
-        TypedQuery<Planet> mockedQuery2 = Mockito.mock(TypedQuery.class);
-        when(entityManagerMock.createNamedQuery("Planet.getPlanetsBySolarSystemId", Planet.class)).thenReturn(mockedQuery2);
-        when(mockedQuery2.setParameter("solarSystemId",1L)).thenReturn(mockedQuery2);
-        when(mockedQuery2.getResultList()).thenReturn(solarList);
-
-        PlanetDataHandler planetDataHandler = new PlanetDataHandler(entityManagerMock);
-        List<Planet> actualList = planetDataHandler.getPlanetsBySolarSystemId(1);
-        assertEquals(solarList,actualList);
-
-
-    }
-
+    
     @Test
     void getAllPlanet() {
     }
