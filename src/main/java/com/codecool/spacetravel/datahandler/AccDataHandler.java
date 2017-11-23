@@ -28,21 +28,6 @@ public class AccDataHandler {
         this.em = em;
     }
 
-    public  List getAccByPlanetId(long id){
-
-        List<Accomodation> results = em.createNamedQuery("getAccByPlanetId", Accomodation.class)
-                .setParameter("planetId", id).getResultList();
-
-        return results;
-    }
-
-    public Planet getPlanet(long planetId){
-
-        Planet planet = em.createNamedQuery("getPlanet", Planet.class)
-                .setParameter("planetId", planetId).getSingleResult();
-
-        return planet;
-    }
 
     public Map renderAccHandler (Request req, long planetId){
         Long customerId = req.session().attribute("customer_id");
