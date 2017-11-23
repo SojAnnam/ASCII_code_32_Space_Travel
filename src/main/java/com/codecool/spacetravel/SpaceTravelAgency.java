@@ -34,16 +34,16 @@ public class SpaceTravelAgency {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
         this.entityManager = emf.createEntityManager();
         this.queryHandler =  new QueryHandler(entityManager);
-        this.planetDataHandler = new PlanetDataHandler(entityManager,queryHandler);
+        this.planetDataHandler = new PlanetDataHandler(queryHandler);
         this.planetRegistrationController = new PlanetRegistrationController(planetDataHandler);
         this.planetController = new PlanetController(planetDataHandler);
-        this.accDataHandler = new AccDataHandler(entityManager,queryHandler);
+        this.accDataHandler = new AccDataHandler(queryHandler);
         this.accController = new AccController(accDataHandler);
         this.customerDataValidator = new CustomerDataValidator(queryHandler);
-        this.customerDataHandler = new CustomerDataHandler(entityManager, customerDataValidator);
+        this.customerDataHandler = new CustomerDataHandler(queryHandler, customerDataValidator);
         this.customerAccountController = new CustomerAccountController(customerDataValidator, customerDataHandler);
         this.roomReservationDataValidator = new RoomReservationDataValidator();
-        this.roomDataHandler = new RoomDataHandler(entityManager,queryHandler, roomReservationDataValidator);
+        this.roomDataHandler = new RoomDataHandler(queryHandler, roomReservationDataValidator);
         this.roomController = new RoomController(roomDataHandler);
     }
 

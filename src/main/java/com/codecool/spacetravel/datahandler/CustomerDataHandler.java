@@ -12,13 +12,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomerDataHandler implements  PersistHandler{
+public class CustomerDataHandler{
 
-    private EntityManager em;
+    private QueryHandler queryHandler;
     private CustomerDataValidator customerDataValidator;
 
-    public CustomerDataHandler(EntityManager em, CustomerDataValidator customerDataValidator) {
-        this.em = em;
+    public CustomerDataHandler(QueryHandler queryHandler, CustomerDataValidator customerDataValidator) {
+        this.queryHandler = queryHandler;
         this.customerDataValidator = customerDataValidator;
     }
 
@@ -40,7 +40,7 @@ public class CustomerDataHandler implements  PersistHandler{
         customer.setRoomReservation(reservationsOfCustomer);
 
         try {
-            persistData(customer);
+            queryHandler.persistData(customer);
             savingSucceeded = true;
         } catch (Exception e){
             System.out.println("SAVING FAILED: " + e.getMessage());
@@ -103,14 +103,6 @@ public class CustomerDataHandler implements  PersistHandler{
         params.put("validcustomer", customer);
 
         return  params;
-    }
-
-    @Override
-    public void persistData(Object object) {
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        em.persist(object);
-        transaction.commit();
     }
 
 }

@@ -12,22 +12,12 @@ import java.util.Map;
 
 public class AccDataHandler {
 
-    private EntityManager em;
-    private QueryHandler queryHandler;
-    public AccDataHandler(EntityManager em, QueryHandler queryHandler) {
 
-        this.em = em;
+    private QueryHandler queryHandler;
+    public AccDataHandler(QueryHandler queryHandler) {
+
         this.queryHandler = queryHandler;
     }
-
-    public EntityManager getEm() {
-        return em;
-    }
-
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
-
 
     public Map renderAccHandler (Request req, long planetId){
         Long customerId = req.session().attribute("customer_id");
@@ -36,7 +26,6 @@ public class AccDataHandler {
         Planet planet = queryHandler.getPlanet(planetId);
 
         List<Accomodation> accList = queryHandler.getAccByPlanetId(planetId);
-        //System.out.println("getPlanetsBySolarSystemId - controller");
 
         Map params = new HashMap<>();
         params.put("loggedIn", customerId != null);
