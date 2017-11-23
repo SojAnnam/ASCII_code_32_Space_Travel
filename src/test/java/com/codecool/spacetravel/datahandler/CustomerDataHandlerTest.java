@@ -1,6 +1,5 @@
 package com.codecool.spacetravel.datahandler;
 
-import com.codecool.spacetravel.controller.QueryController;
 import com.codecool.spacetravel.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -30,7 +29,7 @@ class CustomerDataHandlerTest {
 
         CustomerDataHandler customerDataHandler = new CustomerDataHandler(entityManagerMock);
 
-        when(customerDataHandlerMock.getBla(anyString())).thenReturn(exampleCustomer);
+        // when(customerDataHandlerMock.getBla(anyString())).thenReturn(exampleCustomer);
 
         assertEquals(customerDataHandler.getCustomerByEmail("berci@freemail.hu"), exampleCustomer);
     }

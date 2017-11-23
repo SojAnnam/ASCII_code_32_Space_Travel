@@ -34,27 +34,22 @@ public class CustomerDataHandler {
         List<RoomReservation> reservationsOfCustomer = new ArrayList<>();
         customer.setRoomReservation(reservationsOfCustomer);
 
-        try{
+        try {
             EntityTransaction transaction = em.getTransaction();
             transaction.begin();
             em.persist(customer);
             transaction.commit();
             savingSucceeded = true;
         } catch (Exception e){
-            System.out.println("Saving failed: " + e.getMessage());
+            System.out.println("SAVING FAILED: " + e.getMessage());
         }
         return savingSucceeded;
     }
 
-    public Customer getBla(String email){
-        Customer customer= em.createNamedQuery("Customer.getCustomerByEmail", Customer.class)
-                .setParameter("email", email).getSingleResult();
-        return customer;
-    }
-
     public Customer getCustomerByEmail(String email) {
         Customer customer = null;
-        try{ customer = getBla(email);
+        try{ customer = customer= em.createNamedQuery("Customer.getCustomerByEmail", Customer.class)
+                .setParameter("email", email).getSingleResult();
 
         } catch (Exception e){
             System.out.println("No record found: " + e.getMessage());
