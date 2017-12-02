@@ -20,19 +20,14 @@ SET search_path = public, pg_catalog;
 --
 -- TOC entry 2232 (class 0 OID 47366)
 -- Dependencies: 189
--- Data for Name: picture; Type: TABLE DATA; Schema: public; Owner: potyi
+-- Data for Name: planetPicture; Type: TABLE DATA; Schema: public; Owner: potyi
 --
 
-INSERT INTO picture VALUES (1, 'Ugly insects', 'geonosis.jpg', 'Geonosis');
-INSERT INTO picture VALUES (2, 'Jabba and his bounty hunters will be your neighbour', 'jabba_palace.jpg', 'Jabba''s palace');
-INSERT INTO picture VALUES (3, 'The planet where maybe exists life', 'mars.jpg', 'Mars');
-INSERT INTO picture VALUES (4, 'Hotel with silo', 'marsbase1.jpg', 'Mars base 1');
-INSERT INTO picture VALUES (5, 'ESA Hotel', 'marsbase2.jpg', 'Mars base 2');
-INSERT INTO picture VALUES (6, 'The place of waving flag', 'moon.jpg', 'Moon');
-INSERT INTO picture VALUES (7, 'Han Solo and Luke: The beginning of a beautiful friendship', 'mos_esley.jpg', 'mos_esley');
-INSERT INTO picture VALUES (8, 'Giant planet with giant ring', 'saturn.jpg', 'Saturn');
-INSERT INTO picture VALUES (9, 'Desert Planet', 'tatooine.jpg', 'Tatooine');
-INSERT INTO picture VALUES (10, 'Total Recall', 'venusville4.jpg', 'Venusville');
+INSERT INTO planetPicture VALUES (1, 'Ugly insects', 'geonosis.jpg', 'Geonosis');
+INSERT INTO planetPicture VALUES (2, 'The planet where maybe exists life', 'mars.jpg', 'Mars');
+INSERT INTO planetPicture VALUES (3, 'The place of waving flag', 'moon.jpg', 'Moon');
+INSERT INTO planetPicture VALUES (4, 'Giant planet with giant ring', 'saturn.jpg', 'Saturn');
+INSERT INTO planetPicture VALUES (5, 'Desert Planet', 'tatooine.jpg', 'Tatooine');
 
 
 --
@@ -52,10 +47,10 @@ INSERT INTO solarsystem VALUES (2, 'Star Wars');
 --
 
 INSERT INTO planet VALUES (1, 'The place where we live. Mars is the fourth planet from the Sun and the second-smallest planet in the Solar System after Mercury. Mars''s average distance from the Sun is roughly 230 million kilometres. Orbital period is 687 (Earth) days.', 'Mars', 'The winter is coming...Average temperature is about -60 C°, although it can vary from -125 C° near the poles during the winter to as much as a comfortable 20 C° at midday near the equator.', 3, 1);
-INSERT INTO planet VALUES (2, 'Far far away from home. Saturn is the sixth planet from the Sun and the second-largest in the Solar System.The planet''s most famous feature is its prominent ring system that is composed mostly of ice particles, rocky debris and dust. ', 'Saturn', 'Pretty violent and stormy!', 8, 1);
-INSERT INTO planet VALUES (3, 'In the neighbourhood.', 'Moon', 'Daytime temperatures on the sunny side of the moon reach 273 degrees F (134 C°); on the dark side it gets as cold as minus 243 F (minus 153 C°).', 6, 1);
-INSERT INTO planet VALUES (4, 'Tatooine was a sparsely inhabited circumbinary desert planet located in the galaxy''s Outer Rim Territories. It would serve as the homeworld to the influential Anakin and Luke Skywalker, who would go on to shape galactic history.', 'Tatooine', 'Warm and dry', 9, 2);
-INSERT INTO planet VALUES (5, 'Rocky and hard place.Situated in the Geonosis system of the Arkanis sector in the Outer Rim Territories, the planet of Geonosis was 43,000 light years from the Galactic Core, and less than a parsec away from the Outer Rim planet of Tatooine.', 'Geonosis', 'Dry', 1, 2);
+INSERT INTO planet VALUES (2, 'Far far away from home. Saturn is the sixth planet from the Sun and the second-largest in the Solar System.The planet''s most famous feature is its prominent ring system that is composed mostly of ice particles, rocky debris and dust. ', 'Saturn', 'Pretty violent and stormy!', 4, 1);
+INSERT INTO planet VALUES (3, 'In the neighbourhood.', 'Moon', 'Daytime temperatures on the sunny side of the moon reach 273 degrees F (134 C°); on the dark side it gets as cold as minus 243 F (minus 153 C°).', 2, 1);
+INSERT INTO planet VALUES (4, 'Tatooine was a sparsely inhabited circumbinary desert planet located in the galaxy''s Outer Rim Territories. It would serve as the homeworld to the influential Anakin and Luke Skywalker, who would go on to shape galactic history.', 'Tatooine', 'Warm and dry', 5, 2);
+INSERT INTO planet VALUES (5, 'Rocky and hard place. Situated in the Geonosis system of the Arkanis sector in the Outer Rim Territories, the planet of Geonosis was 43,000 light years from the Galactic Core, and less than a parsec away from the Outer Rim planet of Tatooine.', 'Geonosis', 'Dry', 1, 2);
 
 
 --
@@ -64,12 +59,19 @@ INSERT INTO planet VALUES (5, 'Rocky and hard place.Situated in the Geonosis sys
 -- Data for Name: accomodation; Type: TABLE DATA; Schema: public; Owner: potyi
 --
 
-INSERT INTO accomodation VALUES (1, 'Hotel with green plants. On every morning we offer you to taste fresh veggies. Enjoy the long walk in the first Martian greenhouse!', 'Mars base 1', 4, 1);
-INSERT INTO accomodation VALUES (2, 'ESA Hotel for backpackers. Since the dawn of the space age, Mars has been the target of orbiters, landers and rovers. And now for the backpackers! We offer a multicultural atmosphere, many cultural programs are available.', 'Welcome Hotel', 5, 1);
-INSERT INTO accomodation VALUES (3, 'Memorable and chip hotel in Venusville, a very special and bizarre district of a human town. Radiation protection is weak, but enjoyment is guaranteed. Mercenaries, freedom fighters and a lot of mutants.', 'The Last Resort in Venusville', 10, 1);
-INSERT INTO accomodation VALUES (4, 'Iron walls, deep jail cells', 'Jabba''s palace', 2, 4);
-INSERT INTO accomodation VALUES (5, 'Nice music and a lot of guests from all part of the Universe', 'Mos Esley Cantina', 7, 4);
+INSERT INTO accomodation VALUES (1, 'Hotel with green plants. On every morning we offer you to taste fresh veggies. Enjoy the long walk in the first Martian greenhouse!', 'Mars base 1', 1);
+INSERT INTO accomodation VALUES (2, 'ESA Hotel for backpackers. Since the dawn of the space age, Mars has been the target of orbiters, landers and rovers. And now for the backpackers! We offer a multicultural atmosphere, many cultural programs are available.', 'Welcome Hotel', 1);
+INSERT INTO accomodation VALUES (3, 'Memorable and chip hotel in Venusville, a very special and bizarre district of a human town. Radiation protection is weak, but enjoyment is guaranteed. Mercenaries, freedom fighters and a lot of mutants.', 'The Last Resort in Venusville', 1);
+INSERT INTO accomodation VALUES (4, 'Iron walls, deep jail cells', 'Jabba''s palace', 4);
+INSERT INTO accomodation VALUES (5, 'Nice music and a lot of guests from all part of the Universe', 'Mos Esley Cantina', 4);
 
+
+
+INSERT INTO accomodationPicture VALUES (1, 'Jabba and his bounty hunters will be your neighbour', 'jabba_palace.jpg', 'Jabba''s palace', 4);
+INSERT INTO accomodationPicture VALUES (2, 'Hotel with silo', 'marsbase1.jpg', 'Mars base 1', 1);
+INSERT INTO accomodationPicture VALUES (3, 'ESA Hotel', 'marsbase2.jpg', 'Mars base 2', 2);
+INSERT INTO accomodationPicture VALUES (4, 'Han Solo and Luke: The beginning of a beautiful friendship', 'mos_esley.jpg', 'mos_esley', 5);
+INSERT INTO accomodationPicture VALUES (5, 'Total Recall', 'venusville4.jpg', 'Venusville', 3);
 
 --
 -- TOC entry 2247 (class 0 OID 0)
@@ -131,7 +133,11 @@ SELECT pg_catalog.setval('hibernate_sequence', 5, true);
 -- Name: picture_id_seq; Type: SEQUENCE SET; Schema: public; Owner: potyi
 --
 
-SELECT pg_catalog.setval('picture_id_seq', 10, true);
+SELECT pg_catalog.setval('planetpicture_id_seq', 5, true);
+
+
+
+SELECT pg_catalog.setval('accomodationpicture_id_seq', 5, true);
 
 
 --
