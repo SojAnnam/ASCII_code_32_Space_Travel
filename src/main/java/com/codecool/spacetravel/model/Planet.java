@@ -35,7 +35,7 @@ public class Planet {
     private SolarSystem solarsystem;
 
     @OneToOne
-    private Picture picture;
+    private PlanetPicture planetPicture;
 
     @OneToMany(mappedBy = "planet")
     private List<Accomodation> accomodation;
@@ -90,12 +90,12 @@ public class Planet {
         this.solarsystem = solarSystem;
     }
 
-    public Picture getPicture() {
-        return picture;
+    public PlanetPicture getPlanetPicture() {
+        return planetPicture;
     }
 
-    public void setPicture(Picture picture) {
-        this.picture = picture;
+    public void setPlanetPicture(PlanetPicture planetPicture) {
+        this.planetPicture = planetPicture;
     }
 
     public Collection<Accomodation> getAccomodation() {
