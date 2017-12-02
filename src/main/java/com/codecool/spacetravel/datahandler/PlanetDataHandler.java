@@ -1,7 +1,6 @@
 package com.codecool.spacetravel.datahandler;
 
-import com.codecool.spacetravel.model.Accomodation;
-import com.codecool.spacetravel.model.Picture;
+import com.codecool.spacetravel.model.PlanetPicture;
 import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.model.SolarSystem;
 import spark.Request;
@@ -54,7 +53,7 @@ public class PlanetDataHandler{
 
         if (name != null && description != null  && weather != null) {
             if (!name.equals("") && !description.equals("")  && !weather.equals("")) {
-                Picture pictureDefault = new Picture("default-planet.jpg","default-text", "default-title");
+                PlanetPicture planetPictureDefault = new PlanetPicture("default-planet.jpg","default-text", "default-title");
                 SolarSystem currentSolarSystem = null;
                 long galaxyIdLong = Long.parseLong(req.queryParams("galaxy"));
 
@@ -64,8 +63,8 @@ public class PlanetDataHandler{
                     }
                 }
                 Planet currentPlanet = new Planet(name, description, weather, currentSolarSystem);
-                currentPlanet.setPicture(pictureDefault);
-                queryHandler.persistData(pictureDefault);
+                currentPlanet.setPlanetPicture(planetPictureDefault);
+                queryHandler.persistData(planetPictureDefault);
                 queryHandler.persistData(currentPlanet);
             }
         }
