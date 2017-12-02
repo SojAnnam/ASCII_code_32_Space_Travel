@@ -71,7 +71,7 @@
                     <h2 th:text="${acc.name}">accname</h2>
                     <a class="accommodations" th:id="${acc.id}"
                        th:href="@{'~/reservation/' + ${acc.id}}">
-                        <img th:attr="src='/img_collection/' + ${acc.getPicture().fileName}" />
+                        <img th:attr="src='/img_collection/' + ${acc.getAccomodationPictures()[0].fileName}" />
                     </a>
                 </div>
             </div>

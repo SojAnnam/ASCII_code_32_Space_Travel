@@ -87,7 +87,7 @@
                 <h2 th:text="${accomodation.getName()}">Acc Name</h2>
                 <div class="row">
                     <div class="col-sm-4">
-                        <img id="accom-image-in-reservation" th:attr="src='/img_collection/' + ${accomodation.getPicture().fileName}" alt="IMG"/>
+                        <img id="accom-image-in-reservation" th:attr="src='/img_collection/' + ${accomodation.getAccomodationPictures()[0].fileName}" alt="IMG"/>
                     </div>
                     <div class="col-sm-4">
                         <p><h3><i class="fa fa-info-circle" aria-hidden="true"></i> Information:</h3></p>
