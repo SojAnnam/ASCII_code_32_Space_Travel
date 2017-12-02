@@ -95,7 +95,7 @@
             <div id="planets" class="row list-group">
                 <div class="item col-xs-4 col-lg-4" th:each="planet,iterStat : ${planets}">
                     <div class="thumbnail">
-                        <a th:href="@{'~/' + ${planet.id}+'/accomodation'}"><img class="group list-group-image"  src="http://placehold.it/400x250/000/fff" th:attr="src='/img_collection/' + ${planet.getPicture().fileName}" alt=""></img></a>
+                        <a th:href="@{'~/' + ${planet.id}+'/accomodation'}"><img class="group list-group-image"  src="http://placehold.it/400x250/000/fff" th:attr="src='/img_collection/' + ${planet.getPlanetPicture().fileName}" alt=""></img></a>
                         <div class="caption">
                             <h4 class="group inner list-group-item-heading" th:text="${planet.name}">Product name</h4>
                         </div>
