@@ -3,7 +3,7 @@ package com.codecool.spacetravel.model;
 import javax.persistence.*;
 
 @Entity
-public class Picture {
+public class PlanetPicture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,16 +15,13 @@ public class Picture {
 
     private String title;
 
-    @OneToOne(mappedBy = "picture")
+    @OneToOne(mappedBy = "planetPicture")
     private Planet planet;
 
-    @OneToOne(mappedBy = "picture")
-    private Accomodation accomodation;
-
-    public Picture() {
+    public PlanetPicture() {
     }
 
-    public Picture(String fileName, String description, String title) {
+    public PlanetPicture(String fileName, String description, String title) {
 
         this.fileName = fileName;
         this.description = description;
