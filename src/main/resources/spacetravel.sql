@@ -69,8 +69,8 @@ INSERT INTO accomodation VALUES (5, 'Nice music and a lot of guests from all par
 
 INSERT INTO accomodationPicture VALUES (1, 'Iron walls in the desert.', 'jabba_palace.jpg', 'Jabba''s palace', 4);
 INSERT INTO accomodationPicture VALUES (2, 'A twi''lek receptionist. He will salute you with these words: "Die wanna wanga"', 'jabba_bib_fortuna.jpg', 'Bib Fortuna', 4);
-INSERT INTO accomodationPicture VALUES (3, 'Always tell him the truth - for your sake', 'jabba_guard.jpg', 'Gamorrean security man', 4);
-INSERT INTO accomodationPicture VALUES (4, 'She waits only for you, if you are a good guy. Or girl.', 'jabba_dancer.jpg', 'Sensual maid', 4);
+INSERT INTO accomodationPicture VALUES (3, 'Always tell him the truth. For your sake.', 'jabba_guard.jpg', 'Gamorrean security man', 4);
+INSERT INTO accomodationPicture VALUES (4, 'She waits only for you, if you are a good boy. Or a bad girl.', 'jabba_dancer.jpg', 'Sensual maid', 4);
 INSERT INTO accomodationPicture VALUES (5, 'Jabba''s best supplier.', 'jabba_boba_fett.jpg', 'Boba Fett', 4);
 INSERT INTO accomodationPicture VALUES (6, 'Golden protocol droid.', 'jabba_3cpo.jpg', '3CPO', 4);
 INSERT INTO accomodationPicture VALUES (7, 'The big, big boss.', 'jabba_face.jpg', 'Jabba the Hutt', 4);
