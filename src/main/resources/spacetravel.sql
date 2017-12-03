@@ -62,16 +62,28 @@ INSERT INTO planet VALUES (5, 'Rocky and hard place. Situated in the Geonosis sy
 INSERT INTO accomodation VALUES (1, 'Hotel with green plants. On every morning we offer you to taste fresh veggies. Enjoy the long walk in the first Martian greenhouse!', 'Mars base 1', 1);
 INSERT INTO accomodation VALUES (2, 'ESA Hotel for backpackers. Since the dawn of the space age, Mars has been the target of orbiters, landers and rovers. And now for the backpackers! We offer a multicultural atmosphere, many cultural programs are available.', 'Welcome Hotel', 1);
 INSERT INTO accomodation VALUES (3, 'Memorable and chip hotel in Venusville, a very special and bizarre district of a human town. Radiation protection is weak, but enjoyment is guaranteed. Mercenaries, freedom fighters and a lot of mutants.', 'The Last Resort in Venusville', 1);
-INSERT INTO accomodation VALUES (4, 'Iron walls, deep jail cells', 'Jabba''s palace', 4);
+INSERT INTO accomodation VALUES (4, 'Iron walls, deep jail cells in the middle of the desert. The boss has big ambition, and big body. Mercenaries, bounty hunters and other bizarre creatures. Only for the braves.', 'Jabba''s Palace', 4);
 INSERT INTO accomodation VALUES (5, 'Nice music and a lot of guests from all part of the Universe', 'Mos Esley Cantina', 4);
 
 
 
-INSERT INTO accomodationPicture VALUES (1, 'Jabba and his bounty hunters will be your neighbour', 'jabba_palace.jpg', 'Jabba''s palace', 4);
-INSERT INTO accomodationPicture VALUES (2, 'Hotel with silo', 'marsbase1.jpg', 'Mars base 1', 1);
-INSERT INTO accomodationPicture VALUES (3, 'ESA Hotel', 'marsbase2.jpg', 'Mars base 2', 2);
-INSERT INTO accomodationPicture VALUES (4, 'Han Solo and Luke: The beginning of a beautiful friendship', 'mos_esley.jpg', 'mos_esley', 5);
-INSERT INTO accomodationPicture VALUES (5, 'Total Recall', 'venusville4.jpg', 'Venusville', 3);
+INSERT INTO accomodationPicture VALUES (1, 'Iron walls in the desert.', 'jabba_palace.jpg', 'Jabba''s palace', 4);
+INSERT INTO accomodationPicture VALUES (2, 'A twi''lek receptionist. He will salute you with these words: "Die wanna wanga"', 'jabba_bib_fortuna.jpg', 'Bib Fortuna', 4);
+INSERT INTO accomodationPicture VALUES (3, 'Always tell him the truth - for your sake', 'jabba_guard.jpg', 'Gamorrean security man', 4);
+INSERT INTO accomodationPicture VALUES (4, 'She waits only for you, if you are a good guy. Or girl.', 'jabba_dancer.jpg', 'Sensual maid', 4);
+INSERT INTO accomodationPicture VALUES (5, 'Jabba''s best supplier.', 'jabba_boba_fett.jpg', 'Boba Fett', 4);
+INSERT INTO accomodationPicture VALUES (6, 'Golden protocol droid.', 'jabba_3cpo.jpg', '3CPO', 4);
+INSERT INTO accomodationPicture VALUES (7, 'The big, big boss.', 'jabba_face.jpg', 'Jabba the Hutt', 4);
+INSERT INTO accomodationPicture VALUES (8, 'Very special bed.', 'jabba_han_place.jpg', 'Single Room', 4);
+INSERT INTO accomodationPicture VALUES (9, 'Rancor Pit', 'jabba_rancor_pit.jpg', 'Family Room', 4);
+INSERT INTO accomodationPicture VALUES (10, 'It''s not the Franz Liszt Chamber Orchestra...', 'jabba_band.jpg', 'The Band', 4);
+INSERT INTO accomodationPicture VALUES (11, 'Safari in the desert.', 'jabba_desert.jpg', 'Excursion', 4);
+INSERT INTO accomodationPicture VALUES (12, 'Dark cave.', 'jabba_sarlacc.jpg', 'Special offer', 4);
+INSERT INTO accomodationPicture VALUES (13, 'Hotel with silo', 'marsbase1.jpg', 'Mars base 1', 1);
+INSERT INTO accomodationPicture VALUES (14, 'ESA Hotel', 'marsbase2.jpg', 'Mars base 2', 2);
+INSERT INTO accomodationPicture VALUES (15, 'Han Solo and Luke: The beginning of a beautiful friendship', 'mos_esley.jpg', 'mos_esley', 5);
+INSERT INTO accomodationPicture VALUES (16, 'Total Recall', 'venusville4.jpg', 'Venusville', 3);
+
 
 --
 -- TOC entry 2247 (class 0 OID 0)
@@ -137,7 +149,7 @@ SELECT pg_catalog.setval('planetpicture_id_seq', 5, true);
 
 
 
-SELECT pg_catalog.setval('accomodationpicture_id_seq', 5, true);
+SELECT pg_catalog.setval('accomodationpicture_id_seq', 16, true);
 
 
 --
