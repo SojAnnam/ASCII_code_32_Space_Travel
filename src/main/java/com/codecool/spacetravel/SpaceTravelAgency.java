@@ -49,9 +49,7 @@ public class SpaceTravelAgency {
 
     public static void main(String[] args) {
 
-
         SpaceTravelAgency spaceTravelAgency = new SpaceTravelAgency();
-
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -62,9 +60,6 @@ public class SpaceTravelAgency {
         enableDebugScreen();
 
         System.out.println("Starting...");
-
-
-
 
 
         get("/", (Request req, Response res) -> {
