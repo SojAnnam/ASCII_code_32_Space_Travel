@@ -3,9 +3,9 @@ var app = app || {};
 app.accomodationImageGallery = {
 
     carouselWorking: function () {
-        $('#galleryCarousel').carousel({
+        /*$('#galleryCarousel').carousel({
             interval: 5000
-        });
+        });*/
 
         //Handles the carousel thumbnails
         $('[id^=carousel-selector-]').click(function () {
