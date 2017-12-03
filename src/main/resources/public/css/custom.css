@@ -17,7 +17,7 @@ a.nav-link.dropdown-toggle{
 .logo a:hover {
     text-decoration: none;
 }
-#accom-image-in-reservation{
+.accom-image-in-reservation{
     width: 200px;
     height: 125px;
 }
@@ -29,10 +29,12 @@ a.nav-link.dropdown-toggle{
     padding-left: 12px;
     display: block;
 }
+
 .thumbnail a>img, .thumbnail>img {
     width:360px;
-    height:225px;
+
 }
+
 .jumbotron text-center{
     font-family: 'Bevan', cursive;
 }
@@ -208,4 +210,25 @@ input::-webkit-input-placeholder {
 .search-button{
     margin-top: 3.2%;
 
+}
+
+.hide-bullets {
+    list-style:none;
+    margin-left: -40px;
+    margin-top:20px;
+}
+
+.carousel-inner>.item>img, .carousel-inner>.item>a>img {
+    width: 100%;
+}
+
+#slider-thumbs {
+    height: 565px;
+    overflow-y: scroll;
+    white-space: nowrap;
+}
+
+
+.modal-lg {
+    width: 1110px;
 }
