@@ -136,7 +136,7 @@ SELECT pg_catalog.setval('customer_id_seq', 2, true);
 -- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: public; Owner: potyi
 --
 
-SELECT pg_catalog.setval('hibernate_sequence', 5, true);
+--SELECT pg_catalog.setval('hibernate_sequence', 5, true);
 
 
 --

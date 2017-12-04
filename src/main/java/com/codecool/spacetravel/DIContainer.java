@@ -1,8 +1,12 @@
 package com.codecool.spacetravel;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
+import com.codecool.spacetravel.DAO.RoomDao;
 import com.codecool.spacetravel.controller.*;
-import com.codecool.spacetravel.datahandler.*;
+import com.codecool.spacetravel.controller.collectdata.AccDataHandler;
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
+import com.codecool.spacetravel.controller.collectdata.PlanetDataHandler;
+import com.codecool.spacetravel.controller.collectdata.RoomDataHandler;
 import com.codecool.spacetravel.validator.CustomerDataValidator;
 import com.codecool.spacetravel.validator.RoomReservationDataValidator;
 
@@ -22,9 +26,11 @@ public class DIContainer {
     private PlanetDataHandler planetDataHandler;
     private PlanetRegistrationController planetRegistrationController;
     private RoomController roomController;
+    private RoomDao roomDao;
     private RoomDataHandler roomDataHandler;
     private RoomReservationDataValidator roomReservationDataValidator;
     private QueryHandler queryHandler;
+
 
     public DIContainer(){
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
@@ -39,7 +45,8 @@ public class DIContainer {
         this.customerDataHandler = new CustomerDataHandler(queryHandler, customerDataValidator);
         this.customerAccountController = new CustomerAccountController(customerDataHandler);
         this.roomReservationDataValidator = new RoomReservationDataValidator();
-        this.roomDataHandler = new RoomDataHandler(queryHandler, roomReservationDataValidator);
+        this.roomDao = new RoomDao(queryHandler);
+        this.roomDataHandler = new RoomDataHandler(queryHandler, roomReservationDataValidator,roomDao);
         this.roomController = new RoomController(roomDataHandler);
     }
 
@@ -93,5 +100,9 @@ public class DIContainer {
 
     public QueryHandler getQueryHandler() {
         return queryHandler;
+    }
+
+    public RoomDao getRoomDao() {
+        return roomDao;
     }
 }

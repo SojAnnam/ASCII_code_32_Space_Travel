@@ -1,6 +1,7 @@
 package com.codecool.spacetravel.datahandler;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.validator.CustomerDataValidator;
 import org.hibernate.persister.spi.UnknownPersisterException;

@@ -1,6 +1,6 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.datahandler.CustomerDataHandler;
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.model.Customer;
 import spark.ModelAndView;
 import spark.Request;
@@ -18,6 +18,9 @@ public class CustomerAccountController {
     }
 
     public ModelAndView renderCustomerRegistration(Request req, Response res) {
+
+
+
         Map params = customerDataHandler.collectCustomerRegistrationData(req);
 
         List<String> errorMessages = (List) params.get("errors");

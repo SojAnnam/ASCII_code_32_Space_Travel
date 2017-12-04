@@ -1,6 +1,6 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.datahandler.AccDataHandler;
+import com.codecool.spacetravel.controller.collectdata.AccDataHandler;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

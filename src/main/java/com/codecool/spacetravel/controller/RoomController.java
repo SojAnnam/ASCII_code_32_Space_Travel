@@ -1,6 +1,7 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.datahandler.RoomDataHandler;
+import com.codecool.spacetravel.DAO.RoomDao;
+import com.codecool.spacetravel.controller.collectdata.RoomDataHandler;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

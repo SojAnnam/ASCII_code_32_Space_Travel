@@ -1,4 +1,4 @@
-package com.codecool.spacetravel.datahandler;
+package com.codecool.spacetravel.controller.collectdata;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.PlanetPicture;
@@ -15,6 +15,7 @@ public class PlanetDataHandler{
     QueryHandler queryHandler;
 
     public PlanetDataHandler(QueryHandler queryHandler) {
+
         this.queryHandler = queryHandler;
     }
 

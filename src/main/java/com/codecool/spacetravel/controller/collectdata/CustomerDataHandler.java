@@ -1,4 +1,4 @@
-package com.codecool.spacetravel.datahandler;
+package com.codecool.spacetravel.controller.collectdata;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
