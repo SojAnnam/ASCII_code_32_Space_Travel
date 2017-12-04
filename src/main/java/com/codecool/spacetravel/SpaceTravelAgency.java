@@ -1,16 +1,5 @@
 package com.codecool.spacetravel;
 
-import com.codecool.spacetravel.datahandler.*;
-import com.codecool.spacetravel.controller.*;
-
-import com.codecool.spacetravel.validator.CustomerDataValidator;
-import com.codecool.spacetravel.validator.RoomReservationDataValidator;
-import spark.Request;
-import spark.Response;
-import spark.template.thymeleaf.ThymeleafTemplateEngine;
-
-import javax.persistence.*;
-
 import static spark.Spark.*;
 import static spark.debug.DebugScreen.enableDebugScreen;
 
