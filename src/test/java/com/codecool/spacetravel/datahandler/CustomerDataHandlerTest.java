@@ -6,12 +6,16 @@ import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.validator.CustomerDataValidator;
 import org.hibernate.persister.spi.UnknownPersisterException;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import spark.Request;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class CustomerDataHandlerTest {
 
     private static Map<String, String> exampleCorrectCustomerDatas = createGoodCustomerDatas();
@@ -54,7 +58,7 @@ class CustomerDataHandlerTest {
         assertEquals(true, savingSucceeded);
     }
 
-    @Test
+    /*@Test
     void renderCustomerRegistrationHandler_RegistrationSucceeded_NoErrorMessageSavingBooleansAreTrue() {
         List<String> exampleEmptyErrorMessages = new ArrayList<>();
         Set<String> exampleRequestQueryParams = new HashSet<>();
@@ -92,7 +96,7 @@ class CustomerDataHandlerTest {
         assertEquals(true, params.get("savingsucceeded"));
         assertEquals(true, params.get("savingtried"));
         assertEquals(0, errorMessages.size());
-    }
+    }*/
 
     /*@Test
     void collectLoginData() {

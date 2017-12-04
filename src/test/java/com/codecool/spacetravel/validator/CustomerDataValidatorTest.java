@@ -3,7 +3,10 @@ package com.codecool.spacetravel.validator;
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +16,8 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class CustomerDataValidatorTest {
 
     private static Map<String, String> exampleCorrectCustomerDatas = createGoodCustomerDatas();
