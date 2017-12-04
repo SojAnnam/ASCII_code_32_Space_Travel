@@ -30,6 +30,7 @@ public class SpaceTravelAgency {
 
         DIContainer diContainer = new DIContainer();
         Routes routes = new Routes(diContainer);
+        routes.initRoutes();
 
     }
 
