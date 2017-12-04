@@ -1,6 +1,6 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.datahandler.PlanetDataHandler;
+import com.codecool.spacetravel.controller.collectdata.PlanetDataHandler;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -17,7 +17,7 @@ public class PlanetRegistrationController {
 
     public ModelAndView renderPlanetRegistration(Request req, Response res) {
 
-        Map params = planetDataHandler.renderPlanetRegistration(req);
+        Map params = planetDataHandler.collectPlanetRegistrationData(req);
 
 
         return new ModelAndView(params, "registration_planet");

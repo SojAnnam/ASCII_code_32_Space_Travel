@@ -1,4 +1,4 @@
-package com.codecool.spacetravel.datahandler;
+package com.codecool.spacetravel.DAO;
 
 import com.codecool.spacetravel.model.*;
 

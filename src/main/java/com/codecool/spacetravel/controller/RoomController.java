@@ -1,9 +1,7 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.datahandler.QueryHandler;
-import com.codecool.spacetravel.datahandler.RoomDataHandler;
-import com.codecool.spacetravel.model.*;
-import com.codecool.spacetravel.validator.RoomReservationDataValidator;
+import com.codecool.spacetravel.DAO.RoomDao;
+import com.codecool.spacetravel.controller.collectdata.RoomDataHandler;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -20,14 +18,14 @@ public class RoomController {
 
     public ModelAndView renderRooms(Request req, Response res){
 
-        Map params = roomDataHandler.renderRoomsHandler(req);
+        Map params = roomDataHandler.collectRoomsData(req);
 
         return new ModelAndView(params, "roomreservation");
     }
 
     public ModelAndView renderRoomReservationSaving(Request req, Response res) {
 
-        Map params = roomDataHandler.renderRoomReservationSavingHandler(req);
+        Map params = roomDataHandler.collectRoomReservationSavingData(req);
 
         return new ModelAndView(params, "reservationsaving");
     }

@@ -1,5 +1,7 @@
 package com.codecool.spacetravel.datahandler;
 
+import com.codecool.spacetravel.DAO.QueryHandler;
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.validator.CustomerDataValidator;
 import org.hibernate.persister.spi.UnknownPersisterException;
@@ -84,7 +86,7 @@ class CustomerDataHandlerTest {
         when(customerDataValidatorMock.validateRegistrationDatas(exampleCorrectCustomerDatas)).thenReturn(exampleEmptyErrorMessages);
         doNothing().when(queryHandlerMock).persistData(exampleCustomer);
 
-        Map<String, Object> params = customerDataHandler.renderCustomerRegistrationHandler(requestMock);
+        Map<String, Object> params = customerDataHandler.collectCustomerRegistrationData(requestMock);
 
         List<String> errorMessages = (List<String>) params.get("errors");
         assertEquals(true, params.get("savingsucceeded"));
@@ -93,7 +95,7 @@ class CustomerDataHandlerTest {
     }
 
     /*@Test
-    void renderLoginHandler() {
+    void collectLoginData() {
 
     }*/
 

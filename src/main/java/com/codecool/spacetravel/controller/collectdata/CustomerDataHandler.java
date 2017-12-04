@@ -1,12 +1,11 @@
-package com.codecool.spacetravel.datahandler;
+package com.codecool.spacetravel.controller.collectdata;
 
+import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.RoomReservation;
 import com.codecool.spacetravel.validator.CustomerDataValidator;
 import spark.Request;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +47,7 @@ public class CustomerDataHandler{
         return savingSucceeded;
     }
 
-    public Map renderCustomerRegistrationHandler(Request req) {
+    public Map collectCustomerRegistrationData(Request req) {
         List<String> errorMessages = new ArrayList();
         Map<String, String> customerDatas = new HashMap<>();
         boolean savingSucceeded = false;
@@ -82,7 +81,7 @@ public class CustomerDataHandler{
         return params;
     }
 
-    public Map renderLoginHandler(Request req) {
+    public Map collectLoginData(Request req) {
         List<String> errorMessages = new ArrayList();
         Map<String, String> customerDatas = new HashMap<>();
         Customer customer = null;

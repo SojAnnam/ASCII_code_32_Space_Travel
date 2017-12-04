@@ -1,9 +1,7 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.datahandler.CustomerDataHandler;
-import com.codecool.spacetravel.datahandler.QueryHandler;
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.model.Customer;
-import com.codecool.spacetravel.validator.CustomerDataValidator;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -20,7 +18,10 @@ public class CustomerAccountController {
     }
 
     public ModelAndView renderCustomerRegistration(Request req, Response res) {
-        Map params = customerDataHandler.renderCustomerRegistrationHandler(req);
+
+
+
+        Map params = customerDataHandler.collectCustomerRegistrationData(req);
 
         List<String> errorMessages = (List) params.get("errors");
 
@@ -37,7 +38,7 @@ public class CustomerAccountController {
     }
 
     public ModelAndView renderLogin(Request req, Response res) {
-        Map params = customerDataHandler.renderLoginHandler(req);
+        Map params = customerDataHandler.collectLoginData(req);
 
         List<String> errorMessages = (List) params.get("errors");
         Customer customer = (Customer) params.get("validcustomer");
