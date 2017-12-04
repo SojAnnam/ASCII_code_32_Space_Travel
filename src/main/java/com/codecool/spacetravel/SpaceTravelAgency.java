@@ -16,40 +16,7 @@ import static spark.debug.DebugScreen.enableDebugScreen;
 
 public class SpaceTravelAgency {
 
-    private EntityManager entityManager;
-    private AccDataHandler accDataHandler;
-    private AccController accController;
-    private CustomerDataValidator customerDataValidator;
-    private CustomerDataHandler customerDataHandler;
-    private CustomerAccountController customerAccountController;
-    private PlanetController planetController;
-    private PlanetDataHandler planetDataHandler;
-    private PlanetRegistrationController planetRegistrationController;
-    private RoomController roomController;
-    private RoomDataHandler roomDataHandler;
-    private RoomReservationDataValidator roomReservationDataValidator;
-    private QueryHandler queryHandler;
-
-    public SpaceTravelAgency(){
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("spacetravel");
-        this.entityManager = emf.createEntityManager();
-        this.queryHandler =  new QueryHandler(entityManager);
-        this.planetDataHandler = new PlanetDataHandler(queryHandler);
-        this.planetRegistrationController = new PlanetRegistrationController(planetDataHandler);
-        this.planetController = new PlanetController(planetDataHandler);
-        this.accDataHandler = new AccDataHandler(queryHandler);
-        this.accController = new AccController(accDataHandler);
-        this.customerDataValidator = new CustomerDataValidator(queryHandler);
-        this.customerDataHandler = new CustomerDataHandler(queryHandler, customerDataValidator);
-        this.customerAccountController = new CustomerAccountController(customerDataHandler);
-        this.roomReservationDataValidator = new RoomReservationDataValidator();
-        this.roomDataHandler = new RoomDataHandler(queryHandler, roomReservationDataValidator);
-        this.roomController = new RoomController(roomDataHandler);
-    }
-
     public static void main(String[] args) {
-
-        SpaceTravelAgency spaceTravelAgency = new SpaceTravelAgency();
 
         // default server settings
         exception(Exception.class, (e, req, res) -> e.printStackTrace());
@@ -61,68 +28,8 @@ public class SpaceTravelAgency {
 
         System.out.println("Starting...");
 
-
-        get("/", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, false));
-        });
-
-        get("/customer-registration", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderCustomerRegistration(req, res));
-        });
-
-        post("/customer-registration", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderCustomerRegistration(req, res));
-        });
-
-        get("/customer-registration-succeeded", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, true));
-        });
-
-        get("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderLogin(req, res));
-        });
-
-        post("/login", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderLogin(req, res));
-        });
-
-        get("/logout", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.customerAccountController.renderLogout(req, res));
-        });
-
-        get("/registration-planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetRegistrationController.renderPlanetRegistration(req, res));
-        });
-        post("/registration-planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetRegistrationController.renderPlanetRegistration(req, res));
-        });
-
-
-        get("/planet", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, false));
-        });
-        get("/planet/:solarSystemId", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.planetController.renderPlanets(req, res, false));
-        });
-
-        get("/:planetId/accomodation", (Request req, Response res) -> {
-            int planetId = Integer.parseInt(req.params(":planetId"));
-
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.accController.renderAcc(req, res, planetId));
-        });
-
-        get("/reservation/:id", (Request req, Response res) -> {
-
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.roomController.renderRooms(req, res));
-        });
-
-        post("/reservation", (Request req, Response res) ->{
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.roomController.renderRooms(req, res));
-        });
-
-        post("/save", (Request req, Response res) -> {
-            return new ThymeleafTemplateEngine().render(spaceTravelAgency.roomController.renderRoomReservationSaving(req, res));
-        });
+        DIContainer diContainer = new DIContainer();
+        Routes routes = new Routes(diContainer);
 
     }
 
