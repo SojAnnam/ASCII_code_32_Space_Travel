@@ -7,8 +7,17 @@
     <groupId>groupId</groupId>
     <artifactId>ASCII_code_32_Space_Travel</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.8.RELEASE</version>
+    </parent>
 
     <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <version.java>1.8</version.java>
         <version.eclipselink>2.6.2</version.eclipselink>
         <version.hibernate.validator>5.1.2.Final</version.hibernate.validator>
@@ -25,28 +34,38 @@
 
     <dependencies>
 
+        <!-- The versions of these dependencies are defined by the spring-boot-dependencies pom in the parent pom -->
+        <!-- Spring boot + web package + Thymeleaf support -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
 
+        <!-- ORM com.codecool.spring.todo.repository (JPA) support -->
         <dependency>
-            <groupId>com.sparkjava</groupId>
-            <artifactId>spark-core</artifactId>
-            <version>2.5</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
+        <!-- Spring boot test framework -->
         <dependency>
-            <groupId>com.sparkjava</groupId>
-            <artifactId>spark-template-thymeleaf</artifactId>
-            <version>2.3</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>1.7.21</version>
         </dependency>
+
         <dependency>
-            <groupId>com.sparkjava</groupId>
-            <artifactId>spark-debug-tools</artifactId>
-            <version>0.5</version>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.1.4</version>
         </dependency>
-        <dependency><groupId>org.postgresql</groupId><artifactId>postgresql</artifactId><version>42.1.4</version></dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -94,11 +113,13 @@
         <!--<artifactId>mysql-connector-java</artifactId>-->
         <!--<version>${version.mysql}</version>-->
         <!--</dependency>-->
-        <dependency>
+
+        <!--<dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${version.postgres}</version>
-        </dependency>
+
+        </dependency>-->
 
         <dependency>
             <groupId>junit</groupId>
@@ -160,6 +181,12 @@
             <!--</execution>-->
             <!--</executions>-->
             <!--</plugin>-->
+
+            <!-- Allows to package executable jar or war archives and run an application "in-place" -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
 
         </plugins>
     </build>
