@@ -1,5 +1,6 @@
 package com.codecool.spacetravel.datahandler;
 
+import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.PlanetPicture;
 import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.model.SolarSystem;
@@ -17,7 +18,7 @@ public class PlanetDataHandler{
         this.queryHandler = queryHandler;
     }
 
-    public Map renderPlanetHandler (Request req, boolean newCustomerSaved){
+    public Map collectPlanetData(Request req, boolean newCustomerSaved){
         Long customerId = req.session().attribute("customer_id");
         String customerName = req.session().attribute("customer_name");
 
@@ -42,7 +43,7 @@ public class PlanetDataHandler{
         return params;
     }
 
-    public Map renderPlanetRegistration(Request req) {
+    public Map collectPlanetRegistrationData(Request req) {
         Integer userId = req.session().attribute("user_id");
 
         List<SolarSystem> solarSystems = queryHandler.getAllSolarSystem();

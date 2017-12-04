@@ -1,6 +1,6 @@
 package com.codecool.spacetravel.validator;
 
-import com.codecool.spacetravel.datahandler.QueryHandler;
+import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

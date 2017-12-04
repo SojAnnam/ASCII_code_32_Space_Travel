@@ -17,7 +17,7 @@ public class PlanetRegistrationController {
 
     public ModelAndView renderPlanetRegistration(Request req, Response res) {
 
-        Map params = planetDataHandler.renderPlanetRegistration(req);
+        Map params = planetDataHandler.collectPlanetRegistrationData(req);
 
 
         return new ModelAndView(params, "registration_planet");

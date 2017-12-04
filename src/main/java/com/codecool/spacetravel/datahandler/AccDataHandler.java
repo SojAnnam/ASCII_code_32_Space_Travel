@@ -1,11 +1,11 @@
 package com.codecool.spacetravel.datahandler;
 
+import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Planet;
 import spark.Request;
 
 
-import javax.persistence.EntityManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class AccDataHandler {
         this.queryHandler = queryHandler;
     }
 
-    public Map renderAccHandler (Request req, long planetId){
+    public Map collectAccData(Request req, long planetId){
         Long customerId = req.session().attribute("customer_id");
         String customerName = req.session().attribute("customer_name");
 

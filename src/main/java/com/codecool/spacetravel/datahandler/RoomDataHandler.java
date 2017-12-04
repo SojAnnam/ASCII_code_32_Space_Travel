@@ -1,5 +1,6 @@
 package com.codecool.spacetravel.datahandler;
 
+import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.Room;
@@ -147,7 +148,7 @@ public class RoomDataHandler {
 
     }
 
-    public Map renderRoomsHandler(Request req){
+    public Map collectRoomsData(Request req){
         Long customerId = req.session().attribute("customer_id");
         String customerName = req.session().attribute("customer_name");
 
@@ -207,7 +208,7 @@ public class RoomDataHandler {
     }
 
 
-    public Map renderRoomReservationSavingHandler(Request req) {
+    public Map collectRoomReservationSavingData(Request req) {
         Long customerId = req.session().attribute("customer_id");
         String customerName = req.session().attribute("customer_name");
 

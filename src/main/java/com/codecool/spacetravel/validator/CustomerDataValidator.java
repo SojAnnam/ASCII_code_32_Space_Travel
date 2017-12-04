@@ -1,10 +1,8 @@
 package com.codecool.spacetravel.validator;
 
-import com.codecool.spacetravel.datahandler.CustomerDataHandler;
-import com.codecool.spacetravel.datahandler.QueryHandler;
+import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 
-import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

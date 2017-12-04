@@ -1,5 +1,6 @@
 package com.codecool.spacetravel;
 
+import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.controller.*;
 import com.codecool.spacetravel.datahandler.*;
 import com.codecool.spacetravel.validator.CustomerDataValidator;
