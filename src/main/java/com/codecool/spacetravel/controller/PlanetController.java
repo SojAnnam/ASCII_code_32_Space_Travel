@@ -48,4 +48,12 @@ public class PlanetController {
         return "index";
     }
 
+    @RequestMapping(value = "registration-planet", method = {RequestMethod.GET, RequestMethod.POST})
+    public String renderPlanetRegistration(@RequestParam Map<String,String> allRequestParams,
+                                           Model model,
+                                           HttpServletRequest httpServletRequest) {
+        planetDataHandler.collectPlanetRegistrationData(allRequestParams, model, httpServletRequest);
+        return "registration_planet";
+    }
+
 }
