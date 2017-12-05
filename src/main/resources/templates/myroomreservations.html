@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Space Travel</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+
+</head>
+
+<body>
+
+<!--navigation bar-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li><a href="/">Main Page</a></li>
+
+            <th:block th:if="${loggedIn}">
+                <li><a href="/reservation/list">My reservations</a></li>
+                <li><a href="/logout">Logout</a></li>
+            </th:block>
+
+            <th:block th:unless="${loggedIn}">
+                <li><a href="/customer-registration">Registration</a></li>
+                <li><a href="/login">Login</a></li>
+            </th:block>
+        </ul>
+
+        <th:block th:if="${loggedIn}">
+            <p class="navbar-text pull-right" id="identification" th:text="${customername}">Customer's name</p>
+        </th:block>
+    </div>
+</nav>
+
+<div class="jumbotron text-center">
+    <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
+    <h3>List of Reservations</h3>
+</div>
+<div class="container">
+
+    <th:block th:if="${#lists.size(roomreservations) == 0}">
+        <p>No reservation.</p>
+    </th:block>
+
+    <th:block th:if="${#lists.size(roomreservations) > 0}">
+
+        <div class="well well-sm">
+            <div id="inner-box">
+                <table class="table table-hover available-rooms">
+                    <thead>
+                    <tr>
+                        <th class="center">Planet</th>
+                        <th class="center">Accommodation</th>
+                        <th class="center">Room Type</th>
+                        <th class="center">Beds</th>
+                        <th class="center">Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="reservation : ${roomreservations}">
+                        <td th:text="${room.getRoomType().getName()}">planet name</td>
+                        <td th:text="${room.getRoomType().getBednumber()}">accomodation name</td>
+                        <td th:text="${room.getPrice()}">room type</td>
+                        <td th:text="${room.getPrice()}">0</td>
+                        <td th:text="${room.getPrice()}">0</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </th:block>
+
+    <div>
+        <a href="/" role="button" class="btn btn-primary">Back to Main Page</a>
+    </div>
+</div>
+</body>
+</html>
