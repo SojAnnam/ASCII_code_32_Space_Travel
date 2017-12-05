@@ -11,8 +11,6 @@ public class AccController {
 
     private  AccDataHandler accDataHandler;
 
-
-
     public AccController(AccDataHandler accDataHandler) {
         this.accDataHandler = accDataHandler;
     }

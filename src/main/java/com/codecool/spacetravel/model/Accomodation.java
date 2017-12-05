@@ -11,6 +11,9 @@ import java.util.List;
         ),@NamedQuery(
                 name = "Accomodation.getAccomodationById",
                 query = "SELECT a FROM Accomodation a WHERE a.id = :accomodationId"
+        ),@NamedQuery(
+                name = "Accomodation.getAmenitiesById",
+                query = "SELECT a FROM Accomodation a WHERE a.id = :accomodationId"
         )
         })
 @Entity
@@ -21,6 +24,9 @@ public class Accomodation {
     private long id;
 
     private String name;
+
+    @OneToMany(mappedBy = "accomodation")
+    private List<AmenityType> amenityType;
 
     @ManyToOne
     private Planet planet;
@@ -36,7 +42,8 @@ public class Accomodation {
     public Accomodation() {
     }
 
-    public Accomodation(String name, Planet planet, String description) {
+    public Accomodation(List<AmenityType> amenityType,String name, Planet planet, String description) {
+        this.amenityType = amenityType;
         this.name = name;
         this.planet = planet;
         this.description = description;
@@ -88,6 +95,14 @@ public class Accomodation {
 
     public void setAccomodationPictures(List<AccomodationPicture> accomodationPictures) {
         this.accomodationPictures = accomodationPictures;
+    }
+
+    public List <AmenityType> getAmenityType() {
+        return amenityType;
+    }
+
+    public void setAmenityType( List<AmenityType> amenityType) {
+        this.amenityType = amenityType;
     }
 
     @Override

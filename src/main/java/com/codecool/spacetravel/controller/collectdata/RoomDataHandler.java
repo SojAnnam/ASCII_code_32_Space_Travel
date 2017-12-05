@@ -3,6 +3,7 @@ package com.codecool.spacetravel.controller.collectdata;
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.DAO.RoomDao;
 import com.codecool.spacetravel.model.Accomodation;
+import com.codecool.spacetravel.model.AmenityType;
 import com.codecool.spacetravel.model.Room;
 import com.codecool.spacetravel.validator.RoomReservationDataValidator;
 import spark.Request;
@@ -72,6 +73,7 @@ public class RoomDataHandler {
         }
 
         Accomodation selectedAccomodation = queryHandler.getAccomodationById(accommodationId);
+        List<AmenityType> amenityTypes = queryHandler.getAmenitiesByAccomodationId(accommodationId);
 
         Map<String, Object> params = new HashMap<>();
         params.put("loggedIn", customerId != null);
@@ -81,6 +83,7 @@ public class RoomDataHandler {
         params.put("errors", errorMessages);
         params.put("dateelements", dateElements);
         params.put("reservable", reservable);
+        params.put("amenityTypes", amenityTypes);
 
         return params;
 

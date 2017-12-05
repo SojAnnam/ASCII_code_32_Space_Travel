@@ -1,10 +1,7 @@
 package com.codecool.spacetravel.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class AmenityType {
@@ -13,10 +10,18 @@ public class AmenityType {
     private long id;
     private String name;
 
+    @ManyToOne
+    private Accomodation accomodation;
+
+    @OneToOne
+    private AmenityIcon amenityIcon;
+
     public AmenityType() {
     }
 
-    public AmenityType(String name) {
+
+    public AmenityType(Accomodation accomodation,String name) {
+        this.accomodation = accomodation;
         this.name = name;
     }
 
@@ -35,5 +40,13 @@ public class AmenityType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Accomodation getAccomodation() {
+        return accomodation;
+    }
+
+    public void setAccomodation(Accomodation accomodation) {
+        this.accomodation = accomodation;
     }
 }

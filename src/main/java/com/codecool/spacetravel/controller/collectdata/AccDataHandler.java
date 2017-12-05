@@ -2,6 +2,7 @@ package com.codecool.spacetravel.controller.collectdata;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Accomodation;
+import com.codecool.spacetravel.model.AmenityType;
 import com.codecool.spacetravel.model.Planet;
 import spark.Request;
 

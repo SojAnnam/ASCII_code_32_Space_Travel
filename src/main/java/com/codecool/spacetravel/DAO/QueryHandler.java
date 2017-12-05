@@ -119,6 +119,17 @@ public class QueryHandler {
     }
 
 
+    public List<AmenityType> getAmenitiesByAccomodationId(long accommodationId) {
+        List<AmenityType> amenityTypes = null;
+        try {
+            amenityTypes = em.createNamedQuery("Accomodation.getAmenitiesById", AmenityType.class)
+                    .setParameter("accomodationId", accommodationId).getResultList();
+        } catch (Exception e){
+            System.out.println("No amenity.");
+        }
+        return amenityTypes;
+    }
+
     public void persistData(Object object) {
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
