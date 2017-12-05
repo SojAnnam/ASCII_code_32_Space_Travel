@@ -20,7 +20,7 @@ public class AccDataHandler {
         this.queryHandler = queryHandler;
     }
 
-    public Model collectAccData(Model model,
+    public void collectAccData(Model model,
                                 long planetId,
                                 HttpServletRequest httpServletRequest){
 
@@ -36,7 +36,6 @@ public class AccDataHandler {
         model.addAttribute("accomodations", accList);
         model.addAttribute("planet", planet);
 
-        return model;
     }
 
 }

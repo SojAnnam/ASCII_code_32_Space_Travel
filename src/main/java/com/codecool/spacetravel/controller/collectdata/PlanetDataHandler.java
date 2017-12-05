@@ -23,7 +23,7 @@ public class PlanetDataHandler{
         this.queryHandler = queryHandler;
     }
 
-    public Model collectPlanetData(@RequestParam Map<String,String> allRequestParams,
+    public void collectPlanetData(@RequestParam Map<String,String> allRequestParams,
                                  Model model,
                                  HttpServletRequest httpServletRequest,
                                  boolean newCustomerSaved){
@@ -47,10 +47,9 @@ public class PlanetDataHandler{
         model.addAttribute("allplanet",allPlanet);
         model.addAttribute("newcustomersaved", newCustomerSaved);
 
-        return model;
     }
 
-    public Model collectPlanetRegistrationData(@RequestParam Map<String,String> allRequestParams,
+    public void collectPlanetRegistrationData(@RequestParam Map<String,String> allRequestParams,
                                              Model model,
                                              HttpServletRequest httpServletRequest) {
         Integer userId = (Integer) httpServletRequest.getSession().getAttribute("user_id");
@@ -83,7 +82,6 @@ public class PlanetDataHandler{
         model.addAttribute("loggedIn", userId != null);
         model.addAttribute("solarsystems", solarSystems);
 
-        return model;
     }
 
 }

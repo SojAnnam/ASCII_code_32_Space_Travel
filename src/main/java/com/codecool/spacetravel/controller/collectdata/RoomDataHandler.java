@@ -28,7 +28,7 @@ public class RoomDataHandler {
     @Autowired
     private RoomDao roomDao;
 
-    public Model collectRoomsData(@RequestParam Map<String,String> allRequestParams,
+    public void collectRoomsData(@RequestParam Map<String,String> allRequestParams,
                                 Model model,
                                 HttpServletRequest httpServletRequest){
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
@@ -84,12 +84,10 @@ public class RoomDataHandler {
         model.addAttribute("dateelements", dateElements);
         model.addAttribute("reservable", reservable);
 
-        return model;
-
     }
 
 
-    public Model collectRoomReservationSavingData(@RequestParam Map<String,String> allRequestParams,
+    public void collectRoomReservationSavingData(@RequestParam Map<String,String> allRequestParams,
                                                   Model model,
                                                   HttpServletRequest httpServletRequest) {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
@@ -116,7 +114,6 @@ public class RoomDataHandler {
         model.addAttribute("loggedIn", customerId != null);
         model.addAttribute("customername", customerName);
         model.addAttribute("errors", errorMessages);
-        return model;
     }
 
 }
