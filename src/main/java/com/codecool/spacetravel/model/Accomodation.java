@@ -23,6 +23,9 @@ public class Accomodation {
 
     private String name;
 
+    @ManyToMany
+    private List<AmenityType> amenityTypes;
+
     @ManyToOne
     private Planet planet;
 
@@ -83,12 +86,13 @@ public class Accomodation {
         this.description = description;
     }
 
-    public List<AccomodationPicture> getAccomodationPictures() {
-        return accomodationPictures;
+
+    public List<AmenityType> getAmenityTypes() {
+        return amenityTypes;
     }
 
-    public void setAccomodationPictures(List<AccomodationPicture> accomodationPictures) {
-        this.accomodationPictures = accomodationPictures;
+    public void setAmenityTypes(List<AmenityType> amenityTypes) {
+        this.amenityTypes = amenityTypes;
     }
 
     @Override
