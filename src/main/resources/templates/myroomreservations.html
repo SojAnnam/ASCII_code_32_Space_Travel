@@ -62,37 +62,67 @@
 </div>
 <div class="container">
 
-    <th:block th:if="${#lists.size(roomreservations) == 0}">
-        <p>No reservation.</p>
+    <th:block th:if="${customer == null}">
+        <p>No customer.</p>
     </th:block>
 
-    <th:block th:if="${#lists.size(roomreservations) > 0}">
-
-        <div class="well well-sm">
-            <div id="inner-box">
-                <table class="table table-hover available-rooms">
-                    <thead>
-                    <tr>
-                        <th class="center">Planet</th>
-                        <th class="center">Accommodation</th>
-                        <th class="center">Room Type</th>
-                        <th class="center">Beds</th>
-                        <th class="center">Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="reservation : ${roomreservations}">
-                        <td th:text="${room.getRoomType().getName()}">planet name</td>
-                        <td th:text="${room.getRoomType().getBednumber()}">accomodation name</td>
-                        <td th:text="${room.getPrice()}">room type</td>
-                        <td th:text="${room.getPrice()}">0</td>
-                        <td th:text="${room.getPrice()}">0</td>
-                    </tr>
-                    </tbody>
-                </table>
+    <th:block th:if="${customer != null}">
+        <div class="well well-sm text-center">
+            <h2 th:text="${customer.getFirstName() + ' ' + customer.getLastName()}"><i class="fa fa-user fa" aria-hidden="true"></i>Customer Name</h2>
+            <div class="row">
+                <div class="col-sm-6">
+                    <p>
+                        <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                        <span th:text="${' ' + customer.getPostalCode() + ', ' + customer.getCountry() + ', ' + customer.getCity() + ', ' + customer.getAddress()}">Country and City</span>
+                    </p>
+                </div>
+                <div class="col-sm-6">
+                    <p><i class="fa fa-envelope fa" aria-hidden="true"></i><span th:text="${' ' + customer.getEmail()}">Email</span></p>
+                </div>
             </div>
         </div>
     </th:block>
+
+    <div class="well well-sm">
+        <div id="inner-box">
+
+            <p th:if="${#lists.size(roomreservations) == 0}" style="text-align: center">No reservation.</p>
+
+            <table th:if="${#lists.size(roomreservations) > 0}" class="table table-hover available-rooms">
+                <thead>
+                <tr>
+                    <th class="center">Planet</th>
+                    <th class="center">Accommodation</th>
+                    <th class="center">Room Type</th>
+                    <th class="center">Beds</th>
+                    <th class="center">Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</th>
+                    <th class="center">Start Date</th>
+                    <th class="center">End Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="reservation : ${roomreservations}">
+                    <td>
+                        <img class="image-in-reservation-listing" th:attr="src='/img_collection/' + ${reservation.getRoom().getAccomodation().getPlanet().getPlanetPicture().getFileName()}" alt="IMG"/>
+                        <span class="center" th:text="${' ' + reservation.getRoom().getAccomodation().getPlanet().getName()}">planet name</span>
+                    </td>
+
+                    <td>
+                        <img class="image-in-reservation-listing" th:attr="src='/img_collection/' + ${reservation.getRoom().getAccomodation().getAccomodationPictures()[0].fileName}" alt="IMG"/>
+                        <span th:text="${reservation.getRoom().getAccomodation().getName()}">accomodation name</span>
+                    </td>
+
+
+                    <td class="center" th:text="${reservation.getRoom().getRoomType().getName()}">room type</td>
+                    <td th:text="${reservation.getRoom().getRoomType().getBednumber()}">0</td>
+                    <td th:text="${reservation.getRoom().getPrice()}">0</td>
+                    <td th:text="${reservation.getStartDate()}">0</td>
+                    <td th:text="${reservation.getEndDate()}">0</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <div>
         <a href="/" role="button" class="btn btn-primary">Back to Main Page</a>
