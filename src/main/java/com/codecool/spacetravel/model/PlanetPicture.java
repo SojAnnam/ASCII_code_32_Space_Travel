@@ -3,6 +3,7 @@ package com.codecool.spacetravel.model;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "PLANETPICTURE")
 public class PlanetPicture {
 
     @Id

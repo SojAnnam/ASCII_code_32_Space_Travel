@@ -5,40 +5,43 @@ import com.codecool.spacetravel.DAO.RoomDao;
 import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Room;
 import com.codecool.spacetravel.validator.RoomReservationDataValidator;
-import spark.Request;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class RoomDataHandler {
 
-
+    @Autowired
     private QueryHandler queryHandler;
+
+    @Autowired
     private RoomReservationDataValidator roomReservationDataValidator;
+
+    @Autowired
     private RoomDao roomDao;
 
-    public RoomDataHandler(QueryHandler queryHandler,
-                           RoomReservationDataValidator roomReservationDataValidator,
-                           RoomDao roomDao) {
-        this.queryHandler = queryHandler;
-        this.roomReservationDataValidator = roomReservationDataValidator;
-        this.roomDao = roomDao;
-    }
-
-    public Map collectRoomsData(Request req){
-        Long customerId = req.session().attribute("customer_id");
-        String customerName = req.session().attribute("customer_name");
+    public Model collectRoomsData(@RequestParam Map<String,String> allRequestParams,
+                                Model model,
+                                HttpServletRequest httpServletRequest){
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
 
         List<String> errorMessages = new ArrayList();
 
         long accommodationId = 0;
-        if (req.queryParams().size() > 1){
-            accommodationId = Long.parseLong(req.queryParams("selected-accomodation-id"));
+        if (allRequestParams.size() > 1){
+            accommodationId = Long.parseLong(allRequestParams.get("selected-accomodation-id"));
         } else {
             try{
-                accommodationId = Long.parseLong(req.params(":id"));
+                accommodationId = Long.parseLong(allRequestParams.get("accomodationIdFromURL"));
             } catch (Exception e){
                 System.out.println("Invalid accommodation id: " + e.getMessage());
             }
@@ -52,9 +55,9 @@ public class RoomDataHandler {
 
         List<String> dateElements = new ArrayList<>();
 
-        if (req.queryParams().size() > 1){
-            String startDateStringFromUser = req.queryParams("start-date");
-            String endDateStringFromUser = req.queryParams("end-date");
+        if (allRequestParams.size() > 1){
+            String startDateStringFromUser = allRequestParams.get("start-date");
+            String endDateStringFromUser = allRequestParams.get("end-date");
             System.out.println(startDateStringFromUser);
             System.out.println(endDateStringFromUser);
             errorMessages = roomReservationDataValidator.validateDates(startDateStringFromUser, endDateStringFromUser);
@@ -73,33 +76,34 @@ public class RoomDataHandler {
 
         Accomodation selectedAccomodation = queryHandler.getAccomodationById(accommodationId);
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("loggedIn", customerId != null);
-        params.put("customername", customerName);
-        params.put("roomlist", roomList);
-        params.put("accomodation", selectedAccomodation);
-        params.put("errors", errorMessages);
-        params.put("dateelements", dateElements);
-        params.put("reservable", reservable);
+        model.addAttribute("loggedIn", customerId != null);
+        model.addAttribute("customername", customerName);
+        model.addAttribute("roomlist", roomList);
+        model.addAttribute("accomodation", selectedAccomodation);
+        model.addAttribute("errors", errorMessages);
+        model.addAttribute("dateelements", dateElements);
+        model.addAttribute("reservable", reservable);
 
-        return params;
+        return model;
 
     }
 
 
-    public Map collectRoomReservationSavingData(Request req) {
-        Long customerId = req.session().attribute("customer_id");
-        String customerName = req.session().attribute("customer_name");
+    public Model collectRoomReservationSavingData(@RequestParam Map<String,String> allRequestParams,
+                                                  Model model,
+                                                  HttpServletRequest httpServletRequest) {
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
 
-        String startDateStringFromUser = req.queryParams("start-date");
-        String endDateStringFromUser = req.queryParams("end-date");
+        String startDateStringFromUser = allRequestParams.get("start-date");
+        String endDateStringFromUser = allRequestParams.get("end-date");
 
         List<String> errorMessages = roomReservationDataValidator.validateDates(startDateStringFromUser, endDateStringFromUser);
         boolean savingSucceeded = false;
         if (errorMessages.size() == 0){
             Map<String, String> roomReservationDatas = new HashMap<>();
             roomReservationDatas.put("customerId", customerId.toString());
-            roomReservationDatas.put("roomId", req.queryParams("selected-room-id"));
+            roomReservationDatas.put("roomId", allRequestParams.get("selected-room-id"));
             roomReservationDatas.put("startDateStringFromUser", startDateStringFromUser);
             roomReservationDatas.put("endDateStringFromUser", endDateStringFromUser);
             savingSucceeded = roomDao.saveRoomReservation(roomReservationDatas, errorMessages);
@@ -109,11 +113,10 @@ public class RoomDataHandler {
             errorMessages.add("Saving failed.");
         }
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("loggedIn", customerId != null);
-        params.put("customername", customerName);
-        params.put("errors", errorMessages);
-        return params;
+        model.addAttribute("loggedIn", customerId != null);
+        model.addAttribute("customername", customerName);
+        model.addAttribute("errors", errorMessages);
+        return model;
     }
 
 }

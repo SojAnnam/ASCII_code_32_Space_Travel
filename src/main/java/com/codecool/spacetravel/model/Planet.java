@@ -13,12 +13,13 @@ import java.util.List;
                 name = "Planet.getAllPlanet",
                 query = "SELECT p from Planet p ORDER BY p.name asc"
         ),
-        @NamedQuery(name= "getPlanet",
+        @NamedQuery(name= "Planet.getPlanet",
                     query = "SELECT p from Planet p where p.id = :planetId")
 
 
 })
 @Entity
+@Table(name = "PLANET")
 public class Planet {
 
     @Id

@@ -6,7 +6,7 @@ import java.util.List;
 
 
 @NamedQueries(
-        {@NamedQuery(name = "getAccByPlanetId",
+        {@NamedQuery(name = "Accomodation.getAccByPlanetId",
                 query = "SELECT a from Accomodation a where a.planet.id = :planetId"
         ),@NamedQuery(
                 name = "Accomodation.getAccomodationById",
@@ -14,6 +14,7 @@ import java.util.List;
         )
         })
 @Entity
+@Table(name = "ACCOMODATION")
 public class Accomodation {
 
     @Id

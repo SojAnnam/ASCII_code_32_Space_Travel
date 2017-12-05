@@ -1,26 +1,155 @@
+// INFO ABOUT QUERIES IN SPRING:
+// https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.named-queries
+
 package com.codecool.spacetravel.DAO;
 
 import com.codecool.spacetravel.model.*;
-
-import javax.persistence.EntityManager;
 import java.util.List;
 import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.model.Room;
+import com.codecool.spacetravel.repository.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import java.util.List;
-
-
+@Service
 public class QueryHandler {
 
-    EntityManager em;
+    @Autowired
+    private PlanetRepository planetRepository;
 
-    public QueryHandler(EntityManager em) {
-        this.em = em;
+    @Autowired
+    private AccomodatiponRepository accomodatiponRepository;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private SolarSystemRepository solarSystemRepository;
+
+    @Autowired
+    private RoomRepository roomRepository;
+
+    @Autowired
+    private PlanetPictureRepository planetPictureRepository;
+
+    @Autowired
+    private RoomReservationRepository roomReservationRepository;
+
+
+    public Planet getPlanet(long planetId){
+        Planet planet = planetRepository.getPlanet(planetId);
+        return planet;
     }
+
+    public  List getAccByPlanetId(long id){
+        List<Accomodation> results = accomodatiponRepository.getAccByPlanetId(id);
+        return results;
+    }
+
+    public List getPlanetsBySolarSystemId(long id) {
+        List<Planet> listOfPlanetsBySolarSystem = planetRepository.getPlanetsBySolarSystemId(id);
+        return listOfPlanetsBySolarSystem;
+    }
+
+    public  List<Planet> getAllPlanet(){
+        List<Planet> listOfAllPlanets = planetRepository.getAllPlanet();
+        return listOfAllPlanets;
+    }
+
+    public  List<Customer> getAllCustomers() {
+        List<Customer> results = customerRepository.getAllCustomers();
+        return results;
+    }
+
+    public  List getAllSolarSystem() {
+        List<SolarSystem> results =  solarSystemRepository.getAllSolarSystem();
+        return results;
+    }
+
+    public Customer getCustomerByEmail(String email) {
+        Customer customer = null;
+        try{
+            customer = customerRepository.getCustomerByEmail(email);
+        } catch (Exception e){
+            System.out.println("No record found: " + e.getMessage());
+        }
+        return customer;
+    }
+
+    public List<Room> getRoomsByAcommodationId(long accomodationId) {
+        List<Room> results = roomRepository .getRoomsByAcommodationId(accomodationId);
+        return results;
+    }
+
+    public Accomodation getAccomodationById(long accomodationId) {
+        Accomodation accomodation = null;
+        try {
+            accomodation = accomodatiponRepository.getAccomodationById(accomodationId);
+        } catch (Exception e){
+            System.out.println("No accomodation.");
+        }
+        return accomodation;
+    }
+
+    public Room getRoomById(long roomId) {
+        Room room = null;
+        try {
+            room = roomRepository.getRoomById(roomId);
+        } catch (Exception e){
+            System.out.println("No room.");
+        }
+        return room;
+    }
+
+    public Customer getCustomerById(Long customerId) {
+        Customer customer = null;
+        try{
+            customer = customerRepository.getCustomerById(customerId);
+        } catch (Exception e){
+            System.out.println("No record found: " + e.getMessage());
+        }
+        return customer;
+    }
+
+    public void saveNewCustomer(Customer customer) {
+
+        customerRepository.save(customer);
+
+    }
+
+    public void savePlanet(Planet newPlanet) {
+
+        planetRepository.save(newPlanet);
+
+    }
+
+    public void savePlanetPicture(PlanetPicture planetPicture) {
+
+        planetPictureRepository.save(planetPicture);
+
+    }
+
+    public void saveRoomReservation(RoomReservation roomReservation) {
+
+        roomReservationRepository.save(roomReservation);
+
+    }
+}
+
+
+
+
+
+/*
+// WITH ENTITYMANAGER:
+@Transactional
+@Repository
+public class QueryHandler {
+
+    @PersistenceContext
+    EntityManager em;
 
     public List getPlanetsBySolarSystemId(long id) {
 
@@ -127,3 +256,4 @@ public class QueryHandler {
     }
 }
 
+*/

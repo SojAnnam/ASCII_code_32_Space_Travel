@@ -1,11 +1,14 @@
 package com.codecool.spacetravel.validator;
 
+import org.springframework.stereotype.Service;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+@Service
 public class RoomReservationDataValidator {
 
     public List<String> validateDates(String startDateStringFromUser, String endDateStringFromUser) {

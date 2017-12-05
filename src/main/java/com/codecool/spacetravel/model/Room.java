@@ -6,16 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NamedQueries({
-        @NamedQuery(
+        /*@NamedQuery(
                 name = "Room.getRoomsByAcommodationId",
-                query = "SELECT r FROM Room r JOIN RoomType rt On rt.id = r.roomType.id WHERE r.accomodation.id = :acommodationId order by rt.bednumber asc,rt.name asc"
-        ),
+                query = "SELECT r FROM Room r JOIN RoomType rt On rt.id = r.roomType.id WHERE r.accomodation.id = :accomodationId order by rt.bednumber asc,rt.name asc"
+        ),*/
         @NamedQuery(
                 name = "Room.getRoomById",
                 query = "SELECT r FROM Room r WHERE r.id = :roomId"
         )
 })
 @Entity
+@Table(name = "ROOM")
 public class Room {
 
     @Id

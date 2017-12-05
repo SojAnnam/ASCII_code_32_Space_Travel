@@ -1,13 +1,19 @@
 package com.codecool.spacetravel.controller;
 
-import com.codecool.spacetravel.DAO.RoomDao;
 import com.codecool.spacetravel.controller.collectdata.RoomDataHandler;
-import spark.ModelAndView;
-import spark.Request;
-import spark.Response;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
+@Controller
+@Scope("session")
 public class RoomController {
 
     private RoomDataHandler roomDataHandler;
@@ -16,18 +22,34 @@ public class RoomController {
         this.roomDataHandler = roomDataHandler;
     }
 
-    public ModelAndView renderRooms(Request req, Response res){
+    @RequestMapping(value = "/reservation/{accomodationid}", method = RequestMethod.GET)
+    public String renderRooms(@RequestParam Map<String,String> allRequestParams,
+                              Model model,
+                              @PathVariable("accomodationid") String id,
+                              HttpServletRequest httpServletRequest){
+        allRequestParams.put("accomodationIdFromURL", id);
+        model = roomDataHandler.collectRoomsData(allRequestParams, model, httpServletRequest);
 
-        Map params = roomDataHandler.collectRoomsData(req);
-
-        return new ModelAndView(params, "roomreservation");
+        return "roomreservation";
     }
 
-    public ModelAndView renderRoomReservationSaving(Request req, Response res) {
+    @RequestMapping(value = "/reservation", method = RequestMethod.POST)
+    public String renderRooms(@RequestParam Map<String,String> allRequestParams,
+                              Model model,
+                              HttpServletRequest httpServletRequest){
+        model = roomDataHandler.collectRoomsData(allRequestParams, model, httpServletRequest);
 
-        Map params = roomDataHandler.collectRoomReservationSavingData(req);
+        return "roomreservation";
+    }
 
-        return new ModelAndView(params, "reservationsaving");
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public String renderRoomReservationSaving(@RequestParam Map<String,String> allRequestParams,
+                                              Model model,
+                                              HttpServletRequest httpServletRequest) {
+
+        model = roomDataHandler.collectRoomReservationSavingData(allRequestParams, model, httpServletRequest);
+
+        return "reservationsaving";
     }
 
 }

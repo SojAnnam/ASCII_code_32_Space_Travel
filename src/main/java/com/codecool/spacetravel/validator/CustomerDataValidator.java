@@ -2,6 +2,8 @@ package com.codecool.spacetravel.validator;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,13 +12,12 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Service
 public class CustomerDataValidator {
 
+    @Autowired
     private QueryHandler queryHandler;
 
-    public CustomerDataValidator(QueryHandler queryHandler) {
-        this.queryHandler = queryHandler;
-    }
 
     public List<String> validateRegistrationDatas(Map<String, String> customerDatas) {
         List<String> errorMessages = new ArrayList();

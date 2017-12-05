@@ -4,13 +4,17 @@ import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.RoomReservation;
 import com.codecool.spacetravel.validator.CustomerDataValidator;
-import spark.Request;
+import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class CustomerDataHandler{
 
     private QueryHandler queryHandler;
@@ -39,7 +43,7 @@ public class CustomerDataHandler{
         customer.setRoomReservation(reservationsOfCustomer);
 
         try {
-            queryHandler.persistData(customer);
+            queryHandler.saveNewCustomer(customer);
             savingSucceeded = true;
         } catch (Exception e){
             System.out.println("SAVING FAILED: " + e.getMessage());
@@ -47,22 +51,24 @@ public class CustomerDataHandler{
         return savingSucceeded;
     }
 
-    public Map collectCustomerRegistrationData(Request req) {
+    public Model collectCustomerRegistrationData(@RequestParam Map<String,String> allRequestParams,
+                                               Model model,
+                                               HttpServletRequest httpServletRequest) {
         List<String> errorMessages = new ArrayList();
         Map<String, String> customerDatas = new HashMap<>();
         boolean savingSucceeded = false;
         boolean savingTried = false;
 
-        if (req.queryParams().size() > 0){
-            customerDatas.put("firstname", req.queryParams("firstname"));
-            customerDatas.put("lastname", req.queryParams("lastname"));
-            customerDatas.put("email", req.queryParams("email"));
-            customerDatas.put("country", req.queryParams("country"));
-            customerDatas.put("city", req.queryParams("city"));
-            customerDatas.put("postalcode", req.queryParams("postalcode"));
-            customerDatas.put("address", req.queryParams("address"));
-            customerDatas.put("password", req.queryParams("password"));
-            customerDatas.put("confirm", req.queryParams("confirm"));
+        if (allRequestParams.size() > 0){
+            customerDatas.put("firstname", allRequestParams.get("firstname"));
+            customerDatas.put("lastname", allRequestParams.get("lastname"));
+            customerDatas.put("email", allRequestParams.get("email"));
+            customerDatas.put("country", allRequestParams.get("country"));
+            customerDatas.put("city", allRequestParams.get("city"));
+            customerDatas.put("postalcode", allRequestParams.get("postalcode"));
+            customerDatas.put("address", allRequestParams.get("address"));
+            customerDatas.put("password", allRequestParams.get("password"));
+            customerDatas.put("confirm", allRequestParams.get("confirm"));
 
             errorMessages = customerDataValidator.validateRegistrationDatas(customerDatas);
 
@@ -70,38 +76,48 @@ public class CustomerDataHandler{
                 savingTried = true;
                 savingSucceeded = saveCustomerDatas(customerDatas);
             }
+        } else {
+            customerDatas.put("firstname", "");
+            customerDatas.put("lastname", "");
+            customerDatas.put("email", "");
+            customerDatas.put("country", "");
+            customerDatas.put("city", "");
+            customerDatas.put("postalcode", "");
+            customerDatas.put("address", "");
+            customerDatas.put("password", "");
+            customerDatas.put("confirm", "");
         }
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("customer", customerDatas);
-        params.put("errors", errorMessages);
-        params.put("savingsucceeded", savingSucceeded);
-        params.put("savingtried", savingTried);
 
-        return params;
+        model.addAttribute("customer", customerDatas);
+        model.addAttribute("errors", errorMessages);
+        model.addAttribute("savingsucceeded", savingSucceeded);
+        model.addAttribute("savingtried", savingTried);
+
+        return model;
     }
 
-    public Map collectLoginData(Request req) {
+    public Model collectLoginData(@RequestParam Map<String,String> allRequestParams,
+                                Model model,
+                                HttpServletRequest httpServletRequest) {
         List<String> errorMessages = new ArrayList();
         Map<String, String> customerDatas = new HashMap<>();
         Customer customer = null;
-        if (req.queryParams().size() > 0){
-            customerDatas.put("email", req.queryParams("email"));
-            customerDatas.put("password", req.queryParams("password"));
+        if (allRequestParams.size() > 0){
+            customerDatas.put("email", allRequestParams.get("email"));
+            customerDatas.put("password", allRequestParams.get("password"));
 
             Map<String, Object> errorMessagesAndCustomer = customerDataValidator.validateLoginDatas(customerDatas);
             errorMessages = (List<String>) errorMessagesAndCustomer.get("errors");
             customer = (Customer) errorMessagesAndCustomer.get("customer");
 
-
         }
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("customer", customerDatas);
-        params.put("errors", errorMessages);
-        params.put("validcustomer", customer);
+        model.addAttribute("customer", customerDatas);
+        model.addAttribute("errors", errorMessages);
+        model.addAttribute("validcustomer", customer);
 
-        return  params;
+        return model;
     }
 
 }

@@ -1,25 +1,21 @@
 package com.codecool.spacetravel.DAO;
 
-import com.codecool.spacetravel.DAO.QueryHandler;
-import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.Room;
 import com.codecool.spacetravel.model.RoomReservation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import spark.Request;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@Service
 public class RoomDao {
 
+    @Autowired
     private QueryHandler queryHandler;
 
-
-    public RoomDao(QueryHandler queryHandler) {
-        this.queryHandler = queryHandler;
-
-    }
 
     public void filterReservedRooms(String startDateStringFromUser, String endDateStringFromUser, List<Room> roomList) {
         SimpleDateFormat dateformat = new SimpleDateFormat("yyyy/MM/dd");
@@ -101,7 +97,7 @@ public class RoomDao {
                     room.setRoomReservations(reservationsInRoom);
 
                     try {
-                        queryHandler.persistData(roomReservation);
+                        queryHandler.saveRoomReservation(roomReservation);
                         savingSucceeded = true;
                     } catch (Exception e){
                         System.out.println("SAVING FAILED: " + e.getMessage());
@@ -146,6 +142,5 @@ public class RoomDao {
         return roomIsFree;
 
     }
-
 
 }

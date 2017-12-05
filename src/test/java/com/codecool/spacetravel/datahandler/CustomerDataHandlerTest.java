@@ -1,3 +1,4 @@
+/*
 package com.codecool.spacetravel.datahandler;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
@@ -58,7 +59,8 @@ class CustomerDataHandlerTest {
         assertEquals(true, savingSucceeded);
     }
 
-    /*@Test
+    */
+/*@Test
     void renderCustomerRegistrationHandler_RegistrationSucceeded_NoErrorMessageSavingBooleansAreTrue() {
         List<String> exampleEmptyErrorMessages = new ArrayList<>();
         Set<String> exampleRequestQueryParams = new HashSet<>();
@@ -96,11 +98,14 @@ class CustomerDataHandlerTest {
         assertEquals(true, params.get("savingsucceeded"));
         assertEquals(true, params.get("savingtried"));
         assertEquals(0, errorMessages.size());
-    }*/
+    }*//*
 
-    /*@Test
+
+    */
+/*@Test
     void collectLoginData() {
 
-    }*/
+    }*//*
 
-}
+
+}*/
