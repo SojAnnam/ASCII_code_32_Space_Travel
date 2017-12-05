@@ -54,7 +54,7 @@ public class RoomController {
     public String renderRoomReservations(@RequestParam Map<String,String> allRequestParams,
                                          Model model,
                                          HttpServletRequest httpServletRequest){
-        roomDataHandler.collectRoomReservationsByCustomer(httpServletRequest);
+        roomDataHandler.collectRoomReservationsByCustomer(model, httpServletRequest);
         return "myroomreservations";
     }
 }
