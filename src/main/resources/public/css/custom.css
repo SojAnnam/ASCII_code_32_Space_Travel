@@ -21,6 +21,7 @@ a.nav-link.dropdown-toggle{
     width: 200px;
     height: 125px;
 }
+
 .dropdown-menu {
     font-size: 16px;
 }
@@ -41,9 +42,7 @@ a.nav-link.dropdown-toggle{
 .page-header{
     background-color: cadetblue;
 }
-body{
 
-}
 .cover-card {
     border: 2px solid white;
     background: silver;
@@ -228,7 +227,19 @@ input::-webkit-input-placeholder {
     white-space: nowrap;
 }
 
-
 .modal-lg {
     width: 1110px;
+}
+
+.image-in-reservation-listing{
+    width: 100px;
+    height: 63px;
+}
+
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    border-top: 1px solid #ddd;
 }
