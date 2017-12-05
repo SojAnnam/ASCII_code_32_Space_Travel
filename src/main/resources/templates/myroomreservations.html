@@ -103,12 +103,12 @@
                 <tbody>
                 <tr th:each="reservation : ${roomreservations}">
                     <td>
-                        <img class="image-in-reservation-listing" th:attr="src='/img_collection/' + ${reservation.getRoom().getAccomodation().getPlanet().getPlanetPicture().getFileName()}" alt="IMG"/>
+                        <img th:if="${reservation.getRoom().getAccomodation().getPlanet().getPlanetPicture() != null}" class="image-in-reservation-listing" th:attr="src='/img_collection/' + ${reservation.getRoom().getAccomodation().getPlanet().getPlanetPicture().getFileName()}" alt="IMG"/>
                         <span class="center" th:text="${' ' + reservation.getRoom().getAccomodation().getPlanet().getName()}">planet name</span>
                     </td>
 
                     <td>
-                        <img class="image-in-reservation-listing" th:attr="src='/img_collection/' + ${reservation.getRoom().getAccomodation().getAccomodationPictures()[0].fileName}" alt="IMG"/>
+                        <img th:if="${#lists.size(reservation.getRoom().getAccomodation().getAccomodationPictures()) > 0}" class="image-in-reservation-listing" th:attr="src='/img_collection/' + ${reservation.getRoom().getAccomodation().getAccomodationPictures()[0].fileName}" alt="IMG"/>
                         <span th:text="${reservation.getRoom().getAccomodation().getName()}">accomodation name</span>
                     </td>
 
