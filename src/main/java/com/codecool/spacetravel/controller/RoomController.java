@@ -1,7 +1,6 @@
 package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.controller.collectdata.RoomDataHandler;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
-@Scope("session")
 public class RoomController {
 
     private RoomDataHandler roomDataHandler;
@@ -28,7 +26,7 @@ public class RoomController {
                               @PathVariable("accomodationid") String id,
                               HttpServletRequest httpServletRequest){
         allRequestParams.put("accomodationIdFromURL", id);
-        model = roomDataHandler.collectRoomsData(allRequestParams, model, httpServletRequest);
+        roomDataHandler.collectRoomsData(allRequestParams, model, httpServletRequest);
 
         return "roomreservation";
     }
@@ -37,7 +35,7 @@ public class RoomController {
     public String renderRooms(@RequestParam Map<String,String> allRequestParams,
                               Model model,
                               HttpServletRequest httpServletRequest){
-        model = roomDataHandler.collectRoomsData(allRequestParams, model, httpServletRequest);
+        roomDataHandler.collectRoomsData(allRequestParams, model, httpServletRequest);
 
         return "roomreservation";
     }
@@ -47,7 +45,7 @@ public class RoomController {
                                               Model model,
                                               HttpServletRequest httpServletRequest) {
 
-        model = roomDataHandler.collectRoomReservationSavingData(allRequestParams, model, httpServletRequest);
+        roomDataHandler.collectRoomReservationSavingData(allRequestParams, model, httpServletRequest);
 
         return "reservationsaving";
     }

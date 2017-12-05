@@ -2,7 +2,6 @@ package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.controller.collectdata.PlanetDataHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
-@Scope("session")
 public class PlanetRegistrationController {
 
     @Autowired
@@ -23,7 +21,7 @@ public class PlanetRegistrationController {
     public String renderPlanetRegistration(@RequestParam Map<String,String> allRequestParams,
                                            Model model,
                                            HttpServletRequest httpServletRequest) {
-        model = planetDataHandler.collectPlanetRegistrationData(allRequestParams, model, httpServletRequest);
+        planetDataHandler.collectPlanetRegistrationData(allRequestParams, model, httpServletRequest);
         return "registration_planet";
     }
 

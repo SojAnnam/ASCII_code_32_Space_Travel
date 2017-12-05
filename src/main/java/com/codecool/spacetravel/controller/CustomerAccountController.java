@@ -3,7 +3,6 @@ package com.codecool.spacetravel.controller;
 import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Controller
-@Scope("session")
 public class CustomerAccountController {
 
     @Autowired
@@ -23,10 +21,9 @@ public class CustomerAccountController {
 
     @RequestMapping(value = "/customer-registration", method = {RequestMethod.GET, RequestMethod.POST})
     public String renderCustomerRegistration(@RequestParam Map<String,String> allRequestParams,
-                                             Model model,
-                                             HttpServletRequest httpServletRequest) {
+                                             Model model) {
 
-        model = customerDataHandler.collectCustomerRegistrationData(allRequestParams, model, httpServletRequest);
+        model = customerDataHandler.collectCustomerRegistrationData(allRequestParams, model);
 
         List<String> errorMessages = (List) model.asMap().get("errors");
 
@@ -48,7 +45,7 @@ public class CustomerAccountController {
     public String renderLogin(@RequestParam Map<String,String> allRequestParams,
                               Model model,
                               HttpServletRequest httpServletRequest) {
-        model = customerDataHandler.collectLoginData(allRequestParams, model, httpServletRequest);
+        model = customerDataHandler.collectLoginData(allRequestParams, model);
 
         List<String> errorMessages = (List) model.asMap().get("errors");
         Customer customer = (Customer) model.asMap().get("validcustomer");

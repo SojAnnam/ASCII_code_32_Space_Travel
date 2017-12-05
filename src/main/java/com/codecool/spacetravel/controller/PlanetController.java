@@ -2,7 +2,6 @@ package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.controller.collectdata.PlanetDataHandler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 @Controller
-@Scope("session")
 public class PlanetController {
 
     @Autowired
@@ -24,7 +22,7 @@ public class PlanetController {
     public String renderPlanets(@RequestParam Map<String,String> allRequestParams,
                                 Model model,
                                 HttpServletRequest httpServletRequest) {
-        model = planetDataHandler.collectPlanetData(allRequestParams, model, httpServletRequest, false);
+        planetDataHandler.collectPlanetData(allRequestParams, model, httpServletRequest, false);
 
         return "index";
     }
@@ -35,7 +33,7 @@ public class PlanetController {
                                              @PathVariable("solarSystemId") String solarSystemId,
                                              HttpServletRequest httpServletRequest) {
         allRequestParams.put("solarSystemId", solarSystemId);
-        model = planetDataHandler.collectPlanetData(allRequestParams, model, httpServletRequest, false);
+        planetDataHandler.collectPlanetData(allRequestParams, model, httpServletRequest, false);
 
         return "index";
     }
@@ -45,7 +43,7 @@ public class PlanetController {
                                 Model model,
                                 HttpServletRequest httpServletRequest) {
 
-        model = planetDataHandler.collectPlanetData(allRequestParams, model, httpServletRequest, true);
+        planetDataHandler.collectPlanetData(allRequestParams, model, httpServletRequest, true);
 
         return "index";
     }

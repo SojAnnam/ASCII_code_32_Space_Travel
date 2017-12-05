@@ -20,8 +20,7 @@ public class AccDataHandler {
         this.queryHandler = queryHandler;
     }
 
-    public Model collectAccData(Map<String,String> allRequestParams,
-                                Model model,
+    public Model collectAccData(Model model,
                                 long planetId,
                                 HttpServletRequest httpServletRequest){
 

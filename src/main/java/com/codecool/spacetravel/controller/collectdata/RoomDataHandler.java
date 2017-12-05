@@ -4,7 +4,7 @@ import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.DAO.RoomDao;
 import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Room;
-import com.codecool.spacetravel.validator.RoomReservationDataValidator;
+import com.codecool.spacetravel.service.RoomReservationDataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;

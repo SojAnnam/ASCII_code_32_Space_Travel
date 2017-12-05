@@ -3,7 +3,7 @@ package com.codecool.spacetravel.controller.collectdata;
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.RoomReservation;
-import com.codecool.spacetravel.validator.CustomerDataValidator;
+import com.codecool.spacetravel.service.CustomerDataValidator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,8 +52,7 @@ public class CustomerDataHandler{
     }
 
     public Model collectCustomerRegistrationData(@RequestParam Map<String,String> allRequestParams,
-                                               Model model,
-                                               HttpServletRequest httpServletRequest) {
+                                               Model model) {
         List<String> errorMessages = new ArrayList();
         Map<String, String> customerDatas = new HashMap<>();
         boolean savingSucceeded = false;
@@ -98,8 +97,7 @@ public class CustomerDataHandler{
     }
 
     public Model collectLoginData(@RequestParam Map<String,String> allRequestParams,
-                                Model model,
-                                HttpServletRequest httpServletRequest) {
+                                Model model) {
         List<String> errorMessages = new ArrayList();
         Map<String, String> customerDatas = new HashMap<>();
         Customer customer = null;

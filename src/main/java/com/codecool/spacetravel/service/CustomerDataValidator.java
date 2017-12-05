@@ -1,4 +1,4 @@
-package com.codecool.spacetravel.validator;
+package com.codecool.spacetravel.service;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;

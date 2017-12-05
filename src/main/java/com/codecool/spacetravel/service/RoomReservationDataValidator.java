@@ -1,4 +1,4 @@
-package com.codecool.spacetravel.validator;
+package com.codecool.spacetravel.service;
 
 import org.springframework.stereotype.Service;
 
