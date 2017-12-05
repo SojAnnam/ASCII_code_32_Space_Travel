@@ -24,4 +24,13 @@ public class AccController {
         return "accomodation";
     }
 
+    @RequestMapping(value = "/registration-accommodation", method = RequestMethod.GET)
+    public String renderAcc(Model model,
+            HttpServletRequest httpServletRequest) {
+        accDataHandler.collectAccRegistrationData(model, httpServletRequest);
+        return "registration_accommodation";
+    }
+
+
+
 }

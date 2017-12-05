@@ -228,7 +228,12 @@ input::-webkit-input-placeholder {
     white-space: nowrap;
 }
 
-
 .modal-lg {
     width: 1110px;
+}
+.register-planet-accommodation {
+    float: right;
+}
+.register-planet-accommodation a {
+    margin-left: 10px;
 }
