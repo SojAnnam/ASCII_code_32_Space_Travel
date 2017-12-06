@@ -117,8 +117,8 @@ SELECT pg_catalog.setval('amenitytype_id_seq', 1, false);
 -- Data for Name: customer; Type: TABLE DATA; Schema: public; Owner: potyi
 --
 
-INSERT INTO customer VALUES (1, 'Várkert bazár 1.', 'Budapest', 'Hungary', 'admin', 'admin', 'admin', 'admin', '1140');
-INSERT INTO customer VALUES (2, 'Hősök tere 1.', 'Budapest', 'Hungary', 'berci@freemail.hu', 'Bertalan', 'Farkas', 'abcd1234', '1140');
+INSERT INTO customer VALUES (1, 'Várkert bazár 1.', 'Budapest', 'Hungary', 'admin', 'admin', 'admin','admin', '$2a$10$kyaa9hEWPvMkg1Is201KPuhsOvo3/y5PLNWw5IFi05T.CdUnOyKXK', '1140');
+INSERT INTO customer VALUES (2, 'Hősök tere 1.', 'Budapest', 'Hungary', 'berci@freemail.hu', 'Bertalan', 'Farkas','user', '$2a$10$GZOSeWHJyWSaBOJy/imdW.GXvpSusJR9Sy/Xqh7S8OeaSkLQ2tZSK', '1140');
 
 
 --
