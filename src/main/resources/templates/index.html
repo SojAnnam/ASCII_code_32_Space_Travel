@@ -63,6 +63,10 @@
         </div>
     </th:block>
 
+    <th:block th:if="${loggedIn and customername == 'admin admin'}">
+        <a href="/addamenity" class="btn btn-primary pull-right">Add Amenity </a>
+    </th:block>
+
 
     <div class="jumbotron text-center">
         <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
