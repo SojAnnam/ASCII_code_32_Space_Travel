@@ -49,6 +49,32 @@ public class RoomController {
 
         return "reservationsaving";
     }
+    @RequestMapping(value = "/add-new-room/{accomodationid}", method = RequestMethod.GET)
+    public String renderAddRoomForm(
+                              Model model,
+                              @PathVariable("accomodationid") String id,
+                              HttpServletRequest httpServletRequest) {
+        roomDataHandler.addNewRoom(model, httpServletRequest,id);
+
+        return "add-new-room";
+
+    }
+    @RequestMapping(value = "/add-new-room/{accomodationid}", method = RequestMethod.POST)
+    public String collectRoomData(@RequestParam Map<String,String> allRequestParams,
+                                           Model model,
+                                           @PathVariable("accomodationid") String id,
+                                           HttpServletRequest httpServletRequest) {
+        model = roomDataHandler.collectNewRoomData(allRequestParams,id, model, httpServletRequest);
+        if( model.containsAttribute("error")){
+            return renderAddRoomForm(model,id,httpServletRequest);
+        } else{
+            Map<String,String>returnParam = new HashMap<>();
+            return renderRooms(returnParam,model,id,httpServletRequest);
+
+        }
+
+
+    }
 
     @RequestMapping(value = "/reservation/list", method = RequestMethod.GET)
     public String renderRoomReservations(@RequestParam Map<String,String> allRequestParams,

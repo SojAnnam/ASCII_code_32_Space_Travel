@@ -2,6 +2,7 @@ package com.codecool.spacetravel.controller.collectdata;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.DAO.RoomDao;
+import com.codecool.spacetravel.model.*;
 import com.codecool.spacetravel.model.Accomodation;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.Room;
@@ -10,6 +11,8 @@ import com.codecool.spacetravel.service.RoomReservationDataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -133,6 +136,68 @@ public class RoomDataHandler {
         model.addAttribute("customername", customerName);
         model.addAttribute("customer", customer);
         model.addAttribute("roomreservations", roomReservations);
+    }
+
+    public void addNewRoom(Model model,HttpServletRequest httpServletRequest,String accId){
+
+        long accommodationId = Long.parseLong(accId);
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
+
+        Accomodation accomodation = queryHandler.getAccomodationById(accommodationId);
+        List<RoomType> roomTypeList =queryHandler.getAllRoomType();
+
+
+        model.addAttribute("loggedIn", customerId != null);
+        model.addAttribute("customername", customerName);
+        model.addAttribute("roomTypeList", roomTypeList);
+        model.addAttribute("accomodation", accomodation);
+
+    }
+
+    public Model collectNewRoomData(@RequestParam Map<String,String> allRequestParams,String id,
+                                              Model model,
+                                              HttpServletRequest httpServletRequest) {
+
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
+        model.addAttribute("loggedIn", customerId != null);
+        model.addAttribute("customername", customerName);
+
+        String roomTypeIdStr = allRequestParams.get("radio");
+        long accId = Long.parseLong(id);
+        String priceStr = allRequestParams.get("price");
+        String roomNumStr = allRequestParams.get("roomnum");
+
+
+
+
+        if(!priceStr.equals("") && !roomNumStr.equals("") && !roomTypeIdStr.equals("")){
+            long roomTypeId = Long.parseLong(allRequestParams.get("radio"));
+            double price = Double.parseDouble(allRequestParams.get("price"));
+            Integer roomNum = Integer.parseInt(allRequestParams.get("roomnum"));
+            RoomType roomType = queryHandler.getRoomTypeById(roomTypeId);
+            Accomodation accomodation = queryHandler.getAccomodationById(accId);
+            if (price > 0 && roomNum > 0  && roomTypeId != 0) {
+                Room room[] = new Room[roomNum];
+                for (int i = 0; i <roomNum ; i++) {
+                    room[i]= new Room(accomodation,price,roomType);
+                    queryHandler.saveNewRoom(room[i]);
+                }
+            }else{
+                String errormessage="Price or Number of Room must be greater than 0";
+                model.addAttribute("error",errormessage);
+
+            }
+
+        }else{
+            String errormessage="Price, Room number or Roomtype not valid or not selected";
+            model.addAttribute("error",errormessage);
+        }
+
+
+
+    return model;
     }
 
 }
