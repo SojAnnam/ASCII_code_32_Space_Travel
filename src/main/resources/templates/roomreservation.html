@@ -73,7 +73,7 @@
     </div>
 
     <th:block th:if="${loggedIn and customername == 'admin admin'}">
-        <a href="/registration-amenity" class="btn btn-primary pull-right">Add Amenity </a>
+        <a th:href="@{'~/' + ${accomodation.getId()}+'/addamenity'}" class="btn btn-primary pull-right">Add Amenity </a>
     </th:block>
 
     <div class="container">
