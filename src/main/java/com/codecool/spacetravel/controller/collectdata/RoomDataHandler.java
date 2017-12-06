@@ -3,7 +3,9 @@ package com.codecool.spacetravel.controller.collectdata;
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.DAO.RoomDao;
 import com.codecool.spacetravel.model.Accomodation;
+import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.Room;
+import com.codecool.spacetravel.model.RoomReservation;
 import com.codecool.spacetravel.service.RoomReservationDataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -114,6 +116,23 @@ public class RoomDataHandler {
         model.addAttribute("loggedIn", customerId != null);
         model.addAttribute("customername", customerName);
         model.addAttribute("errors", errorMessages);
+    }
+
+    public void collectRoomReservationsByCustomer(Model model, HttpServletRequest httpServletRequest){
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
+
+        List<RoomReservation> roomReservations = null;
+        Customer customer = null;
+        if (customerId != null){
+            customer = queryHandler.getCustomerById(customerId);
+            roomReservations = queryHandler.getReservationsByCustomerId(customerId);
+        }
+
+        model.addAttribute("loggedIn", customerId != null);
+        model.addAttribute("customername", customerName);
+        model.addAttribute("customer", customer);
+        model.addAttribute("roomreservations", roomReservations);
     }
 
 }
