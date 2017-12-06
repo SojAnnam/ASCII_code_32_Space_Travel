@@ -2,10 +2,7 @@ package com.codecool.spacetravel.controller.collectdata;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.DAO.RoomDao;
-import com.codecool.spacetravel.model.Accomodation;
-import com.codecool.spacetravel.model.Customer;
-import com.codecool.spacetravel.model.Room;
-import com.codecool.spacetravel.model.RoomReservation;
+import com.codecool.spacetravel.model.*;
 import com.codecool.spacetravel.service.RoomReservationDataValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -77,6 +74,7 @@ public class RoomDataHandler {
         }
 
         Accomodation selectedAccomodation = queryHandler.getAccomodationById(accommodationId);
+        List<AmenityType> faList = queryHandler.getAmenitisByAccomodationId(accommodationId);
 
         model.addAttribute("loggedIn", customerId != null);
         model.addAttribute("customername", customerName);
@@ -85,6 +83,7 @@ public class RoomDataHandler {
         model.addAttribute("errors", errorMessages);
         model.addAttribute("dateelements", dateElements);
         model.addAttribute("reservable", reservable);
+        model.addAttribute("faList", faList);
 
     }
 

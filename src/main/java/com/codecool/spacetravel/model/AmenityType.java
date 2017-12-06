@@ -9,13 +9,14 @@ public class AmenityType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
+    private String name, faId;
 
     public AmenityType() {
     }
 
-    public AmenityType(String name) {
+    public AmenityType(String name, String faId) {
         this.name = name;
+        this.faId = faId;
     }
 
     public long getId() {
@@ -33,5 +34,13 @@ public class AmenityType {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFaId() {
+        return faId;
+    }
+
+    public void setFaId(String faId) {
+        this.faId = faId;
     }
 }

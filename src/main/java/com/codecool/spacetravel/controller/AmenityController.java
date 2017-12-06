@@ -20,12 +20,12 @@ public class AmenityController {
     @Autowired
     private AmenityDataHandler amenityDataHandler;
 
-    @RequestMapping(value = "/{accomodationId}/registration-amenity", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/addamenity", method = {RequestMethod.GET, RequestMethod.POST})
     public String renderAcc(@RequestParam Map<String,String> allRequestParams,
                             Model model,
-                            @PathVariable("accomodationId") String accomodationId,
+//                            @PathVariable("accomodationId") String accomodationId,
                             HttpServletRequest httpServletRequest) {
-        amenityDataHandler.collectAmenityData(allRequestParams,accomodationId, model, httpServletRequest);
+        amenityDataHandler.collectAmenityData(allRequestParams, model, httpServletRequest);
         return "add_amenity";
     }
 

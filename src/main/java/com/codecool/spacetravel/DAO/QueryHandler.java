@@ -37,6 +37,9 @@ public class QueryHandler {
     @Autowired
     private RoomReservationRepository roomReservationRepository;
 
+    @Autowired
+    private AmenityRepository amenityRepository;
+
 
     public Planet getPlanet(long planetId){
         Planet planet = planetRepository.getPlanet(planetId);
@@ -142,4 +145,13 @@ public class QueryHandler {
 
     }
 
+    public void saveAmenity(AmenityType amenity) {
+        amenityRepository.save(amenity);
+
+    }
+
+    public List<AmenityType> getAmenitisByAccomodationId(long accommodationId) {
+        List <AmenityType > amenityList = amenityRepository.getAmenityTypesBy(accommodationId);
+        return amenityList;
+    }
 }
