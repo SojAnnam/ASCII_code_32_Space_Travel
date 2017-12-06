@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,22 +24,8 @@ public class CustomerDataHandler{
         this.customerDataValidator = customerDataValidator;
     }
 
-    public boolean saveCustomerDatas(Map<String, String> customerDatas) {
+    public boolean saveCustomerDatas(Customer customer) {
         boolean savingSucceeded = false;
-
-        Customer customer = new Customer(
-                customerDatas.get("firstname"),
-                customerDatas.get("lastname"),
-                customerDatas.get("email"),
-                customerDatas.get("country"),
-                customerDatas.get("city"),
-                customerDatas.get("postalcode"),
-                customerDatas.get("address"),
-                customerDatas.get("password")
-        );
-
-        List<RoomReservation> reservationsOfCustomer = new ArrayList<>();
-        customer.setRoomReservation(reservationsOfCustomer);
 
         try {
             queryHandler.saveNewCustomer(customer);
@@ -51,44 +36,21 @@ public class CustomerDataHandler{
         return savingSucceeded;
     }
 
-    public Model collectCustomerRegistrationData(@RequestParam Map<String,String> allRequestParams,
+    public Model collectCustomerRegistrationData(Customer customer,
+                                               String confirm,
                                                Model model) {
-        List<String> errorMessages = new ArrayList();
-        Map<String, String> customerDatas = new HashMap<>();
+        List<String> errorMessages;
         boolean savingSucceeded = false;
         boolean savingTried = false;
 
-        if (allRequestParams.size() > 0){
-            customerDatas.put("firstname", allRequestParams.get("firstname"));
-            customerDatas.put("lastname", allRequestParams.get("lastname"));
-            customerDatas.put("email", allRequestParams.get("email"));
-            customerDatas.put("country", allRequestParams.get("country"));
-            customerDatas.put("city", allRequestParams.get("city"));
-            customerDatas.put("postalcode", allRequestParams.get("postalcode"));
-            customerDatas.put("address", allRequestParams.get("address"));
-            customerDatas.put("password", allRequestParams.get("password"));
-            customerDatas.put("confirm", allRequestParams.get("confirm"));
+        errorMessages = customerDataValidator.validateRegistrationDatas(customer, confirm);
 
-            errorMessages = customerDataValidator.validateRegistrationDatas(customerDatas);
-
-            if (errorMessages.size() == 0){
-                savingTried = true;
-                savingSucceeded = saveCustomerDatas(customerDatas);
-            }
-        } else {
-            customerDatas.put("firstname", "");
-            customerDatas.put("lastname", "");
-            customerDatas.put("email", "");
-            customerDatas.put("country", "");
-            customerDatas.put("city", "");
-            customerDatas.put("postalcode", "");
-            customerDatas.put("address", "");
-            customerDatas.put("password", "");
-            customerDatas.put("confirm", "");
+        if (errorMessages.size() == 0){
+            savingTried = true;
+            savingSucceeded = saveCustomerDatas(customer);
         }
 
-
-        model.addAttribute("customer", customerDatas);
+        model.addAttribute("customer", customer);
         model.addAttribute("errors", errorMessages);
         model.addAttribute("savingsucceeded", savingSucceeded);
         model.addAttribute("savingtried", savingTried);

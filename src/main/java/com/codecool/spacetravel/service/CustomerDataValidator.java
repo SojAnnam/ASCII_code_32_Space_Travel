@@ -21,76 +21,76 @@ public class CustomerDataValidator {
         this.queryHandler = queryHandler;
     }
 
-    public List<String> validateRegistrationDatas(Map<String, String> customerDatas) {
+    public List<String> validateRegistrationDatas(Customer customer, String confirm) {
         List<String> errorMessages = new ArrayList();
 
-        if (customerDatas.get("firstname").length() < 2){
+        if (customer.getFirstName().length() < 2){
             errorMessages.add("First name must be at least 2 character long.");
         }
-        if (dataContainsNumber(customerDatas.get("firstname"))){
+        if (dataContainsNumber(customer.getFirstName())){
             errorMessages.add("First name shall be free of numbers.");
         }
-        if (dataContainsSigns(customerDatas.get("firstname"))){
+        if (dataContainsSigns(customer.getFirstName())){
             errorMessages.add("First name shall be free of signs.");
         }
-        if (customerDatas.get("firstname").length() > 0 && dataNotStartsWithUpperCaseLetter(customerDatas.get("firstname"))){
+        if (customer.getFirstName().length() > 0 && dataNotStartsWithUpperCaseLetter(customer.getFirstName())){
             errorMessages.add("First name must start with upper case letter.");
         }
-        if (customerDatas.get("lastname").length() < 2){
+        if (customer.getLastName().length() < 2){
             errorMessages.add("Last name must be at least 2 character long.");
         }
-        if (dataContainsNumber(customerDatas.get("lastname"))){
+        if (dataContainsNumber(customer.getLastName())){
             errorMessages.add("Last name shall be free of numbers.");
         }
-        if (dataContainsSigns(customerDatas.get("lastname"))){
+        if (dataContainsSigns(customer.getLastName())){
             errorMessages.add("Last name shall be free of signs.");
         }
-        if (customerDatas.get("lastname").length() > 0 && dataNotStartsWithUpperCaseLetter(customerDatas.get("lastname"))){
+        if (customer.getLastName().length() > 0 && dataNotStartsWithUpperCaseLetter(customer.getLastName())){
             errorMessages.add("Last name must start with upper case letter.");
         }
 
         Pattern compiledPattern = Pattern.compile(
                 "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
                         + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
-        Matcher matcher = compiledPattern.matcher(customerDatas.get("email"));
+        Matcher matcher = compiledPattern.matcher(customer.getEmail());
         boolean emailIsCorrect = matcher.matches();
         if (!emailIsCorrect){
             errorMessages.add("Type email in this format: john.doe@fantasymail.com");
         }
 
-        if (emailExists(customerDatas.get("email"))){
+        if (emailExists(customer.getEmail())){
             errorMessages.add("This email is already exists in our database. Give another one.");
         }
 
-        if (customerDatas.get("country").length() < 5){
-            errorMessages.add("Country must be at least 5 character long.");
+        if (customer.getCountry().length() < 3){
+            errorMessages.add("Country must be at least 3 character long.");
         }
 
-        if (dataContainsNumber(customerDatas.get("country"))){
+        if (dataContainsNumber(customer.getCountry())){
             errorMessages.add("Country shall be free of numbers.");
         }
 
-        if (customerDatas.get("city").length() < 5){
-            errorMessages.add("City must be at least 5 character long.");
+        if (customer.getCity().length() < 2){
+            errorMessages.add("City must be at least 2 character long.");
         }
 
-        if (dataContainsNumber(customerDatas.get("city"))){
+        if (dataContainsNumber(customer.getCity())){
             errorMessages.add("City shall be free of numbers.");
         }
 
-        if (customerDatas.get("postalcode").length() < 2 || customerDatas.get("postalcode").length() > 10){
+        if (customer.getPostalCode().length() < 2 || customer.getPostalCode().length() > 10){
             errorMessages.add("Postal Code's length must be between 2 and 10 characters.");
         }
 
-        if (customerDatas.get("address").length() < 5){
+        if (customer.getAddress().length() < 5){
             errorMessages.add("Address must be at least 5 character long.");
         }
 
-        if (customerDatas.get("password").length() < 5){
+        if (customer.getPassword().length() < 5){
             errorMessages.add("Password must be at least 5 character long.");
         }
 
-        if (!customerDatas.get("password").equals(customerDatas.get("confirm"))){
+        if (!customer.getPassword().equals(confirm)){
             errorMessages.add("Password confirmation failed. Type the same password in Password and Confirm fields.");
         }
 

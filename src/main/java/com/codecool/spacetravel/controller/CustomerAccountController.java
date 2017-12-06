@@ -5,6 +5,7 @@ import com.codecool.spacetravel.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,12 +19,19 @@ public class CustomerAccountController {
     @Autowired
     private CustomerDataHandler customerDataHandler;
 
+    @RequestMapping(value = "/customer-registration", method = RequestMethod.GET)
+    public String renderCustomerRegistration(Model model) {
+        model.addAttribute("customer", new Customer());
+        model.addAttribute("errors", new ArrayList<>());
+        return "customer_registration";
+    }
 
-    @RequestMapping(value = "/customer-registration", method = {RequestMethod.GET, RequestMethod.POST})
-    public String renderCustomerRegistration(@RequestParam Map<String,String> allRequestParams,
+    @RequestMapping(value = "/customer-registration", method = RequestMethod.POST)
+    public String renderCustomerRegistration(@ModelAttribute Customer customer,
+                                             @RequestParam("confirm") String confirm,
                                              Model model) {
 
-        model = customerDataHandler.collectCustomerRegistrationData(allRequestParams, model);
+        model = customerDataHandler.collectCustomerRegistrationData(customer, confirm, model);
 
         List<String> errorMessages = (List) model.asMap().get("errors");
 
