@@ -72,6 +72,10 @@
         <h3>Room reservation</h3>
     </div>
 
+    <th:block th:if="${loggedIn and customername == 'admin admin'}">
+        <a href="/registration-amenity" class="btn btn-primary pull-right">Add Amenity </a>
+    </th:block>
+
     <div class="container">
 
         <th:block th:if="${accomodation == null}">
