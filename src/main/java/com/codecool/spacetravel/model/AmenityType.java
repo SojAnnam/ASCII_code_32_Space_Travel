@@ -18,8 +18,8 @@ public class AmenityType {
     private long id;
     private String name, faId;
 
-    @ManyToMany(mappedBy = "amenityTypes")
-    private List<Accomodation> accomodations;
+//    @ManyToMany(mappedBy = "amenityTypes")
+//    private List<Accomodation> accomodations;
 
 //    @OneToOne
 //    private AmenityIcon amenityIcon;
@@ -48,13 +48,13 @@ public class AmenityType {
     public void setName(String name) {
         this.name = name;
     }
-    public void setAccomodations(List<Accomodation> accomodations) {
-        this.accomodations = accomodations;
-    }
-
-    public List<Accomodation> getAccomodations() {
-        return accomodations;
-    }
+//    public void setAccomodations(List<Accomodation> accomodations) {
+//        this.accomodations = accomodations;
+//    }
+//
+//    public List<Accomodation> getAccomodations() {
+//        return accomodations;
+//    }
 
     public String getFaId() {
         return faId;

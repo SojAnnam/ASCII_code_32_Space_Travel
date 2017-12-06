@@ -74,6 +74,7 @@ public class RoomDataHandler {
         }
 
         Accomodation selectedAccomodation = queryHandler.getAccomodationById(accommodationId);
+        System.out.println("marcika");
         List<AmenityType> faList = queryHandler.getAmenitisByAccomodationId(accommodationId);
 
         model.addAttribute("loggedIn", customerId != null);

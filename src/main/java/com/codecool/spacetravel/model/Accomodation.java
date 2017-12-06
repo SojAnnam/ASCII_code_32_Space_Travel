@@ -23,7 +23,7 @@ public class Accomodation {
 
     private String name;
 
-    @ManyToMany
+    @OneToMany
     private List<AmenityType> amenityTypes;
 
     @ManyToOne

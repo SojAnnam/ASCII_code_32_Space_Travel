@@ -148,8 +148,12 @@ a.nav-link.dropdown-toggle{
     margin-bottom:0;
 }
 .fa-rocket {
-    font-size: 85px;
+    font-size: 85px !important;
     margin-left: 15px;
+}
+
+.fa{
+    font-size: 20px;
 }
 
 

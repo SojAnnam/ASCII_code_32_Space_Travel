@@ -165,7 +165,8 @@ public class QueryHandler {
     }
 
     public List<AmenityType> getAmenitisByAccomodationId(long accommodationId) {
-        List <AmenityType > amenityList = amenityRepository.getAmenityTypesBy(accommodationId);
-        return amenityList;
+        Accomodation  accomodation = accomodatiponRepository.findOne(accommodationId);
+        List<AmenityType> amenityTypeList = accomodation.getAmenityTypes();
+        return amenityTypeList;
     }
 }
