@@ -128,14 +128,6 @@ public class Customer {
         this.city = city;
     }
 
-    public String getpostalcode() {
-        return postalCode;
-    }
-
-    public void setpostalcode(String postalcode) {
-        this.postalCode = postalcode;
-    }
-
     public List<RoomReservation> getRoomReservation() {
         return roomReservation;
     }

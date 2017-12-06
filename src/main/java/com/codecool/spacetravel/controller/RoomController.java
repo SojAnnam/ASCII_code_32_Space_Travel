@@ -50,4 +50,11 @@ public class RoomController {
         return "reservationsaving";
     }
 
+    @RequestMapping(value = "/reservation/list", method = RequestMethod.GET)
+    public String renderRoomReservations(@RequestParam Map<String,String> allRequestParams,
+                                         Model model,
+                                         HttpServletRequest httpServletRequest){
+        roomDataHandler.collectRoomReservationsByCustomer(model, httpServletRequest);
+        return "myroomreservations";
+    }
 }

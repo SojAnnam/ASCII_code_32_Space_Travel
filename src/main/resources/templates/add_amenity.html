@@ -5,7 +5,7 @@
     <meta name="author" content="Codecool" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Codecool Shop</title>
+    <title>Planet registration | Space Travel</title>
 
     <!-- Latest compiled and minified Jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -23,7 +23,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous"></script>
-
     <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/custom.css" />
@@ -31,54 +30,40 @@
 
 <body>
 
-    <!--navigation bar-->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <ul class="nav navbar-nav">
-                <li><a href="/">Main Page</a></li>
-
-                <th:block th:if="${loggedIn}">
-                    <li><a href="/reservation/list">My reservations</a></li>
-                    <li><a href="/logout">Logout</a></li>
-                </th:block>
-
-                <th:block th:unless="${loggedIn}">
-                    <li><a href="/customer-registration">Registration</a></li>
-                    <li><a href="/login">Login</a></li>
-                </th:block>
-            </ul>
+<!--navigation bar-->
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li><a href="/">Main Page</a></li>
 
             <th:block th:if="${loggedIn}">
-                <p class="navbar-text pull-right" id="identification" th:text="${customername}">Customer's name</p>
+                <li><a href="/reservation/list">My reservations</a></li>
+                <li><a href="/logout">Logout</a></li>
             </th:block>
-        </div>
-    </nav>
 
-    <div class="jumbotron text-center">
-        <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
-        <h3>Reservation saving</h3>
-    </div>
+            <th:block th:unless="${loggedIn}">
+                <li><a href="/customer-registration">Registration</a></li>
+                <li><a href="/login">Login</a></li>
+            </th:block>
+        </ul>
 
-    <div class="container">
-
-        <div id="error-messages" class="alert alert-danger" th:if="${#lists.size(errors)>0}">
-            <h3>Error occurs:</h3>
-            <ul th:each="error : ${errors}">
-                <li th:text="${error}"></li>
-            </ul>
-        </div>
-
-        <th:block th:if="${#lists.size(errors) == 0}">
-            <div class="well well-sm text-center">
-                <h3>Saving succeeded.</h3>
-                <br />
-                <h3>Bon voyage!</h3>
-            </div>
+        <th:block th:if="${loggedIn}">
+            <p class="navbar-text pull-right" id="identification" th:text="${customername}">Customer's name</p>
         </th:block>
-
-        <div>
-            <a href="/" role="button" class="btn btn-primary">Back to Main Page</a>
-        </div>
     </div>
+</nav>
+
+<div class="jumbotron text-center">
+    <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
+    <h3> Add amenity </h3>
+
+</div>
+
+<form action="/addamenity" method="post">
+    <input type="text" name="name" value="name of amenity"> Name </input><br/>
+    <input type="text" name="faId" value="fa value" checked="checked"> Fa value </input> <br/>
+    <input type="submit" value="Submit"></input>
+</form>
+
 </body>
 </html>
