@@ -61,17 +61,17 @@ public class QueryHandler {
         return listOfPlanetsBySolarSystem;
     }
 
-    public  List<Planet> getAllPlanet(){
+    public List<Planet> getAllPlanet(){
         List<Planet> listOfAllPlanets = planetRepository.getAllPlanet();
         return listOfAllPlanets;
     }
 
-    public  List<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers() {
         List<Customer> results = customerRepository.getAllCustomers();
         return results;
     }
 
-    public  List getAllSolarSystem() {
+    public List getAllSolarSystem() {
         List<SolarSystem> results =  solarSystemRepository.getAllSolarSystem();
         return results;
     }
@@ -143,6 +143,15 @@ public class QueryHandler {
 
         roomReservationRepository.save(roomReservation);
 
+    }
+
+    public List<AmenityType> getAllAmenity() {
+        List<AmenityType> amenityTypes = amenityRepository.findAll();
+        return amenityTypes;
+    }
+
+    public void saveAccommodation(Accomodation accomodation) {
+        accomodatiponRepository.save(accomodation);
     }
 }
 
