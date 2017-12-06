@@ -5,7 +5,7 @@
     <meta name="author" content="Codecool" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Planet registration | Space Travel</title>
+    <title>Accommodation registration | Space Travel</title>
 
     <!-- Latest compiled and minified Jquery -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -54,27 +54,33 @@
 
     <div class="jumbotron text-center">
         <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
-        <h3>Planet registration</h3>
+        <h3>Accommodation registration</h3>
     </div>
     <div class="container">
         <div class="row">
             <a class="btn btn-primary pull-right" href="/">Back To Home</a>
             <div class="registration-page-container col-md-4">
-                <form action="/registration-accommodation" method="post">
-                    <div class="form-group">
-                        <label for="planet">Planet</label>
-                        <select class="form-control" id="planet" name="planet">
-                            <!--<option th:each="ssystem,iterStat : ${solarsystems}" th:value="${ssystem.id}" th:text="${ssystem.name}"></option>-->
-                        </select>
-                    </div>
-                    <!--amenity checkbox-->
+                <form th:action="@{/registration-accommodation}" th:object="${accomodation}" method="post">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" />
+                        <input type="text" class="form-control" id="name" th:field="*{name}" />
                     </div>
                     <div class="form-group">
                         <label for="desc">Description</label>
-                        <input type="text" class="form-control" id="desc" name="desc" />
+                        <input type="text" class="form-control" id="desc" th:field="*{description}" />
+                    </div>
+                    <div class="form-group">
+                        <label for="planet">Planet</label>
+                        <select class="form-control" id="planet" name="planet">
+                            <option th:each="planet : ${planets}" th:value="${planet.id}" th:text="${planet.name}" th:field="*{planet}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="planet">Amenity type(s)</label>
+                        <div th:each="amenityType : ${amenityTypes}"> <!--th:field="*{amenityTest}"-->
+                            <input type="checkbox" th:value="${amenityType.getId()}" th:field="*{amenityTypes}"/>
+                            <span th:text="${amenityType.getName()}"></span>
+                        </div>
                     </div>
                     <input class="btn btn-primary" type="submit" value="Add"/>
                 </form>
