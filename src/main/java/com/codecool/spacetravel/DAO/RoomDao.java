@@ -60,61 +60,66 @@ public class RoomDao {
         }
     }
 
-    public boolean saveRoomReservation(Map<String, String> roomReservationDatas, List<String> errorMessages){
+    public boolean saveRoomReservation(Long customerId,
+                                       String startDateStringFromUser,
+                                       String endDateStringFromUser,
+                                       List<Long> roomIds,
+                                       List<String> errorMessages){
         boolean savingSucceeded = false;
-        String startDateStringFromUser = roomReservationDatas.get("startDateStringFromUser");
-        String endDateStringFromUser = roomReservationDatas.get("endDateStringFromUser");
-        long roomId = Long.parseLong(roomReservationDatas.get("roomId"));
-        long customerId = Long.parseLong(roomReservationDatas.get("customerId"));
 
-        Room room = queryHandler.getRoomById(roomId);
+        Customer customer = queryHandler.getCustomerById(customerId);
 
-        if (room != null) {
+        if (customer != null){
 
-            Customer customer = queryHandler.getCustomerById(customerId);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+            Date startDate = null;
+            Date endDate = null;
 
-            if (customer != null){
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-                Date startDate = null;
-                Date endDate = null;
-
-                try {
-                    startDate = dateFormat.parse(startDateStringFromUser);
-                    endDate = dateFormat.parse(endDateStringFromUser);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                if (roomIsFree(room, startDate, endDate)){
-                    RoomReservation roomReservation = new RoomReservation(customer, startDate, endDate, room);
-
-                    List<RoomReservation> reservationsOfCustomer = customer.getRoomReservation();
-                    reservationsOfCustomer.add(roomReservation);
-                    customer.setRoomReservation(reservationsOfCustomer);
-
-                    List<RoomReservation> reservationsInRoom = room.getRoomReservations();
-                    reservationsInRoom.add(roomReservation);
-                    room.setRoomReservations(reservationsInRoom);
-
-                    try {
-                        queryHandler.saveRoomReservation(roomReservation);
-                        savingSucceeded = true;
-                    } catch (Exception e){
-                        System.out.println("SAVING FAILED: " + e.getMessage());
-                        errorMessages.add("Database problem. Please, try later.");
-                    }
-
-                } else {
-                    errorMessages.add("Room is already reserved in the choosed time interval.");
-                }
-            } else {
-                errorMessages.add("Database problem. Please, try it later.");
-                System.out.println("Customer not found in database.");
+            try {
+                startDate = dateFormat.parse(startDateStringFromUser);
+                endDate = dateFormat.parse(endDateStringFromUser);
+            } catch (ParseException e) {
+                e.printStackTrace();
             }
 
+            for (Long roomId : roomIds){
+
+                Room room = queryHandler.getRoomById(roomId);
+
+                if (room != null) {
+
+                        if (roomIsFree(room, startDate, endDate)){
+                            RoomReservation roomReservation = new RoomReservation(customer, startDate, endDate, room);
+
+                            List<RoomReservation> reservationsOfCustomer = customer.getRoomReservation();
+                            reservationsOfCustomer.add(roomReservation);
+                            customer.setRoomReservation(reservationsOfCustomer);
+
+                            List<RoomReservation> reservationsInRoom = room.getRoomReservations();
+                            reservationsInRoom.add(roomReservation);
+                            room.setRoomReservations(reservationsInRoom);
+
+                            try {
+                                queryHandler.saveRoomReservation(roomReservation);
+                                savingSucceeded = true;
+                            } catch (Exception e){
+                                System.out.println("SAVING FAILED: " + e.getMessage());
+                                errorMessages.add("Database problem. Please, try later.");
+                            }
+
+                        } else {
+                            errorMessages.add(room.getRoomType().getName() + " (beds: " + room.getRoomType().getBednumber() + ") is already reserved in the choosed time interval.");
+                        }
+
+
+                } else {
+                    errorMessages.add("Room not found in database.");
+                }
+            }
 
         } else {
-            errorMessages.add("Room not found in database.");
+            errorMessages.add("Database problem. Please, try it later.");
+            System.out.println("Customer not found in database.");
         }
 
         return savingSucceeded;

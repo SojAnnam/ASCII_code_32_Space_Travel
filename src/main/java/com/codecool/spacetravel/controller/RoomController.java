@@ -40,15 +40,15 @@ public class RoomController {
         return "roomreservation";
     }
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/reservation/saving", method = RequestMethod.POST)
     public String renderRoomReservationSaving(@RequestParam Map<String,String> allRequestParams,
                                               Model model,
                                               HttpServletRequest httpServletRequest) {
-
         roomDataHandler.collectRoomReservationSavingData(allRequestParams, model, httpServletRequest);
 
         return "reservationsaving";
     }
+
     @RequestMapping(value = "/add-new-room/{accomodationid}", method = RequestMethod.GET)
     public String renderAddRoomForm(
                               Model model,
@@ -59,6 +59,7 @@ public class RoomController {
         return "add-new-room";
 
     }
+
     @RequestMapping(value = "/add-new-room/{accomodationid}", method = RequestMethod.POST)
     public String collectRoomData(@RequestParam Map<String,String> allRequestParams,
                                            Model model,
