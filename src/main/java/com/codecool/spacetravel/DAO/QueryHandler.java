@@ -40,6 +40,9 @@ public class QueryHandler {
     @Autowired
     private AmenityRepository amenityRepository;
 
+    @Autowired
+    private AccomodationImageRepository accomodationImageRepository;
+
 
     public Planet getPlanet(long planetId){
         Planet planet = planetRepository.getPlanet(planetId);
@@ -157,6 +160,10 @@ public class QueryHandler {
 
     public void saveAccommodation(Accomodation accomodation) {
         accomodatiponRepository.save(accomodation);
+    }
+
+    public void saveAccommodationPicture(AccomodationPicture accomodationPicture) {
+        accomodationImageRepository.save(accomodationPicture);
     }
 
 
