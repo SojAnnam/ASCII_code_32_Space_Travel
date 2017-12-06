@@ -4,6 +4,8 @@ import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 import com.codecool.spacetravel.model.RoomReservation;
 import com.codecool.spacetravel.service.CustomerDataValidator;
+import com.codecool.spacetravel.service.Password;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,14 +21,22 @@ public class CustomerDataHandler{
 
     private QueryHandler queryHandler;
     private CustomerDataValidator customerDataValidator;
+    private Password password;
 
-    public CustomerDataHandler(QueryHandler queryHandler, CustomerDataValidator customerDataValidator) {
+    public CustomerDataHandler(QueryHandler queryHandler, CustomerDataValidator customerDataValidator,Password password) {
         this.queryHandler = queryHandler;
         this.customerDataValidator = customerDataValidator;
+        this.password =password;
     }
 
     public boolean saveCustomerDatas(Map<String, String> customerDatas) {
         boolean savingSucceeded = false;
+
+
+        String passwordStr = customerDatas.get("password");
+        String hashPassword = password.hashPassword(passwordStr);
+
+
 
         Customer customer = new Customer(
                 customerDatas.get("firstname"),
@@ -36,7 +46,8 @@ public class CustomerDataHandler{
                 customerDatas.get("city"),
                 customerDatas.get("postalcode"),
                 customerDatas.get("address"),
-                customerDatas.get("password")
+                hashPassword,
+                "user"
         );
 
         List<RoomReservation> reservationsOfCustomer = new ArrayList<>();
@@ -116,6 +127,17 @@ public class CustomerDataHandler{
         model.addAttribute("validcustomer", customer);
 
         return model;
+    }
+
+    public boolean checkUserLegitimacy(long customerId) {
+
+        Customer customer = queryHandler.getCustomerById(customerId);
+
+        if (customer.getLegitimacy().equals("admin")) {
+            return true;
+
+        }
+        return false;
     }
 
 }
