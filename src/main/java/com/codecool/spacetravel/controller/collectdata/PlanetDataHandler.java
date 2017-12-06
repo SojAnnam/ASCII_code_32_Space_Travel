@@ -15,7 +15,6 @@ import java.util.Map;
 @Service
 public class PlanetDataHandler{
 
-
     QueryHandler queryHandler;
 
     public PlanetDataHandler(QueryHandler queryHandler) {
