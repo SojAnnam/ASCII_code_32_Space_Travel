@@ -183,9 +183,11 @@
                 </div>
             </div>
         </th:block>
-
+        <th:block th:if="${loggedIn and customername == 'admin admin'}">
+            <a th:href="@{'~/add-new-room/' + ${accomodation.getId()}}" class="btn btn-primary pull-left" th:text="'Add Room to ' + ${accomodation.getName()}">Add New Room</a>
+        </th:block>
         <div th:if="${accomodation != null}">
-            <a th:href="@{'~/' + ${accomodation.getPlanet().getId()}+'/accomodation'}" role="button" class="btn btn-primary">Back to Accommodations</a>
+            <a th:href="@{'~/' + ${accomodation.getPlanet().getId()}+'/accomodation'}" role="button" class="btn btn-primary" th:text="'Back to Accomodations of ' + ${accomodation.getPlanet().getName()}">Back to Accommodations</a>
         </div>
     </div>
 

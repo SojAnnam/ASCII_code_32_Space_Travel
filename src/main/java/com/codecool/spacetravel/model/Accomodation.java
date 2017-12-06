@@ -86,6 +86,13 @@ public class Accomodation {
         this.description = description;
     }
 
+    public List<AccomodationPicture> getAccomodationPictures() {
+        return accomodationPictures;
+    }
+
+    public void setAccomodationPictures(List<AccomodationPicture> accomodationPictures) {
+        this.accomodationPictures = accomodationPictures;
+    }
 
     public List<AmenityType> getAmenityTypes() {
         return amenityTypes;
