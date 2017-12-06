@@ -51,10 +51,10 @@ public class QueryHandler {
         return results;
     }
 
-    public List getAmenitiesByAccomodationId(long id){
-        List<AmenityType> getAccomodationById = amenityRepository.getAmenitiesByAccomodationId(id);
-        return getAccomodationById;
-    }
+//    public List getAmenitiesByAccomodationId(long id){
+//        List<AmenityType> getAccomodationById = amenityRepository.getAmenitiesByAccomodationId(id);
+//        return getAccomodationById;
+//    }
 
     public List getPlanetsBySolarSystemId(long id) {
         List<Planet> listOfPlanetsBySolarSystem = planetRepository.getPlanetsBySolarSystemId(id);
@@ -158,11 +158,10 @@ public class QueryHandler {
     public void saveAccommodation(Accomodation accomodation) {
         accomodatiponRepository.save(accomodation);
     }
-}
+
 
     public void saveAmenity(AmenityType amenity) {
         amenityRepository.save(amenity);
-
     }
 
     public List<AmenityType> getAmenitisByAccomodationId(long accommodationId) {

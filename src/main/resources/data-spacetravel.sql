@@ -255,3 +255,5 @@ INSERT INTO amenitytype VALUES (3,'tengerpart', 'lo');
 INSERT INTO accomodation_amenity_types VALUES (1,1);
 INSERT INTO accomodation_amenity_types VALUES (1,2);
 INSERT INTO accomodation_amenity_types VALUES (1,3);
+
+SELECT pg_catalog.setval('amenitytype_id_seq', 3, true);
