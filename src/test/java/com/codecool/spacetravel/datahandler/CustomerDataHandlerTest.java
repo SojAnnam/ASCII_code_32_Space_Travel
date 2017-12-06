@@ -1,16 +1,17 @@
-/*
 package com.codecool.spacetravel.datahandler;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.model.Customer;
-import com.codecool.spacetravel.validator.CustomerDataValidator;
+import com.codecool.spacetravel.service.CustomerDataValidator;
 import org.hibernate.persister.spi.UnknownPersisterException;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.ui.Model;
+
 import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -44,7 +45,7 @@ class CustomerDataHandlerTest {
         CustomerDataValidator customerDataValidatorMock = Mockito.mock(CustomerDataValidator.class);
         CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock);
         Exception exampleException = new UnknownPersisterException("Database problem. Try it later.");
-        doThrow(exampleException).when(queryHandlerMock).persistData(any());
+        doThrow(exampleException).when(queryHandlerMock).saveNewCustomer(any());
         boolean savingSucceeded = customerDataHandler.saveCustomerDatas(exampleCorrectCustomerDatas);
         assertEquals(false, savingSucceeded);
     }
@@ -54,26 +55,64 @@ class CustomerDataHandlerTest {
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidatorMock = Mockito.mock(CustomerDataValidator.class);
         CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock);
-        doNothing().when(queryHandlerMock).persistData(exampleCustomer);
+        doNothing().when(queryHandlerMock).saveNewCustomer(exampleCustomer);
         boolean savingSucceeded = customerDataHandler.saveCustomerDatas(exampleCorrectCustomerDatas);
         assertEquals(true, savingSucceeded);
     }
 
-    */
-/*@Test
-    void renderCustomerRegistrationHandler_RegistrationSucceeded_NoErrorMessageSavingBooleansAreTrue() {
+    @Test
+    void collectCustomerRegistrationData_RegistrationSucceeded_NoErrorMessageSavingBooleansAreTrue() throws IllegalAccessException, InstantiationException {
         List<String> exampleEmptyErrorMessages = new ArrayList<>();
-        Set<String> exampleRequestQueryParams = new HashSet<>();
-        exampleRequestQueryParams.add("firstname");
-        exampleRequestQueryParams.add("lastname");
-        exampleRequestQueryParams.add("email");
-        exampleRequestQueryParams.add("country");
-        exampleRequestQueryParams.add("city");
-        exampleRequestQueryParams.add("postalcode");
-        exampleRequestQueryParams.add("password");
-        exampleRequestQueryParams.add("confirm");
 
-        Request requestMock = Mockito.mock(Request.class);
+        Map<String,String> allRequestParams = new LinkedHashMap<>();
+        allRequestParams.put("firstname", "Arnold");
+        allRequestParams.put("lastname", "Schwarzenegger");
+        allRequestParams.put("email", "arnold@freemail.hu");
+        allRequestParams.put("country", "United States");
+        allRequestParams.put("city", "Los Angeles");
+        allRequestParams.put("postalcode", "90001");
+        allRequestParams.put("password", "terminator");
+        allRequestParams.put("confirm", "terminator");
+
+        // Model model = Mockito.mock(Model.class);
+        Model model = new Model() {
+            @Override
+            public Model addAttribute(String s, Object o) {
+                return null;
+            }
+
+            @Override
+            public Model addAttribute(Object o) {
+                return null;
+            }
+
+            @Override
+            public Model addAllAttributes(Collection<?> collection) {
+                return null;
+            }
+
+            @Override
+            public Model addAllAttributes(Map<String, ?> map) {
+                return null;
+            }
+
+            @Override
+            public Model mergeAttributes(Map<String, ?> map) {
+                return null;
+            }
+
+            @Override
+            public boolean containsAttribute(String s) {
+                return false;
+            }
+
+            @Override
+            public Map<String, Object> asMap() {
+                return null;
+            }
+        };
+
+        /*Request requestMock = Mockito.mock(Request.class);
         when(requestMock.queryParams("firstname")).thenReturn("Arnold");
         when(requestMock.queryParams("lastname")).thenReturn("Schwarzenegger");
         when(requestMock.queryParams("email")).thenReturn("arnold@freemail.hu");
@@ -81,31 +120,25 @@ class CustomerDataHandlerTest {
         when(requestMock.queryParams("city")).thenReturn("Los Angeles");
         when(requestMock.queryParams("postalcode")).thenReturn("90001");
         when(requestMock.queryParams("password")).thenReturn("terminator");
-        when(requestMock.queryParams("confirm")).thenReturn("terminator");
+        when(requestMock.queryParams("confirm")).thenReturn("terminator");*/
 
-        doReturn(exampleRequestQueryParams).when(requestMock).queryParams();
+        // doReturn(exampleRequestQueryParams).when(requestMock).queryParams();
 
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidatorMock = Mockito.mock(CustomerDataValidator.class);
         CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock);
 
         when(customerDataValidatorMock.validateRegistrationDatas(exampleCorrectCustomerDatas)).thenReturn(exampleEmptyErrorMessages);
-        doNothing().when(queryHandlerMock).persistData(exampleCustomer);
+        doNothing().when(queryHandlerMock).saveNewCustomer(exampleCustomer);
 
-        Map<String, Object> params = customerDataHandler.collectCustomerRegistrationData(requestMock);
+        Model resultModel = customerDataHandler.collectCustomerRegistrationData(allRequestParams, model);
+        System.out.println("RESULTMODEL: " + resultModel.asMap().size());
 
-        List<String> errorMessages = (List<String>) params.get("errors");
-        assertEquals(true, params.get("savingsucceeded"));
-        assertEquals(true, params.get("savingtried"));
+        List<String> errorMessages = (List<String>) resultModel.asMap().get("errors");
+
+        assertEquals(true, resultModel.asMap().get("savingsucceeded"));
+        assertEquals(true, resultModel.asMap().get("savingtried"));
         assertEquals(0, errorMessages.size());
-    }*//*
+    }
 
-
-    */
-/*@Test
-    void collectLoginData() {
-
-    }*//*
-
-
-}*/
+}

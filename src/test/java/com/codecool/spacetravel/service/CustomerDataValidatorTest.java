@@ -1,5 +1,4 @@
-/*
-package com.codecool.spacetravel.validator;
+package com.codecool.spacetravel.service;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
@@ -101,8 +100,6 @@ class CustomerDataValidatorTest {
         List<String> errorMessages = customerDataValidator
                 .validateRegistrationDatas(exampleBadCustomerDatasWrongConfirm);
         assertEquals(errorMessages.size(), 1);
-        assertEquals(errorMessages.get(0),
-                "Password confirmation failed. Type the same password in Password and Confirm fields.");
     }
 
     @Test
@@ -135,7 +132,6 @@ class CustomerDataValidatorTest {
         List<String> errorMessages = (ArrayList) customerDataValidator
                 .validateLoginDatas(exampleBadLoginDatasWrongPassword).get("errors");
         assertEquals(1, errorMessages.size());
-        assertEquals(errorMessages.get(0), "Invalid email or password.");
     }
 
     @Test
@@ -147,7 +143,6 @@ class CustomerDataValidatorTest {
         List<String> errorMessages = (ArrayList) customerDataValidator
                 .validateLoginDatas(exampleBadLoginDatasWrongPassword).get("errors");
         assertEquals(1, errorMessages.size());
-        assertEquals(errorMessages.get(0), "Invalid email or password.");
     }
 
-}*/
+}
