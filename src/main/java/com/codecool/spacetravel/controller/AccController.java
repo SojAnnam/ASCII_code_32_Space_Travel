@@ -3,6 +3,7 @@ package com.codecool.spacetravel.controller;
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.controller.collectdata.AccDataHandler;
 import com.codecool.spacetravel.model.Accomodation;
+import com.codecool.spacetravel.model.AccomodationPicture;
 import com.codecool.spacetravel.model.AmenityType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -35,8 +38,11 @@ public class AccController {
     }
 
     @RequestMapping(value = "/registration-accommodation", method = RequestMethod.POST)
-    public String getAcc(Accomodation accomodation) {
+    public String saveAcc(Accomodation accomodation) {
+        AccomodationPicture accomodationPicture = new AccomodationPicture("default-accommodation.jpg", "def-acc", "def-acc");
+        accomodationPicture.setAccomodation(accomodation);
         queryHandler.saveAccommodation(accomodation);
+        queryHandler.saveAccommodationPicture(accomodationPicture);
         return "redirect:/registration-accommodation";
     }
 
