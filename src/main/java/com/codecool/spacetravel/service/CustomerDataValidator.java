@@ -15,9 +15,11 @@ import java.util.regex.Pattern;
 @Service
 public class CustomerDataValidator {
 
-    @Autowired
     private QueryHandler queryHandler;
 
+    public CustomerDataValidator(QueryHandler queryHandler) {
+        this.queryHandler = queryHandler;
+    }
 
     public List<String> validateRegistrationDatas(Map<String, String> customerDatas) {
         List<String> errorMessages = new ArrayList();
