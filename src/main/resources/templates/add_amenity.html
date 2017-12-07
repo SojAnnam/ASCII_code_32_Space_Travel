@@ -38,6 +38,9 @@
 
             <th:block th:if="${loggedIn}">
                 <li><a href="/reservation/list">My reservations</a></li>
+            </th:block>
+
+            <th:block th:if="${loggedIn}">
                 <li><a href="/logout">Logout</a></li>
             </th:block>
 
@@ -58,12 +61,33 @@
     <h3> Add amenity </h3>
 
 </div>
+<div class="container">
+    <div class="row">
+        <a class="btn btn-primary pull-right" href="/">Back To Home</a>
+        <div class="registration-page-container col-md-4">
+            <div id="error-messages" class="alert alert-danger" th:if="${#lists.size(errors)>0}">
+                <ul th:each="error : ${errors}">
+                    <li th:text="${error}"></li>
+                </ul>
+            </div>
+                <form action="/addamenity" method="post">
 
-<form action="/addamenity" method="post">
-    <input type="text" name="name" value="name of amenity"> Name </input><br/>
-    <input type="text" name="faId" value="fa value" checked="checked"> Fa value </input> <br/>
-    <input type="submit" value="Submit"></input>
-</form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="faId">Icon name</label>
+                        <input type="text" name="faId" id="faId" />
+                    </div>
+
+                    <input class="btn btn-primary" type="submit" value="Add"/>
+                </form>
+        </div>
+
+    </div>
+</div>
 
 </body>
 </html>

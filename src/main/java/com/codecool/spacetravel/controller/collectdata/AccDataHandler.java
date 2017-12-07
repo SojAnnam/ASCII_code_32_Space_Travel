@@ -2,6 +2,7 @@ package com.codecool.spacetravel.controller.collectdata;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Accomodation;
+import com.codecool.spacetravel.model.AccomodationPicture;
 import com.codecool.spacetravel.model.AmenityType;
 import com.codecool.spacetravel.model.Planet;
 import com.codecool.spacetravel.repository.AmenityRepository;
@@ -31,27 +32,11 @@ public class AccDataHandler {
         Planet planet = queryHandler.getPlanet(planetId);
 
         List<Accomodation> accList = queryHandler.getAccByPlanetId(planetId);
-        for (Accomodation accomodation : accList
-             ) {
-            System.out.println(accomodation.getName());
-        }
 
         model.addAttribute("loggedIn", customerId != null);
         model.addAttribute("customername", customerName);
         model.addAttribute("accomodations", accList);
         model.addAttribute("planet", planet);
-
-    }
-
-    public void collectAccRegistrationData(Model model, HttpServletRequest httpServletRequest) {
-        Integer userId = (Integer) httpServletRequest.getSession().getAttribute("user_id");
-        List<Planet> allPlanet = queryHandler.getAllPlanet();
-        List<AmenityType> amenityTypes = queryHandler.getAllAmenity();
-
-        model.addAttribute("loggedIn", userId != null);
-        model.addAttribute("planets", allPlanet);
-        model.addAttribute("amenityTypes", amenityTypes);
-        model.addAttribute("accomodation", new Accomodation());
 
     }
 

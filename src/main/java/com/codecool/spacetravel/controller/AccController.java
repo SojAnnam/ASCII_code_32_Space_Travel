@@ -2,9 +2,7 @@ package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.controller.collectdata.AccDataHandler;
-import com.codecool.spacetravel.model.Accomodation;
-import com.codecool.spacetravel.model.AccomodationPicture;
-import com.codecool.spacetravel.model.AmenityType;
+import com.codecool.spacetravel.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,18 +30,47 @@ public class AccController {
     }
 
     @RequestMapping(value = "/registration-accommodation", method = RequestMethod.GET)
-    public String renderAcc(Model model, HttpServletRequest httpServletRequest) {
-        accDataHandler.collectAccRegistrationData(model, httpServletRequest);
+    public String registerAcc(Model model, HttpServletRequest httpServletRequest) {
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
+        List<Planet> allPlanet = queryHandler.getAllPlanet();
+        List<AmenityType> amenityTypes = queryHandler.getAllAmenity();
+
+        model.addAttribute("loggedIn", customerId != null);
+        model.addAttribute("customername", customerName);
+        model.addAttribute("planets", allPlanet);
+        model.addAttribute("amenityTypes", amenityTypes);
+        model.addAttribute("accomodation", new Accomodation());
+        model.addAttribute("errors", new ArrayList<>());
         return "registration_accommodation";
     }
 
     @RequestMapping(value = "/registration-accommodation", method = RequestMethod.POST)
-    public String saveAcc(Accomodation accomodation) {
-        AccomodationPicture accomodationPicture = new AccomodationPicture("default-accommodation.jpg", "def-acc", "def-acc");
-        accomodationPicture.setAccomodation(accomodation);
-        queryHandler.saveAccommodation(accomodation);
-        queryHandler.saveAccommodationPicture(accomodationPicture);
-        return "redirect:/registration-accommodation";
+    public String saveAcc(Model model, Accomodation accomodation, HttpServletRequest httpServletRequest) {
+
+        if (!accomodation.getName().equals("") && !accomodation.getDescription().equals("")
+                && !accomodation.getAmenityTypes().isEmpty() && accomodation.getPlanet() != null) {
+            AccomodationPicture accomodationPicture = new AccomodationPicture("default-accommodation.jpg", "def-acc", "def-acc");
+            accomodationPicture.setAccomodation(accomodation);
+            queryHandler.saveAccommodation(accomodation);
+            queryHandler.saveAccommodationPicture(accomodationPicture);
+            return "redirect:/" + accomodation.getPlanet().getId() + "/accomodation";
+        } else {
+            Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+            String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
+            ArrayList<String> errors = new ArrayList<>();
+            errors.add("The inputs are not valid");
+            List<Planet> allPlanet = queryHandler.getAllPlanet();
+            List<AmenityType> amenityTypes = queryHandler.getAllAmenity();
+            model.addAttribute("loggedIn", customerId != null);
+            model.addAttribute("customername", customerName);
+            model.addAttribute("errors", errors);
+            model.addAttribute("accomodation", accomodation);
+            model.addAttribute("planets", allPlanet);
+            model.addAttribute("amenityTypes", amenityTypes);
+        }
+
+        return "registration_accommodation";
     }
 
 

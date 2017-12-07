@@ -37,6 +37,10 @@
                 <li><a href="/">Main Page</a></li>
 
                 <th:block th:if="${loggedIn}">
+                    <li><a href="/reservation/list">My reservations</a></li>
+                </th:block>
+
+                <th:block th:if="${loggedIn}">
                     <li><a href="/logout">Logout</a></li>
                 </th:block>
 
@@ -60,6 +64,11 @@
         <div class="row">
             <a class="btn btn-primary pull-right" href="/">Back To Home</a>
             <div class="registration-page-container col-md-4">
+                <div id="error-messages" class="alert alert-danger" th:if="${#lists.size(errors)>0}">
+                    <ul th:each="error : ${errors}">
+                        <li th:text="${error}"></li>
+                    </ul>
+                </div>
                 <form th:action="@{/registration-accommodation}" th:object="${accomodation}" method="post">
                     <div class="form-group">
                         <label for="name">Name</label>
