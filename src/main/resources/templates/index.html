@@ -65,7 +65,7 @@
 
 
     <div class="jumbotron text-center">
-        <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
+        <h1 class="logo"><a href="/">Space<i class="fa fa-{rocket}" aria-hidden="true"></i> Travel</a></h1>
         <h3>Book your dream!</h3>
     </div>
     <div class="container">
@@ -88,7 +88,11 @@
                 </ul>
 
                 <th:block th:if="${loggedIn and customername == 'admin admin'}">
-                    <a href="/registration-planet" class="btn btn-primary pull-right">Add planet</a>
+                    <div class="register-planet-accommodation">
+                        <a href="/registration-planet" class="btn btn-primary pull-left">Add planet</a>
+                        <a href="/registration-accommodation" class="btn btn-primary pull-left">Add accommodation</a>
+                        <a href="/addamenity" class="btn btn-primary pull-left">Add Amenity </a>
+                    </div>
                 </th:block>
 
             </div>

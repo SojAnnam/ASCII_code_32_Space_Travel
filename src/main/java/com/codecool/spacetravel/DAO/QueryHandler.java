@@ -41,6 +41,10 @@ public class QueryHandler {
     private AmenityRepository amenityRepository;
 
     @Autowired
+    private AccomodationImageRepository accomodationImageRepository;
+
+
+    @Autowired
     private RoomTypeRepository roomTypeRepository;
 
 
@@ -54,22 +58,22 @@ public class QueryHandler {
         return results;
     }
 
-    public List getAmenitiesByAccomodationId(long id){
-        List<AmenityType> getAccomodationById = amenityRepository.getAmenitiesByAccomodationId(id);
-        return getAccomodationById;
-    }
+//    public List getAmenitiesByAccomodationId(long id){
+//        List<AmenityType> getAccomodationById = amenityRepository.getAmenitiesByAccomodationId(id);
+//        return getAccomodationById;
+//    }
 
     public List getPlanetsBySolarSystemId(long id) {
         List<Planet> listOfPlanetsBySolarSystem = planetRepository.getPlanetsBySolarSystemId(id);
         return listOfPlanetsBySolarSystem;
     }
 
-    public  List<Planet> getAllPlanet(){
+    public List<Planet> getAllPlanet(){
         List<Planet> listOfAllPlanets = planetRepository.getAllPlanet();
         return listOfAllPlanets;
     }
 
-    public  List<Customer> getAllCustomers() {
+    public List<Customer> getAllCustomers() {
         List<Customer> results = customerRepository.getAllCustomers();
         return results;
     }
@@ -159,10 +163,34 @@ public class QueryHandler {
         roomReservationRepository.save(roomReservation);
 
     }
-    public List<RoomType> getAllRoomType(){
+    public List<RoomType> getAllRoomType() {
         List<RoomType> roomTypeList = roomTypeRepository.findAll();
-
         return roomTypeList;
+    }
+    public List<AmenityType> getAllAmenity() {
+        List<AmenityType> amenityTypes = amenityRepository.findAll();
+        return amenityTypes;
+    }
+
+    public void saveAccommodation(Accomodation accomodation) {
+        accomodatiponRepository.save(accomodation);
+    }
+
+    public void saveAccommodationPicture(AccomodationPicture accomodationPicture) {
+        accomodationImageRepository.save(accomodationPicture);
+    }
+
+
+    public void saveAmenity(AmenityType amenity) {
+        amenityRepository.save(amenity);
+    }
+
+    public List<AmenityType> getAmenitisByAccomodationId(long accommodationId) {
+        List <AmenityType > amenityList = amenityRepository.getAmenityTypesBy(accommodationId);
+        for (AmenityType  am :amenityList) {
+            System.out.println(am.getName());
+        }
+       return amenityList;
     }
     public RoomType getRoomTypeById(long id){
         RoomType roomType = roomTypeRepository.findOne(id);

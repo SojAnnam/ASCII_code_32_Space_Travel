@@ -16,8 +16,7 @@ public class AmenityType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
-    private String fa_value;
+    private String name, faId;
 
     @ManyToMany(mappedBy = "amenityTypes")
     private List<Accomodation> accomodations;
@@ -28,11 +27,9 @@ public class AmenityType {
     public AmenityType() {
     }
 
-
-    public AmenityType(String name, String fa_value) {
-//        this.accomodation = accomodation;
+    public AmenityType(String name, String faId) {
         this.name = name;
-        this.fa_value = fa_value;
+        this.faId = faId;
     }
 
     public long getId() {
@@ -51,15 +48,6 @@ public class AmenityType {
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getFa_value() {
-        return fa_value;
-    }
-
-    public void setFa_value(String fa_value) {
-        this.fa_value = fa_value;
-    }
-
     public void setAccomodations(List<Accomodation> accomodations) {
         this.accomodations = accomodations;
     }
@@ -68,7 +56,11 @@ public class AmenityType {
         return accomodations;
     }
 
-//    public void setAccomodation(List<Accomodation> accomodations) {
-//        this.accomodations = accomodations;
-//    }
+    public String getFaId() {
+        return faId;
+    }
+
+    public void setFaId(String faId) {
+        this.faId = faId;
+    }
 }

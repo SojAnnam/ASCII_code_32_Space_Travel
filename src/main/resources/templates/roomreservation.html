@@ -71,6 +71,7 @@
         <h3>Room reservation</h3>
     </div>
 
+
     <div class="container">
 
         <th:block th:if="${accomodation == null}">
@@ -81,6 +82,8 @@
         </th:block>
 
         <th:block th:if="${accomodation != null}">
+
+
 
 
             <div class="well well-sm text-center">
@@ -94,6 +97,10 @@
                     <div class="col-sm-4">
                         <p><h3><i class="fa fa-info-circle" aria-hidden="true"></i> Information:</h3></p>
                         <p th:text="${accomodation.getDescription()}">Acc Desc</p>
+                        <div th:each="fa,iterStat : ${faList}">
+                            <i  th:classappend="'fa fa-' + ${fa.faId}" aria-hidden="true"></i>
+                            <!--<span class="tooltiptext" th:text="${fa.name}"></span>-->
+                        </div>
                     </div>
                     <div class="col-sm-4">
                         <p><h3><i class="fa fa-globe" aria-hidden="true"></i> Planet:</h3></p>

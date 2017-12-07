@@ -248,10 +248,30 @@ SELECT pg_catalog.setval('solarsystem_id_seq', 2, true);
 --
 -- PostgreSQL database dump complete
 --
-INSERT INTO amenitytype VALUES (1,'wifi', 'space');
-INSERT INTO amenitytype VALUES (2,'melegviz', 'kave');
-INSERT INTO amenitytype VALUES (3,'tengerpart', 'lo');
+INSERT INTO amenitytype VALUES (1,'wifi', 'Wifi');
+INSERT INTO amenitytype VALUES (2,'coffee', 'Coffee');
+INSERT INTO amenitytype VALUES (3,'podcast', 'Aura');
+INSERT INTO amenitytype VALUES (4,'female', 'Party place');
+INSERT INTO amenitytype VALUES (5,'shower', 'Shower');
+INSERT INTO amenitytype VALUES (6,'beer', 'Beer');
+INSERT INTO amenitytype VALUES (7,'bus', 'BKV');
+INSERT INTO amenitytype VALUES (8,'venus-mars', 'Dating');
+INSERT INTO amenitytype VALUES (9,'hand-spock-o', 'Spoke');
+INSERT INTO amenitytype VALUES (10,'wheelchair-alt', 'Accessibility');
+INSERT INTO amenitytype VALUES (11,'fighter-jet', 'Jet');
+INSERT INTO amenitytype VALUES (12,'space-shuttle', 'Plane');
+INSERT INTO amenitytype VALUES (13,'futbol-o', 'Gravity ball');
+
 
 INSERT INTO accomodation_amenity_types VALUES (1,1);
 INSERT INTO accomodation_amenity_types VALUES (1,2);
 INSERT INTO accomodation_amenity_types VALUES (1,3);
+INSERT INTO accomodation_amenity_types VALUES (4,6);
+INSERT INTO accomodation_amenity_types VALUES (4,4);
+INSERT INTO accomodation_amenity_types VALUES (4,1);
+INSERT INTO accomodation_amenity_types VALUES (4,2);
+INSERT INTO accomodation_amenity_types VALUES (4,9);
+INSERT INTO accomodation_amenity_types VALUES (2,13);
+INSERT INTO accomodation_amenity_types VALUES (2,8);
+
+SELECT pg_catalog.setval('amenitytype_id_seq', 13, true);
