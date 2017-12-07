@@ -97,10 +97,12 @@
                     <div class="col-sm-4">
                         <p><h3><i class="fa fa-info-circle" aria-hidden="true"></i> Information:</h3></p>
                         <p th:text="${accomodation.getDescription()}">Acc Desc</p>
-                        <div th:each="fa,iterStat : ${faList}">
-                            <div class="tooltip">
-                                <i th:classappend="'fa fa-' + ${fa.faId}" aria-hidden="true"></i>
-                                <span class="tooltiptext" th:text="${fa.name}"></span>
+                        <div class="amenity">
+                            <div th:each="fa,iterStat : ${faList}">
+                                <div class="tooltip">
+                                    <i th:classappend="'fa fa-' + ${fa.faId}" aria-hidden="true"></i>
+                                    <span class="tooltiptext" th:text="${fa.name}"></span>
+                                </div>
                             </div>
                         </div>
                     </div>

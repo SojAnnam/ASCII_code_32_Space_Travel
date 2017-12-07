@@ -251,7 +251,6 @@ input::-webkit-input-placeholder {
 .tooltip {
     position: relative;
     display: inline-block;
-    border-bottom: 1px dotted black;
     opacity: 100;
 }
 
@@ -263,12 +262,33 @@ input::-webkit-input-placeholder {
     text-align: center;
     border-radius: 6px;
     padding: 5px 0;
-
-    /* Position the tooltip */
     position: absolute;
     z-index: 1;
+    left: -40px;
+    bottom: 120%;
 }
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
+}
+
+#planets img, .accommodations img {
+    transition: all .2s ease-in-out;
+}
+#planets img:hover, .accommodations img:hover {
+    transform: scale(1.05);
+    border-radius: 4px;
+}
+.amenity {
+    z-index: 0;
+    position: relative;
+    margin-top: 30px;
+}
+.amenity > div {
+    display: inline-block;
+}
+
+.amenity > div .tooltip > i {
+    font-size: 26px;
+    margin: 0px 5px;
 }
