@@ -77,7 +77,7 @@ public class RoomController {
                                            HttpServletRequest httpServletRequest) {
         model = roomDataHandler.collectNewRoomData(allRequestParams,id, model, httpServletRequest);
         if( model.containsAttribute("error")){
-            return "redirect:/add-new-room/" + id ;
+            return renderAddRoomForm(model,id,httpServletRequest);
         } else{
 
             return "redirect:/reservation/" + id ;
