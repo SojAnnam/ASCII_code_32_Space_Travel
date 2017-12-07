@@ -59,15 +59,15 @@
     </div>
     <div class="container accommodation-page">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 planet-details-acc">
                 <h1 th:text="${planet.name}">Planet name</h1>
                 <h2><i class="fa fa-info-circle" aria-hidden="true"></i> Information</h2>
                 <h3 th:text="${planet.description}">Description</h3>
                 <h2><i class="fa fa-sun-o" aria-hidden="true"></i> Weather</h2>
                 <h3 th:text="${planet.weather}">Weather</h3>
             </div>
-            <div class="col-md-8">
-                <h3 class="text-center" th:text="${'No accommodation.'}" th:style="${#lists.size(accomodations) == 0} ? 'visibility: visible' : 'visibility: hidden'"></h3>
+            <div class="col-md-8 accomodation-list">
+                <h3 class="text-center no-acc" th:text="${'No accommodation.'}" th:style="${#lists.size(accomodations) == 0} ? 'display: block' : 'display: none'"></h3>
                 <div class="col-md-6" th:each="acc,iterStat : ${accomodations}">
                     <h2 th:text="${acc.name}">accname</h2>
                     <a class="accommodations" th:id="${acc.id}"
