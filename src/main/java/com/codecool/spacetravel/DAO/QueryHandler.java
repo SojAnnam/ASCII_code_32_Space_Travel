@@ -163,9 +163,10 @@ public class QueryHandler {
         roomReservationRepository.save(roomReservation);
 
     }
-    public List<RoomType> getAllRoomType(){
+    public List<RoomType> getAllRoomType() {
         List<RoomType> roomTypeList = roomTypeRepository.findAll();
-
+        return roomTypeList;
+    }
     public List<AmenityType> getAllAmenity() {
         List<AmenityType> amenityTypes = amenityRepository.findAll();
         return amenityTypes;
