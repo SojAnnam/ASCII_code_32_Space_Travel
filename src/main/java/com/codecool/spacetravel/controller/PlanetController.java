@@ -58,7 +58,7 @@ public class PlanetController {
                                            HttpServletRequest httpServletRequest) {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
         System.out.println(customerId);
-        if (customerId == null || !customerDataHandler.checkUserLegitimacy(customerId)) {
+        if (customerId == null || !customerDataHandler.checkUserIsAdmin(customerId)) {
             return "redirect:/";
 
         }
@@ -71,7 +71,7 @@ public class PlanetController {
                                            Model model,
                                            HttpServletRequest httpServletRequest) {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
-        if (customerId == null || !customerDataHandler.checkUserLegitimacy(customerId)) {
+        if (customerId == null || !customerDataHandler.checkUserIsAdmin(customerId)) {
             return "redirect:/";
 
         }

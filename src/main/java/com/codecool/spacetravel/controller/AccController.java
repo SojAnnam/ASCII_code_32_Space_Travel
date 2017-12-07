@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class AccController {
@@ -38,7 +36,7 @@ public class AccController {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
         String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
 
-        if( customerId== null || !customerDataHandler.checkUserLegitimacy(customerId)){
+        if( customerId== null || !customerDataHandler.checkUserIsAdmin(customerId)){
             return "redirect:/";
         }
 
@@ -81,6 +79,5 @@ public class AccController {
 
         return "registration_accommodation";
     }
-
-
+    
 }

@@ -91,11 +91,22 @@ public class CustomerDataHandler{
         return model;
     }
 
-    public boolean checkUserLegitimacy(long customerId) {
+    public boolean checkUserIsAdmin(long customerId) {
 
         Customer customer = queryHandler.getCustomerById(customerId);
 
         if (customer.getLegitimacy()== CustomerLegitimacy.ADMIN) {
+            return true;
+
+        }
+        return false;
+    }
+
+    public boolean checkUserIsLoggedUserOrAdmin(long customerId) {
+
+        Customer customer = queryHandler.getCustomerById(customerId);
+
+        if (customer.getLegitimacy()== CustomerLegitimacy.ADMIN || customer.getLegitimacy()== CustomerLegitimacy.USER ) {
             return true;
 
         }

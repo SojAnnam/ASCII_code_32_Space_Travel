@@ -60,7 +60,7 @@ public class RoomController {
 
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
 
-        if( customerId== null || !customerDataHandler.checkUserLegitimacy(customerId)){
+        if( customerId== null || !customerDataHandler.checkUserIsAdmin(customerId)){
             return "redirect:/";
         }
 
@@ -77,7 +77,7 @@ public class RoomController {
                                            HttpServletRequest httpServletRequest) {
         model = roomDataHandler.collectNewRoomData(allRequestParams,id, model, httpServletRequest);
         if( model.containsAttribute("error")){
-            return renderAddRoomForm(model,id,httpServletRequest);
+            return "redirect:/add-new-room/" + id ;
         } else{
 
             return "redirect:/reservation/" + id ;
@@ -89,6 +89,10 @@ public class RoomController {
     public String renderRoomReservations(@RequestParam Map<String,String> allRequestParams,
                                          Model model,
                                          HttpServletRequest httpServletRequest){
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        if( customerId== null || !customerDataHandler.checkUserIsLoggedUserOrAdmin(customerId)){
+            return "redirect:/";
+        }
         roomDataHandler.collectRoomReservationsByCustomer(model, httpServletRequest);
         return "myroomreservations";
     }
