@@ -280,6 +280,8 @@ input::-webkit-input-placeholder {
     border-radius: 4px;
 }
 .amenity {
+    z-index: 0;
+    position: relative;
     margin-top: 30px;
 }
 .amenity > div {
