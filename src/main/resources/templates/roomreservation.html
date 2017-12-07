@@ -108,7 +108,7 @@
                     </div>
                     <div class="col-sm-4">
                         <p><h3><i class="fa fa-globe" aria-hidden="true"></i> Planet:</h3></p>
-                        <p><img class="accom-image-in-reservation" th:attr="src='/img_collection/' + ${accomodation.getPlanet().getPlanetPicture().fileName}" alt="IMG"/></p>
+                        <p><a th:href="@{'~/planet/' + ${accomodation.getPlanet().getSolarSystem().getId()}}"><img class="accom-image-in-reservation" th:attr="src='/img_collection/' + ${accomodation.getPlanet().getPlanetPicture().fileName}" alt="IMG"/></a></p>
                         <p th:text="${accomodation.getPlanet().getName()}" th:if="${accomodation != null}">Acc Planet</p>
                     </div>
                 </div>
