@@ -61,8 +61,7 @@ public class RoomController {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
 
         if( customerId== null || !customerDataHandler.checkUserLegitimacy(customerId)){
-            Map<String,String>returnParam = new HashMap<>();
-            return renderRooms(returnParam,model,id,httpServletRequest);
+            return "redirect:/";
         }
 
         roomDataHandler.addNewRoom(model, httpServletRequest,id);
@@ -72,7 +71,7 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/add-new-room/{accomodationid}", method = RequestMethod.POST)
-    public String collectRoomData(@RequestParam Map<String,String> allRequestParams,
+    public String collectNewRoomData(@RequestParam Map<String,String> allRequestParams,
                                            Model model,
                                            @PathVariable("accomodationid") String id,
                                            HttpServletRequest httpServletRequest) {
@@ -80,11 +79,9 @@ public class RoomController {
         if( model.containsAttribute("error")){
             return renderAddRoomForm(model,id,httpServletRequest);
         } else{
-            Map<String,String>returnParam = new HashMap<>();
-            return renderRooms(returnParam,model,id,httpServletRequest);
 
+            return "redirect:/reservation/" + id ;
         }
-
 
     }
 
