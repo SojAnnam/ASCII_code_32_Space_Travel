@@ -23,7 +23,8 @@ public class AmenityDataHandler {
                                    HttpServletRequest httpServletRequest) {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
         String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
-
+        model.addAttribute("loggedIn", customerId != null);
+        model.addAttribute("customername", customerName);
 
         String name = allRequestParams.get("name");
         String faId = allRequestParams.get("faId");

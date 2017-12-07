@@ -26,6 +26,7 @@ public class AmenityController {
 //                            @PathVariable("accomodationId") String accomodationId,
                             HttpServletRequest httpServletRequest) {
         amenityDataHandler.collectAmenityData(allRequestParams, model, httpServletRequest);
+
         return "add_amenity";
     }
 
