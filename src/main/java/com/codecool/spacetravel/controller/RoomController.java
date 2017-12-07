@@ -1,5 +1,6 @@
 package com.codecool.spacetravel.controller;
 
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.controller.collectdata.RoomDataHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,9 +16,11 @@ import java.util.*;
 public class RoomController {
 
     private RoomDataHandler roomDataHandler;
+    private CustomerDataHandler customerDataHandler;
 
-    public RoomController(RoomDataHandler roomDataHandler) {
+    public RoomController(RoomDataHandler roomDataHandler,CustomerDataHandler customerDataHandler) {
         this.roomDataHandler = roomDataHandler;
+        this.customerDataHandler =customerDataHandler;
     }
 
     @RequestMapping(value = "/reservation/{accomodationid}", method = RequestMethod.GET)
@@ -54,6 +57,14 @@ public class RoomController {
                               Model model,
                               @PathVariable("accomodationid") String id,
                               HttpServletRequest httpServletRequest) {
+
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+
+        if( customerId== null || !customerDataHandler.checkUserLegitimacy(customerId)){
+            Map<String,String>returnParam = new HashMap<>();
+            return renderRooms(returnParam,model,id,httpServletRequest);
+        }
+
         roomDataHandler.addNewRoom(model, httpServletRequest,id);
 
         return "add-new-room";

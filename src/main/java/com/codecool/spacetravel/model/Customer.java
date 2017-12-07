@@ -37,6 +37,7 @@ public class Customer {
     private String postalCode;
     private String address;
     private String password;
+    private String legitimacy;
 
     @OneToMany(mappedBy = "customer")
     private List<RoomReservation> roomReservation;
@@ -44,7 +45,7 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String firstName, String lastName, String email, String country, String city, String postalCode, String address, String password) {
+    public Customer(String firstName, String lastName, String email, String country, String city, String postalCode, String address, String password, String legitimacy) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -53,6 +54,7 @@ public class Customer {
         this.postalCode = postalCode;
         this.address = address;
         this.password = password;
+        this.legitimacy = legitimacy;
     }
 
 
@@ -127,6 +129,10 @@ public class Customer {
     public void setCity(String city) {
         this.city = city;
     }
+
+    public String getLegitimacy() { return legitimacy; }
+
+    public void setLegitimacy(String legitimacy) { this.legitimacy = legitimacy; }
 
     public List<RoomReservation> getRoomReservation() {
         return roomReservation;
