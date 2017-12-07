@@ -69,7 +69,7 @@
                 <form th:href="@{'~/add-new-room/' + ${accomodation.getId()}}" method="post">
                     <div class="form-group">
                         <h3>Roomtype</h3>
-                        <ul>
+                        <ul class="roomtype-list">
                         <th:block th:each="roomtype,iterStat : ${roomTypeList}">
                             <li>
                                 <input type="radio" name="radio" th:value="${roomtype.getId()}" th:id="${roomtype.getName()}" />

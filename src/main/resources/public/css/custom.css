@@ -2,20 +2,19 @@ body {
     font-family: 'Play', sans-serif;
     font-size: 16px;
     padding-bottom:25px;
-    background: #000 url("space.jpg") no-repeat fixed center center;
+    background: #000 url("space.png") no-repeat fixed center center;
     -webkit-background-size: 100%;
     background-size: 100%;
 }
 a.nav-link.dropdown-toggle{
     color: black;
-    
 }
 .home-nav {
     margin-bottom: 20px;
     background: #fff;
     border-radius: 3px;
     padding: 0px;
-    opacity: 0.9;
+    /*opacity: 0.9;*/
     z-index: 1;
     position: relative;
 }
@@ -205,7 +204,7 @@ input::-webkit-input-placeholder {
     margin: 0 auto;
     max-width: 350px;
     padding: 40px 40px;
-    opacity: 0.9;
+    /*opacity: 0.9;*/
 }
 
 #hidden-acc-id {
@@ -348,14 +347,20 @@ input::-webkit-input-placeholder {
 .no-acc {
    color: #ffffff;
 }
-.img-thumbnail, .thumbnail {
-    opacity: 0.9;
-}
-.planets {
-    position: relative;
-    z-index:0;
-}
+/*.img-thumbnail, .thumbnail {*/
+    /*opacity: 0.9;*/
+/*}*/
+/*.planets {*/
+    /*position: relative;*/
+    /*z-index:0;*/
+/*}*/
 
-.dropdown-menu {
-    z-index: 1;
+/*.dropdown-menu {*/
+    /*z-index: 1;*/
+/*}*/
+
+.roomtype-list {
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
 }
