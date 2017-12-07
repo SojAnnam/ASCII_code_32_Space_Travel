@@ -196,19 +196,18 @@ public class RoomDataHandler {
         String roomNumStr = allRequestParams.get("roomnum");
 
 
+        System.out.println(roomTypeIdStr);
 
-
-        if(!priceStr.equals("") && !roomNumStr.equals("") && !roomTypeIdStr.equals("")){
-            long roomTypeId = Long.parseLong(allRequestParams.get("radio"));
-            double price = Double.parseDouble(allRequestParams.get("price"));
-            Integer roomNum = Integer.parseInt(allRequestParams.get("roomnum"));
+        if(roomTypeIdStr!= null && !priceStr.equals("") && !roomNumStr.equals("") && !roomTypeIdStr.equals("") ){
+            long roomTypeId = Long.parseLong(roomTypeIdStr);
+            double price = Double.parseDouble(priceStr);
+            Integer roomNum = Integer.parseInt(roomNumStr);
             RoomType roomType = queryHandler.getRoomTypeById(roomTypeId);
             Accomodation accomodation = queryHandler.getAccomodationById(accId);
             if (price > 0 && roomNum > 0  && roomTypeId != 0) {
-                Room room[] = new Room[roomNum];
                 for (int i = 0; i <roomNum ; i++) {
-                    room[i]= new Room(accomodation,price,roomType);
-                    queryHandler.saveNewRoom(room[i]);
+                    Room room= new Room(accomodation,price,roomType);
+                    queryHandler.saveNewRoom(room);
                 }
             }else{
                 String errormessage="Price or Number of Room must be greater than 0";
@@ -217,7 +216,7 @@ public class RoomDataHandler {
             }
 
         }else{
-            String errormessage="Price, Room number or Roomtype not valid or not selected";
+            String errormessage="Price, Room number or Roomtype are not valid or not selected";
             model.addAttribute("error",errormessage);
         }
 
