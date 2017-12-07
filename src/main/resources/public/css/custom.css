@@ -252,6 +252,7 @@ input::-webkit-input-placeholder {
     position: relative;
     display: inline-block;
     border-bottom: 1px dotted black;
+    opacity: 100;
 }
 
 .tooltip .tooltiptext {
