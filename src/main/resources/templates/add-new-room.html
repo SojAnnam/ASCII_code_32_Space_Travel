@@ -62,14 +62,14 @@
     <div class="container">
         <div class="row">
             <a class="btn btn-primary pull-right" href="/">Back To Home</a>
-            <div class="registration-page-container col-md-6">
+            <div class="registration-page-container col-md-6 well">
                 <div id="error-messages" class="alert alert-danger" th:if="${error!=null}">
                     <p th:text="${error}"></p>
                 </div>
                 <form th:href="@{'~/add-new-room/' + ${accomodation.getId()}}" method="post">
                     <div class="form-group">
                         <h3>Roomtype</h3>
-                        <ul>
+                        <ul class="roomtype-list">
                         <th:block th:each="roomtype,iterStat : ${roomTypeList}">
                             <li>
                                 <input type="radio" name="radio" th:value="${roomtype.getId()}" th:id="${roomtype.getName()}" />
