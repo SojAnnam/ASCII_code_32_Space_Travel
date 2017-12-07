@@ -117,12 +117,14 @@ public class RoomDataHandler {
         }
 
         List<Room> reservedRooms = new ArrayList<>();
+        int totalBed = 0;
         double totalPrice = 0;
 
         if (savingSucceeded){
             for (Long roomId : roomIds){
                 Room room = queryHandler.getRoomById(roomId);
                 reservedRooms.add(room);
+                totalBed += room.getRoomType().getBednumber();
                 totalPrice += room.getPrice();
             }
         } else if (!savingSucceeded){
@@ -136,6 +138,7 @@ public class RoomDataHandler {
         model.addAttribute("customer", customer);
         model.addAttribute("errors", errorMessages);
         model.addAttribute("reservedrooms", reservedRooms);
+        model.addAttribute("totalbed", totalBed);
         model.addAttribute("totalprice", totalPrice);
         model.addAttribute("startdate", startDateStringFromUser);
         model.addAttribute("enddate", endDateStringFromUser);

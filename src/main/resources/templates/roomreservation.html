@@ -36,8 +36,7 @@
 
 
     <!-- JavaScript files -->
-    <script th:src="@{~/js/datePicker.js}" defer="defer"></script>
-    <script th:src="@{~/js/accomodationImageGallery.js}" defer="defer"></script>
+    <script th:src="@{~/js/roomReservation.js}" defer="defer"></script>
     <script th:src="@{~/js/main.js}" defer="defer"></script>
 
 </head>
@@ -171,8 +170,14 @@
                                         <td th:text="${room.getRoomType().getBednumber()}">0</td>
                                         <td th:text="${room.getPrice()}">0</td>
                                         <td th:if="${reservable}">
-                                            <input type="checkbox" class="room-checkbox" th:name="${'room-id-' + iterStat.count}" th:value="${room.getId()}" />
+                                            <input type="checkbox" class="room-checkbox" th:name="${'room-id-' + iterStat.count}" th:value="${room.getId()}" th:attr="data-bed=${room.getRoomType().getBednumber()}, data-price=${room.getPrice()}" />
                                         </td>
+                                    </tr>
+                                    <tr th:if="${reservable}">
+                                        <td><strong>Total:</strong></td>
+                                        <td id="total-bed" th:attr="data-bed=${0}" th:text="${0}">bed</td>
+                                        <td id="total-price" th:attr="data-price=${0.0}" th:text="${0.0}">price</td>
+                                        <td></td>
                                     </tr>
                                 </tbody>
 
