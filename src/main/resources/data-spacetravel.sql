@@ -248,8 +248,8 @@ SELECT pg_catalog.setval('solarsystem_id_seq', 2, true);
 --
 -- PostgreSQL database dump complete
 --
-INSERT INTO amenitytype VALUES (1,'wifi', 'code');
-INSERT INTO amenitytype VALUES (2,'melegviz', 'telegram');
+INSERT INTO amenitytype VALUES (1,'code', 'wifi');
+INSERT INTO amenitytype VALUES (2,'telegram', 'level');
 
 INSERT INTO accomodation_amenity_types VALUES (1,1);
 INSERT INTO accomodation_amenity_types VALUES (1,2);
