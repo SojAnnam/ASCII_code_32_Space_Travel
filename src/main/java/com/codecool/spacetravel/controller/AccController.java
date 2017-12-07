@@ -2,6 +2,7 @@ package com.codecool.spacetravel.controller;
 
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.controller.collectdata.AccDataHandler;
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,8 @@ public class AccController {
     private AccDataHandler accDataHandler;
     @Autowired
     private QueryHandler queryHandler;
+    @Autowired
+    private CustomerDataHandler customerDataHandler;
 
     @RequestMapping(value = "/{planetId}/accomodation", method = RequestMethod.GET)
     public String renderAcc(Model model,
@@ -33,6 +37,11 @@ public class AccController {
     public String registerAcc(Model model, HttpServletRequest httpServletRequest) {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
         String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
+
+        if( customerId== null || !customerDataHandler.checkUserLegitimacy(customerId)){
+            return "redirect:/";
+        }
+
         List<Planet> allPlanet = queryHandler.getAllPlanet();
         List<AmenityType> amenityTypes = queryHandler.getAllAmenity();
 

@@ -2,6 +2,7 @@ package com.codecool.spacetravel.controller;
 
 
 import com.codecool.spacetravel.controller.collectdata.AmenityDataHandler;
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,14 +21,22 @@ public class AmenityController {
     @Autowired
     private AmenityDataHandler amenityDataHandler;
 
-    @RequestMapping(value = "/addamenity", method = {RequestMethod.GET, RequestMethod.POST})
-    public String renderAcc(@RequestParam Map<String,String> allRequestParams,
-                            Model model,
-//                            @PathVariable("accomodationId") String accomodationId,
-                            HttpServletRequest httpServletRequest) {
-        amenityDataHandler.collectAmenityData(allRequestParams, model, httpServletRequest);
+    @Autowired
+    private CustomerDataHandler customerDataHandler;
 
+    @RequestMapping(value = "/addamenity", method = {RequestMethod.GET, RequestMethod.POST})
+    public String renderAcc(@RequestParam Map<String, String> allRequestParams,
+                            Model model,
+                            HttpServletRequest httpServletRequest) {
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        
+        if (customerId == null || !customerDataHandler.checkUserLegitimacy(customerId)) {
+            return "redirect:/";
+        }
+
+        amenityDataHandler.collectAmenityData(allRequestParams, model, httpServletRequest);
         return "add_amenity";
     }
-
 }
+
+

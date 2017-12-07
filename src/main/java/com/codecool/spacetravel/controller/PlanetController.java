@@ -59,20 +59,20 @@ public class PlanetController {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
         System.out.println(customerId);
         if (customerId == null || !customerDataHandler.checkUserLegitimacy(customerId)) {
-            return renderPlanets(allRequestParams,model,httpServletRequest);
+            return "redirect:/";
 
         }
         planetDataHandler.collectPlanetRegistrationData(allRequestParams, model, httpServletRequest);
         return "registration_planet";
     }
+
     @RequestMapping(value = "registration-planet-form", method = RequestMethod.POST)
     public String collectPlanetRegistrationData(@RequestParam Map<String,String> allRequestParams,
                                            Model model,
                                            HttpServletRequest httpServletRequest) {
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
         if (customerId == null || !customerDataHandler.checkUserLegitimacy(customerId)) {
-
-            return "index";
+            return "redirect:/";
 
         }
         planetDataHandler.collectPlanetRegistrationData(allRequestParams, model, httpServletRequest);
