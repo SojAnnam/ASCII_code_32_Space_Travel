@@ -310,7 +310,6 @@ input::-webkit-input-placeholder {
     border-radius: 3px;
     text-align: center;
     margin: 0 auto 30px;
-    opacity: 0.9;
     background: none;
     color: #fff;
 }
@@ -328,7 +327,6 @@ input::-webkit-input-placeholder {
 .navbar-default {
     background: #fff;
     border-radius: 0;
-    opacity: 0.9;
 }
 
 .well {
