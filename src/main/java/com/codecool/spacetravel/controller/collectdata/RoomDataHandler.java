@@ -78,6 +78,7 @@ public class RoomDataHandler {
         }
 
         Accomodation selectedAccomodation = queryHandler.getAccomodationById(accommodationId);
+//        List<AmenityType> faList = queryHandler.getAmenitisByAccomodationId(accommodationId);
 
         model.addAttribute("loggedIn", customerId != null);
         model.addAttribute("customername", customerName);
@@ -86,6 +87,7 @@ public class RoomDataHandler {
         model.addAttribute("errors", errorMessages);
         model.addAttribute("dateelements", dateElements);
         model.addAttribute("reservable", reservable);
+//        model.addAttribute("faList", faList);
 
     }
 
