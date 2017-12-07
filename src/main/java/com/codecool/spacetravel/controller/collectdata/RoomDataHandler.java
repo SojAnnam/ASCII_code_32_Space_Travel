@@ -63,8 +63,6 @@ public class RoomDataHandler {
         if (allRequestParams.size() > 1){
             String startDateStringFromUser = allRequestParams.get("start-date");
             String endDateStringFromUser = allRequestParams.get("end-date");
-            System.out.println(startDateStringFromUser);
-            System.out.println(endDateStringFromUser);
             errorMessages = roomReservationDataValidator.validateDates(startDateStringFromUser, endDateStringFromUser);
             if (errorMessages.size() == 0) {
                 roomDao.filterReservedRooms(startDateStringFromUser, endDateStringFromUser, roomList);
@@ -95,30 +93,56 @@ public class RoomDataHandler {
     public void collectRoomReservationSavingData(@RequestParam Map<String,String> allRequestParams,
                                                   Model model,
                                                   HttpServletRequest httpServletRequest) {
+
         Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
         String customerName = (String) httpServletRequest.getSession().getAttribute("customer_name");
-
         String startDateStringFromUser = allRequestParams.get("start-date");
         String endDateStringFromUser = allRequestParams.get("end-date");
+        Long accomodationId = Long.parseLong(allRequestParams.get("accomodationid"));
+        List<Long> roomIds = new ArrayList<>();
+
+        for (String key : allRequestParams.keySet()){
+            if (key.startsWith("room-id-")){
+                roomIds.add(Long.parseLong(allRequestParams.get(key)));
+            }
+        }
 
         List<String> errorMessages = roomReservationDataValidator.validateDates(startDateStringFromUser, endDateStringFromUser);
         boolean savingSucceeded = false;
-        if (errorMessages.size() == 0){
-            Map<String, String> roomReservationDatas = new HashMap<>();
-            roomReservationDatas.put("customerId", customerId.toString());
-            roomReservationDatas.put("roomId", allRequestParams.get("selected-room-id"));
-            roomReservationDatas.put("startDateStringFromUser", startDateStringFromUser);
-            roomReservationDatas.put("endDateStringFromUser", endDateStringFromUser);
-            savingSucceeded = roomDao.saveRoomReservation(roomReservationDatas, errorMessages);
+
+        if (errorMessages.size() == 0 && roomIds.size() > 0){
+            savingSucceeded = roomDao.saveRoomReservation(customerId, startDateStringFromUser, endDateStringFromUser, roomIds, errorMessages);
+        } else if (roomIds.size() == 0){
+            errorMessages.add("You have not selected room.");
         }
 
-        if (!savingSucceeded){
+        List<Room> reservedRooms = new ArrayList<>();
+        int totalBed = 0;
+        double totalPrice = 0;
+
+        if (savingSucceeded){
+            for (Long roomId : roomIds){
+                Room room = queryHandler.getRoomById(roomId);
+                reservedRooms.add(room);
+                totalBed += room.getRoomType().getBednumber();
+                totalPrice += room.getPrice();
+            }
+        } else if (!savingSucceeded){
             errorMessages.add("Saving failed.");
         }
 
+        Customer customer = queryHandler.getCustomerById(customerId);
+
         model.addAttribute("loggedIn", customerId != null);
         model.addAttribute("customername", customerName);
+        model.addAttribute("customer", customer);
         model.addAttribute("errors", errorMessages);
+        model.addAttribute("reservedrooms", reservedRooms);
+        model.addAttribute("totalbed", totalBed);
+        model.addAttribute("totalprice", totalPrice);
+        model.addAttribute("startdate", startDateStringFromUser);
+        model.addAttribute("enddate", endDateStringFromUser);
+        model.addAttribute("accomodation", queryHandler.getAccomodationById(accomodationId));
     }
 
     public void collectRoomReservationsByCustomer(Model model, HttpServletRequest httpServletRequest){

@@ -36,8 +36,7 @@
 
 
     <!-- JavaScript files -->
-    <script th:src="@{~/js/datePicker.js}" defer="defer"></script>
-    <script th:src="@{~/js/accomodationImageGallery.js}" defer="defer"></script>
+    <script th:src="@{~/js/roomReservation.js}" defer="defer"></script>
     <script th:src="@{~/js/main.js}" defer="defer"></script>
 
 </head>
@@ -156,28 +155,43 @@
                     <div th:if="${#lists.size(roomlist) > 0}">
                         <table class="table table-hover available-rooms">
                             <thead>
-                            <tr>
-                                <th class="center">Room Type</th>
-                                <th class="center">Beds</th>
-                                <th class="center">Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</th>
-                                <th class="center" th:if="${reservable}">Reservation</th>
-                            </tr>
+                                <tr>
+                                    <th class="center">Room Type</th>
+                                    <th class="center">Beds</th>
+                                    <th class="center">Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</th>
+                                    <th class="center" th:if="${reservable}">Reservation</th>
+                                </tr>
                             </thead>
-                            <tbody>
-                            <tr th:each="room : ${roomlist}">
-                                <td th:text="${room.getRoomType().getName()}">xx</td>
-                                <td th:text="${room.getRoomType().getBednumber()}">0</td>
-                                <td th:text="${room.getPrice()}">0</td>
-                                <td th:if="${reservable}">
-                                    <form action="/save" method="post">
-                                        <input name="selected-room-id" type="hidden" th:value="${room.getId()}" th:style="${'visibility: hidden'}" />
-                                        <input name="start-date" type="hidden" th:value="${dateelements[0]}" th:style="${'visibility: hidden'}" />
-                                        <input name="end-date" type="hidden" th:value="${dateelements[1]}" th:style="${'visibility: hidden'}" />
-                                        <button type="submit" class="btn btn-success push-right">Reserve</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            </tbody>
+
+                            <form action="/reservation/saving" method="post">
+                                <tbody>
+                                    <tr th:each="room, iterStat : ${roomlist}">
+                                        <td th:text="${room.getRoomType().getName()}">xx</td>
+                                        <td th:text="${room.getRoomType().getBednumber()}">0</td>
+                                        <td th:text="${room.getPrice()}">0</td>
+                                        <td th:if="${reservable}">
+                                            <input type="checkbox" class="room-checkbox" th:name="${'room-id-' + iterStat.count}" th:value="${room.getId()}" th:attr="data-bed=${room.getRoomType().getBednumber()}, data-price=${room.getPrice()}" />
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${reservable}">
+                                        <td><strong>Total:</strong></td>
+                                        <td id="total-bed" th:attr="data-bed=${0}" th:text="${0}">bed</td>
+                                        <td id="total-price" th:attr="data-price=${0.0}" th:text="${0.0}">price</td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+
+                                <tfoot>
+                                    <tr>
+                                        <td><input th:if="${reservable}" name="accomodationid" type="hidden" th:value="${accomodation.getId()}" th:style="${'visibility: hidden'}" /></td>
+                                        <td><input th:if="${reservable}" name="start-date" type="hidden" th:value="${dateelements[0]}" th:style="${'visibility: hidden'}" /></td>
+                                        <td><input th:if="${reservable}" name="end-date" type="hidden" th:value="${dateelements[1]}" th:style="${'visibility: hidden'}" /></td>
+                                        <td>
+                                            <button th:if="${reservable}" type="submit" class="btn btn-success push-right">Reserve</button>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </form>
 
                         </table>
                     </div>
