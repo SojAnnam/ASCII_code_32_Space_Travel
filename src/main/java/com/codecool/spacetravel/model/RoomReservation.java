@@ -4,7 +4,18 @@ package com.codecool.spacetravel.model;
 import javax.persistence.*;
 import java.util.Date;
 
+@NamedQueries({
+        @NamedQuery(
+                name="RoomReservation.getRoomReservationsByCustomerId",
+                query="SELECT rr FROM RoomReservation rr WHERE rr.customer.id = :customerId " +
+                        "ORDER BY rr.startDate DESC, " +
+                        "rr.endDate DESC, " +
+                        "rr.room.accomodation.planet.name ASC, " +
+                        "rr.room.accomodation.name ASC, " +
+                        "rr.room.roomType.name ASC")
+})
 @Entity
+@Table(name = "ROOMRESERVATION")
 public class RoomReservation {
 
     @Id

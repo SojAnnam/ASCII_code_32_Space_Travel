@@ -11,7 +11,7 @@ import java.util.List;
 
 })
 @Entity
-@Table(name = "SolarSystem")
+@Table(name = "SOLARSYSTEM")
 public class SolarSystem {
 
     @Id

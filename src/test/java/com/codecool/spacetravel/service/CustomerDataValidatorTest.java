@@ -1,9 +1,12 @@
-package com.codecool.spacetravel.validator;
+package com.codecool.spacetravel.service;
 
-import com.codecool.spacetravel.datahandler.QueryHandler;
+import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.model.Customer;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,57 +16,41 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
 class CustomerDataValidatorTest {
 
-    private static Map<String, String> exampleCorrectCustomerDatas = createGoodCustomerDatas();
-    private static Map<String, String> exampleBadCustomerDatasWrongConfirm = createBadCustomerDatasWrongConfirm();
-    private static Map<String, String> exampleBadCustomerDatasFourWrongData = createBadCustomerDatasFourWrongData();
-    private static Customer exampleCustomer = new Customer("Arnold", "Schwarzenegger",
-            "arnold@freemail.hu", "United States", "Los Angeles",
-            "90001", "Workout avenue 1.", "terminator");
+    private static Customer exampleCustomerWithCorrectDatas = createGoodCustomerDatas();
+    private static Customer exampleCustomerWithFourWrongDatas = createBadCustomerDatasFourWrongData();
+    private String goodConfirm = "terminator";
+    private String badConfirm = "no_muscles";
     private static Map<String, String> exampleGoodLoginDatas = createGoodLoginDatas();
     private static Map<String, String> exampleBadLoginDatasWrongPassword = createBadLoginDatasWrongPassword();
 
-    private static Map<String,String> createGoodCustomerDatas() {
-        Map<String, String> exampleCorrectCustomerDatas = new HashMap<>();
-        exampleCorrectCustomerDatas.put("firstname", "Arnold");
-        exampleCorrectCustomerDatas.put("lastname", "Schwarzenegger");
-        exampleCorrectCustomerDatas.put("email", "arnold@freemail.hu");
-        exampleCorrectCustomerDatas.put("country", "United States");
-        exampleCorrectCustomerDatas.put("city", "Los Angeles");
-        exampleCorrectCustomerDatas.put("postalcode", "90001");
-        exampleCorrectCustomerDatas.put("address", "Workout avenue 1.");
-        exampleCorrectCustomerDatas.put("password", "terminator");
-        exampleCorrectCustomerDatas.put("confirm", "terminator");
-        return exampleCorrectCustomerDatas;
+    private static Customer createGoodCustomerDatas() {
+        Customer exampleCorrectCustomer = new Customer();
+        exampleCorrectCustomer.setFirstName("Arnold");
+        exampleCorrectCustomer.setLastName("Schwarzenegger");
+        exampleCorrectCustomer.setEmail("arnold@freemail.hu");
+        exampleCorrectCustomer.setCountry("United States");
+        exampleCorrectCustomer.setCity("Los Angeles");
+        exampleCorrectCustomer.setPostalCode("90001");
+        exampleCorrectCustomer.setAddress("Workout avenue 1.");
+        exampleCorrectCustomer.setPassword("terminator");
+        return exampleCorrectCustomer;
     }
 
-    private static Map<String,String> createBadCustomerDatasWrongConfirm() {
-        Map<String, String> exampleBadCustomerDatas = new HashMap<>();
-        exampleBadCustomerDatas.put("firstname", "Arnold");
-        exampleBadCustomerDatas.put("lastname", "Schwarzenegger");
-        exampleBadCustomerDatas.put("email", "arnold@freemail.hu");
-        exampleBadCustomerDatas.put("country", "United States");
-        exampleBadCustomerDatas.put("city", "Los Angeles");
-        exampleBadCustomerDatas.put("postalcode", "90001");
-        exampleBadCustomerDatas.put("address", "Workout avenue 1.");
-        exampleBadCustomerDatas.put("password", "terminator");
-        exampleBadCustomerDatas.put("confirm", "loser");
-        return exampleBadCustomerDatas;
-    }
-
-    private static Map<String,String> createBadCustomerDatasFourWrongData() {
-        Map<String, String> exampleCorrectCustomerDatas = new HashMap<>();
-        exampleCorrectCustomerDatas.put("firstname", ""); // missing first name
-        exampleCorrectCustomerDatas.put("lastname", "Schwarz;enegger"); // sign in human last name
-        exampleCorrectCustomerDatas.put("email", "missingdothu@freemail"); // missing .hu, .com etc. element
-        exampleCorrectCustomerDatas.put("country", "Unit6 States"); // number in country name
-        exampleCorrectCustomerDatas.put("city", "Los Angeles");
-        exampleCorrectCustomerDatas.put("postalcode", "90001");
-        exampleCorrectCustomerDatas.put("address", "Workout avenue 1.");
-        exampleCorrectCustomerDatas.put("password", "terminator");
-        exampleCorrectCustomerDatas.put("confirm", "terminator");
-        return exampleCorrectCustomerDatas;
+    private static Customer createBadCustomerDatasFourWrongData() {
+        Customer exampleCustomerWithWrongDatas = new Customer();
+        exampleCustomerWithWrongDatas.setFirstName(""); // missing first name
+        exampleCustomerWithWrongDatas.setLastName("Schwarz;enegger"); // sign in human last name
+        exampleCustomerWithWrongDatas.setEmail("missingdothu@freemail"); // missing .hu, .com etc. element
+        exampleCustomerWithWrongDatas.setCountry("Unit6 States"); // number in country name
+        exampleCustomerWithWrongDatas.setCity("Los Angeles");
+        exampleCustomerWithWrongDatas.setPostalCode("90001");
+        exampleCustomerWithWrongDatas.setAddress("Workout avenue 1.");
+        exampleCustomerWithWrongDatas.setPassword("terminator");
+        return exampleCustomerWithWrongDatas;
     }
 
     private static Map<String,String> createGoodLoginDatas() {
@@ -84,7 +71,7 @@ class CustomerDataValidatorTest {
     void validateRegistrationDatas_GoodDatas_NoErrorMessages() {
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidator = new CustomerDataValidator(queryHandlerMock);
-        List<String> errorMessages = customerDataValidator.validateRegistrationDatas(exampleCorrectCustomerDatas);
+        List<String> errorMessages = customerDataValidator.validateRegistrationDatas(exampleCustomerWithCorrectDatas, goodConfirm);
         assertEquals(errorMessages.size(), 0);
     }
 
@@ -93,18 +80,17 @@ class CustomerDataValidatorTest {
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidator = new CustomerDataValidator(queryHandlerMock);
         List<String> errorMessages = customerDataValidator
-                .validateRegistrationDatas(exampleBadCustomerDatasWrongConfirm);
+                .validateRegistrationDatas(exampleCustomerWithCorrectDatas, badConfirm);
         assertEquals(errorMessages.size(), 1);
-        assertEquals(errorMessages.get(0),
-                "Password confirmation failed. Type the same password in Password and Confirm fields.");
     }
 
     @Test
     void validateRegistrationDatas_BadDatas_FourErrorMessages() {
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidator = new CustomerDataValidator(queryHandlerMock);
+        String goodConfirm = "terminator";
         List<String> errorMessages = customerDataValidator
-                .validateRegistrationDatas(exampleBadCustomerDatasFourWrongData);
+                .validateRegistrationDatas(exampleCustomerWithFourWrongDatas, goodConfirm);
         assertEquals(errorMessages.size(), 4);
     }
 
@@ -113,7 +99,7 @@ class CustomerDataValidatorTest {
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidator = new CustomerDataValidator(queryHandlerMock);
         String exampleGoodEmail = "arnold@freemail.hu";
-        when(queryHandlerMock.getCustomerByEmail(exampleGoodEmail)).thenReturn(exampleCustomer);
+        when(queryHandlerMock.getCustomerByEmail(exampleGoodEmail)).thenReturn(exampleCustomerWithCorrectDatas);
         List<String> errorMessages = (ArrayList) customerDataValidator
                 .validateLoginDatas(exampleGoodLoginDatas).get("errors");
         assertEquals(0, errorMessages.size());
@@ -125,11 +111,10 @@ class CustomerDataValidatorTest {
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidator = new CustomerDataValidator(queryHandlerMock);
         String exampleGoodEmail = "arnold@freemail.hu";
-        when(queryHandlerMock.getCustomerByEmail(exampleGoodEmail)).thenReturn(exampleCustomer);
+        when(queryHandlerMock.getCustomerByEmail(exampleGoodEmail)).thenReturn(exampleCustomerWithCorrectDatas);
         List<String> errorMessages = (ArrayList) customerDataValidator
                 .validateLoginDatas(exampleBadLoginDatasWrongPassword).get("errors");
         assertEquals(1, errorMessages.size());
-        assertEquals(errorMessages.get(0), "Invalid email or password.");
     }
 
     @Test
@@ -141,7 +126,6 @@ class CustomerDataValidatorTest {
         List<String> errorMessages = (ArrayList) customerDataValidator
                 .validateLoginDatas(exampleBadLoginDatasWrongPassword).get("errors");
         assertEquals(1, errorMessages.size());
-        assertEquals(errorMessages.get(0), "Invalid email or password.");
     }
 
 }

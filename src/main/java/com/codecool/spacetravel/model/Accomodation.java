@@ -6,7 +6,7 @@ import java.util.List;
 
 
 @NamedQueries(
-        {@NamedQuery(name = "getAccByPlanetId",
+        {@NamedQuery(name = "Accomodation.getAccByPlanetId",
                 query = "SELECT a from Accomodation a where a.planet.id = :planetId"
         ),@NamedQuery(
                 name = "Accomodation.getAccomodationById",
@@ -14,6 +14,7 @@ import java.util.List;
         )
         })
 @Entity
+@Table(name = "ACCOMODATION")
 public class Accomodation {
 
     @Id
@@ -21,6 +22,9 @@ public class Accomodation {
     private long id;
 
     private String name;
+
+    @ManyToMany
+    private List<AmenityType> amenityTypes;
 
     @ManyToOne
     private Planet planet;
@@ -30,19 +34,17 @@ public class Accomodation {
 
     private String description;
 
-    @OneToOne
-    private Picture picture;
-
-    public Accomodation(String name, Planet planet, String description, Picture picture) {
-        this.name = name;
-        this.planet = planet;
-        this.description = description;
-        this.picture = picture;
-    }
+    @OneToMany(mappedBy = "accomodation")
+    private List<AccomodationPicture> accomodationPictures = new ArrayList<>();
 
     public Accomodation() {
     }
 
+    public Accomodation(String name, Planet planet, String description) {
+        this.name = name;
+        this.planet = planet;
+        this.description = description;
+    }
 
     public long getId() {
         return id;
@@ -84,12 +86,20 @@ public class Accomodation {
         this.description = description;
     }
 
-    public Picture getPicture() {
-        return picture;
+    public List<AccomodationPicture> getAccomodationPictures() {
+        return accomodationPictures;
     }
 
-    public void setPicture(Picture picture) {
-        this.picture = picture;
+    public void setAccomodationPictures(List<AccomodationPicture> accomodationPictures) {
+        this.accomodationPictures = accomodationPictures;
+    }
+
+    public List<AmenityType> getAmenityTypes() {
+        return amenityTypes;
+    }
+
+    public void setAmenityTypes(List<AmenityType> amenityTypes) {
+        this.amenityTypes = amenityTypes;
     }
 
     @Override
@@ -100,7 +110,7 @@ public class Accomodation {
                 ", planet=" + planet.getName() +
                 ", rooms=" + rooms +
                 ", description='" + description + '\'' +
-                ", picture=" + picture.getFileName() +
+                ", planetPicture=" + accomodationPictures +
                 '}';
     }
 }

@@ -37,6 +37,7 @@
                 <li><a href="/">Main Page</a></li>
 
                 <th:block th:if="${loggedIn}">
+                    <li><a href="/reservation/list">My reservations</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </th:block>
 
@@ -59,8 +60,8 @@
     <div class="container">
         <div class="row">
             <a class="btn btn-primary pull-right" href="/">Back To Home</a>
-            <div class="registration-page-container col-md-4">
-                <form action="/registration-planet" method="post">
+            <div class="registration-page-container main-registration main-center-login">
+                <form action="/registration-planet-form" method="post">
                     <div class="form-group">
                         <label for="galaxy">Galaxy</label>
                         <select class="form-control" id="galaxy" name="galaxy">

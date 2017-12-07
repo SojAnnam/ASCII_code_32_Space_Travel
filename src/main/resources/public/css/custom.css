@@ -2,25 +2,33 @@ body {
     font-family: 'Play', sans-serif;
     font-size: 16px;
     padding-bottom:25px;
-
+    background: #000 url("space.png") no-repeat fixed center center;
+    -webkit-background-size: 100%;
+    background-size: 100%;
 }
 a.nav-link.dropdown-toggle{
     color: black;
-    
 }
 .home-nav {
     margin-bottom: 20px;
+    background: #fff;
+    border-radius: 3px;
+    padding: 0px;
+    /*opacity: 0.9;*/
+    z-index: 1;
+    position: relative;
 }
 .logo a {
-    color: #333;
+    color: #ffffff;
 }
 .logo a:hover {
     text-decoration: none;
 }
-#accom-image-in-reservation{
+.accom-image-in-reservation{
     width: 200px;
     height: 125px;
 }
+
 .dropdown-menu {
     font-size: 16px;
 }
@@ -29,19 +37,19 @@ a.nav-link.dropdown-toggle{
     padding-left: 12px;
     display: block;
 }
+
 .thumbnail a>img, .thumbnail>img {
     width:360px;
-    height:225px;
+
 }
+
 .jumbotron text-center{
     font-family: 'Bevan', cursive;
 }
 .page-header{
     background-color: cadetblue;
 }
-body{
 
-}
 .cover-card {
     border: 2px solid white;
     background: silver;
@@ -196,6 +204,7 @@ input::-webkit-input-placeholder {
     margin: 0 auto;
     max-width: 350px;
     padding: 40px 40px;
+    /*opacity: 0.9;*/
 }
 
 #hidden-acc-id {
@@ -208,4 +217,148 @@ input::-webkit-input-placeholder {
 .search-button{
     margin-top: 3.2%;
 
+}
+
+.hide-bullets {
+    list-style:none;
+    margin-left: -40px;
+    margin-top:20px;
+}
+
+.carousel-inner>.item>img, .carousel-inner>.item>a>img {
+    width: 100%;
+}
+
+#slider-thumbs {
+    height: 565px;
+    overflow-y: scroll;
+    white-space: nowrap;
+}
+
+.modal-lg {
+    width: 1110px;
+}
+
+.image-in-reservation-listing{
+    width: 100px;
+    height: 63px;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: middle;
+    border-top: 1px solid #ddd;
+}
+.register-planet-accommodation {
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.register-planet-accommodation a {
+    margin-left: 10px;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    opacity: 100;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    left: -40px;
+    bottom: 120%;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+#planets img, .accommodations img {
+    transition: all .2s ease-in-out;
+}
+#planets img:hover, .accommodations img:hover {
+    transform: scale(1.05);
+    border-radius: 4px;
+}
+.amenity {
+    z-index: 0;
+    position: relative;
+    margin-top: 30px;
+}
+.amenity > div {
+    display: inline-block;
+}
+
+.amenity > div .tooltip > i {
+    font-size: 26px;
+    margin: 0px 5px;
+}
+
+.jumbotron {
+    padding-top: 48px;
+    padding-bottom: 48px;
+    width: 590px;
+    border-radius: 3px;
+    text-align: center;
+    margin: 0 auto 30px;
+    background: none;
+    color: #fff;
+}
+.jumbotron a {
+    color: #ffffff;
+}
+.jumbotron a .fa-rocket {
+    transition: all 0.2s;
+}
+
+.jumbotron a:hover .fa-rocket {
+    font-size: 95px;
+}
+
+.navbar-default {
+    background: #fff;
+    border-radius: 0;
+}
+
+.well {
+    background: #ffffff;
+}
+.accomodation-list h2 {
+    color: #ffffff;
+}
+.planet-details-acc {
+    background: #fff;
+    border-radius: 3px;
+    padding-left: 18px;
+    padding-bottom: 9px;
+    margin-bottom: 15px;
+}
+.no-acc {
+   color: #ffffff;
+}
+/*.img-thumbnail, .thumbnail {*/
+    /*opacity: 0.9;*/
+/*}*/
+/*.planets {*/
+    /*position: relative;*/
+    /*z-index:0;*/
+/*}*/
+
+/*.dropdown-menu {*/
+    /*z-index: 1;*/
+/*}*/
+
+.roomtype-list {
+    list-style-type: none;
+    margin-left: 0;
+    padding-left: 0;
 }

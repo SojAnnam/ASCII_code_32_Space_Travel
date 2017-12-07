@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:form="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="author" content="Codecool" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Add New Room| Space Travel</title>
+
+    <!-- Latest compiled and minified Jquery -->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+            integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+          integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Play" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/css/custom.css" />
+
+
+</head>
+
+<body>
+
+    <!--navigation bar-->
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a href="/">Main Page</a></li>
+
+                <th:block th:if="${loggedIn}">
+                    <li><a href="/logout">Logout</a></li>
+                </th:block>
+
+                <th:block th:unless="${loggedIn}">
+                    <li><a href="/customer-registration">Registration</a></li>
+                    <li><a href="/login">Login</a></li>
+                </th:block>
+            </ul>
+
+            <th:block th:if="${loggedIn}">
+                <p class="navbar-text pull-right" id="identification" th:text="${customername}">Customer's name</p>
+            </th:block>
+        </div>
+    </nav>
+
+    <div class="jumbotron text-center">
+        <h1 class="logo"><a href="/">Space<i class="fa fa-rocket" aria-hidden="true"></i> Travel</a></h1>
+        <h3 th:text="'Add Room to ' + ${accomodation.getName()}">Add New Room</h3>
+    </div>
+    <div class="container">
+        <div class="row">
+            <a class="btn btn-primary pull-right" href="/">Back To Home</a>
+            <div class="registration-page-container col-md-6 well">
+                <div id="error-messages" class="alert alert-danger" th:if="${error!=null}">
+                    <p th:text="${error}"></p>
+                </div>
+                <form th:href="@{'~/add-new-room/' + ${accomodation.getId()}}" method="post">
+                    <div class="form-group">
+                        <h3>Roomtype</h3>
+                        <ul class="roomtype-list">
+                        <th:block th:each="roomtype,iterStat : ${roomTypeList}">
+                            <li>
+                                <input type="radio" name="radio" th:value="${roomtype.getId()}" th:id="${roomtype.getName()}" />
+                                <label th:for="${roomtype.getName()}" th:text="${roomtype.getName()+' with '+ roomtype.bednumber+' bed/beds'}" />
+                            </li>
+                        </th:block>
+                        </ul>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</label>
+                        <input type="number" class="form-control" id="price" name="price" />
+                    </div>
+                    <div class="form-group">
+                        <label for="roomnum">Room number (max 10)</label>
+                        <input type="number" min="1" max="10" class="form-control" id="roomnum" name="roomnum" />
+                    </div>
+                    <input class="btn btn-primary" type="submit" value="Add"/>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+
+</body>
+</html>

@@ -38,6 +38,7 @@
                 <li><a href="/">Main Page</a></li>
 
                 <th:block th:if="${loggedIn}">
+                    <li><a href="/reservation/list">My reservations</a></li>
                     <li><a href="/logout">Logout</a></li>
                 </th:block>
 
@@ -61,7 +62,6 @@
     <div class="container">
 
         <div id="error-messages" class="alert alert-danger" th:if="${#lists.size(errors)>0}">
-            <h3>Error occurs:</h3>
             <ul th:each="error : ${errors}">
                 <li th:text="${error}"></li>
             </ul>
@@ -70,12 +70,62 @@
         <th:block th:if="${#lists.size(errors) == 0}">
             <div class="well well-sm text-center">
                 <h3>Saving succeeded.</h3>
-                <br />
+            </div>
+
+            <div class="well well-sm text-center">
+                <h4 th:text="${customer.getFirstName() + ' ' + customer.getLastName()}"><i class="fa fa-user fa" aria-hidden="true"></i>Customer Name</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <p>
+                            <i class="fa fa-address-card-o" aria-hidden="true"></i>
+                            <span th:text="${' ' + customer.getPostalCode() + ', ' + customer.getCountry() + ', ' + customer.getCity() + ', ' + customer.getAddress()}">Country and City</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p><i class="fa fa-envelope fa" aria-hidden="true"></i><span th:text="${' ' + customer.getEmail()}">Email</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <div th:if="${#lists.size(reservedrooms) > 0}" class="well well-sm text-center">
+                <div id="inner-box">
+                    <h4 th:text="${'Reservations in ' + reservedrooms[0].getAccomodation().getName()}"></h4>
+                    <h5 th:text="${startdate + ' - ' + enddate}"></h5>
+
+                    <table class="table table-hover reserved-rooms">
+                        <thead>
+                        <tr>
+                            <td><strong>Room Type</strong></td>
+                            <td><strong>Beds</strong></td>
+                            <td><strong>Price (Bitcoin <i class="fa fa-btc" aria-hidden="true"></i>)</strong></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="room : ${reservedrooms}">
+                            <td th:text="${room.getRoomType().getName()}">Room type</td>
+                            <td th:text="${room.getRoomType().getBednumber()}">Beds</td>
+                            <td th:text="${room.getPrice()}">0</td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr id="totalpricerow">
+                            <td><strong>Total:</strong></td>
+                            <td class="center" th:text="${totalbed}">bed</td>
+                            <td class="center" th:text="${totalprice}">price</td>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+
+            <div class="well well-sm text-center">
                 <h3>Bon voyage!</h3>
             </div>
+
         </th:block>
 
         <div>
+            <a th:href="@{'~/reservation/' + ${accomodation.getId()}}" class="btn btn-primary pull-right" th:text="'Back to ' + ${accomodation.getName()}">Add New Room</a>
             <a href="/" role="button" class="btn btn-primary">Back to Main Page</a>
         </div>
     </div>
