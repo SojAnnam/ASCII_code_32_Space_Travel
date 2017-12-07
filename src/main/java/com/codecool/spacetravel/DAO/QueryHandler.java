@@ -74,6 +74,13 @@ public class QueryHandler {
         return results;
     }
 
+    public Customer getCostumer(long id){
+
+        Customer customer = customerRepository.findOne(id);
+
+     return customer;
+    }
+
     public  List getAllSolarSystem() {
         List<SolarSystem> results =  solarSystemRepository.getAllSolarSystem();
         return results;

@@ -20,6 +20,8 @@ public class CustomerDataValidator {
     public CustomerDataValidator(QueryHandler queryHandler) {
         this.queryHandler = queryHandler;
     }
+    @Autowired
+    private Password password;
 
     public List<String> validateRegistrationDatas(Customer customer, String confirm) {
         List<String> errorMessages = new ArrayList();
@@ -132,7 +134,7 @@ public class CustomerDataValidator {
 
     public Map<String, Object> validateLoginDatas(Map<String, String> customerDatas) {
         String email = customerDatas.get("email");
-        String password = customerDatas.get("password");
+        String passwordStr = customerDatas.get("password");
 
         List<String> errorMessages = new ArrayList();
 
@@ -141,7 +143,7 @@ public class CustomerDataValidator {
         if (customerFromDB == null) {
             errorMessages.add("Invalid email or password.");
         } else {
-            if (!password.equals(customerFromDB.getPassword())) {
+            if (!password.checkPassword(passwordStr,customerFromDB.getPassword())) {
                 errorMessages.add("Invalid email or password.");
             }
         }
@@ -151,4 +153,8 @@ public class CustomerDataValidator {
         result.put("customer", customerFromDB);
         return result;
     }
+
+
+
+
 }

@@ -3,7 +3,9 @@ package com.codecool.spacetravel.datahandler;
 import com.codecool.spacetravel.DAO.QueryHandler;
 import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.model.Customer;
+import com.codecool.spacetravel.model.CustomerLegitimacy;
 import com.codecool.spacetravel.service.CustomerDataValidator;
+import com.codecool.spacetravel.service.Password;
 import org.hibernate.persister.spi.UnknownPersisterException;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +24,7 @@ class CustomerDataHandlerTest {
 
     private static Customer exampleCustomer = new Customer("Arnold", "Schwarzenegger",
             "arnold@freemail.hu", "United States", "Los Angeles",
-            "90001", "Workout avenue 1.", "terminator");
+            "90001", "Workout avenue 1.", "terminator", CustomerLegitimacy.USER);
 
     private static String goodConfirm = "terminator";
 
@@ -30,7 +32,8 @@ class CustomerDataHandlerTest {
     void saveCustomerDatas_PersistingFailed_SavingSucceededIsFalse() {
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidatorMock = Mockito.mock(CustomerDataValidator.class);
-        CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock);
+        Password passwordMock = Mockito.mock(Password.class);
+        CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock,passwordMock);
         Exception exampleException = new UnknownPersisterException("Database problem. Try it later.");
         doThrow(exampleException).when(queryHandlerMock).saveNewCustomer(any());
         boolean savingSucceeded = customerDataHandler.saveCustomerDatas(exampleCustomer);
@@ -41,7 +44,8 @@ class CustomerDataHandlerTest {
     void saveCustomerDatas_PersistingSucceeded_SavingSucceededIsTrue() {
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidatorMock = Mockito.mock(CustomerDataValidator.class);
-        CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock);
+        Password passwordMock = Mockito.mock(Password.class);
+        CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock,passwordMock);
         doNothing().when(queryHandlerMock).saveNewCustomer(exampleCustomer);
         boolean savingSucceeded = customerDataHandler.saveCustomerDatas(exampleCustomer);
         assertEquals(true, savingSucceeded);
@@ -104,7 +108,8 @@ class CustomerDataHandlerTest {
 
         QueryHandler queryHandlerMock = Mockito.mock(QueryHandler.class);
         CustomerDataValidator customerDataValidatorMock = Mockito.mock(CustomerDataValidator.class);
-        CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock);
+        Password passwordMock = Mockito.mock(Password.class);
+        CustomerDataHandler customerDataHandler = new CustomerDataHandler(queryHandlerMock, customerDataValidatorMock,passwordMock);
 
         when(customerDataValidatorMock.validateRegistrationDatas(any(), any())).thenReturn(exampleEmptyErrorMessages);
         doNothing().when(queryHandlerMock).saveNewCustomer(any());

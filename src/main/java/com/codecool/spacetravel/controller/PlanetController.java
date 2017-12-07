@@ -1,5 +1,6 @@
 package com.codecool.spacetravel.controller;
 
+import com.codecool.spacetravel.controller.collectdata.CustomerDataHandler;
 import com.codecool.spacetravel.controller.collectdata.PlanetDataHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ public class PlanetController {
 
     @Autowired
     PlanetDataHandler planetDataHandler;
+
+    @Autowired
+    CustomerDataHandler customerDataHandler;
 
     @RequestMapping(value = {"/", "/planet"}, method = RequestMethod.GET)
     public String renderPlanets(@RequestParam Map<String,String> allRequestParams,
@@ -48,10 +52,29 @@ public class PlanetController {
         return "index";
     }
 
-    @RequestMapping(value = "registration-planet", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "registration-planet", method = RequestMethod.GET)
     public String renderPlanetRegistration(@RequestParam Map<String,String> allRequestParams,
                                            Model model,
                                            HttpServletRequest httpServletRequest) {
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        System.out.println(customerId);
+        if (customerId == null || !customerDataHandler.checkUserLegitimacy(customerId)) {
+            return renderPlanets(allRequestParams,model,httpServletRequest);
+
+        }
+        planetDataHandler.collectPlanetRegistrationData(allRequestParams, model, httpServletRequest);
+        return "registration_planet";
+    }
+    @RequestMapping(value = "registration-planet-form", method = RequestMethod.POST)
+    public String collectPlanetRegistrationData(@RequestParam Map<String,String> allRequestParams,
+                                           Model model,
+                                           HttpServletRequest httpServletRequest) {
+        Long customerId = (Long) httpServletRequest.getSession().getAttribute("customer_id");
+        if (customerId == null || !customerDataHandler.checkUserLegitimacy(customerId)) {
+
+            return "index";
+
+        }
         planetDataHandler.collectPlanetRegistrationData(allRequestParams, model, httpServletRequest);
         return "registration_planet";
     }
